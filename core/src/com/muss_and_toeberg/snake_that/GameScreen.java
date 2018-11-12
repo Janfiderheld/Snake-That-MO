@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameScreen extends ApplicationAdapter {
+	//Gradle is gay
 	SpriteBatch batch;
 	Texture img;
 	

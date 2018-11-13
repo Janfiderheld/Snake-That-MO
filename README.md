@@ -32,6 +32,8 @@ Die Einhaltung der folgenden Konventionen wird von der Java-Sprachsyntax nicht z
 - Exceptions sollten in aller Regel nicht mit einer leerencatch-Anweisungen weggefangen werden (Empfehlung:printStackTrace() verwenden).
 - Zeilenlänge: Maximal 80 Zeichen
 
-### Das Projekt nutzt folgende Bibliotheken
+### Hilfreiche Links / Quellen
 
 [libGDX](https://libgdx.badlogicgames.com/)
+[libGDX-Tutorial](https://github.com/libgdx/libgdx/wiki/A-simple-game)
+[am häufigsten genutzte Auflösung](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions)

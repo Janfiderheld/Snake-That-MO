@@ -34,6 +34,6 @@ Die Einhaltung der folgenden Konventionen wird von der Java-Sprachsyntax nicht z
 
 ### Hilfreiche Links / Quellen
 
-[libGDX](https://libgdx.badlogicgames.com/)
-[libGDX-Tutorial](https://github.com/libgdx/libgdx/wiki/A-simple-game)
-[am häufigsten genutzte Auflösung](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions)
+- [libGDX](https://libgdx.badlogicgames.com/)
+- [libGDX-Tutorial](https://github.com/libgdx/libgdx/wiki/A-simple-game)
+- [Artikel über die am häufig vorhandenen Bildschirmauflösungen von Android-Smartphones](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions)

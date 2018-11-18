@@ -48,13 +48,13 @@ public class GameScreen extends ApplicationAdapter {
 
 
 			ShapeRenderer renderer = new ShapeRenderer();
+			renderer.setProjectionMatrix(camera.combined);
 			renderer.begin(ShapeRenderer.ShapeType.Line);
-			renderer.setColor(0,1,0,1);
-			renderer.line(startVector, endVector);
-			renderer.end();
-
+			renderer.setColor(0,0,1,1);
 			camera.unproject(startVector);
 			camera.unproject(endVector);
+			renderer.line(startVector, endVector);
+			renderer.end();
 		}
 
 

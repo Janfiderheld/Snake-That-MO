@@ -1,5 +1,6 @@
 package com.muss_and_toeberg.snake_that;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -23,15 +24,16 @@ public class TouchInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector3 start = new Vector3(screenX, screenY,0);
-        GameScreen.setStartVector(start);
+        // Vector2 start = new Vector2(screenX, 1080-screenY);
+        GameScreen.setStartVector();
+        GameScreen.stopMovement = true;
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        Vector3 end = new Vector3(screenX, screenY,0);
-        GameScreen.setEndVector(end);
+        GameScreen.setDirectionVector();
+        GameScreen.stopMovement = false;
         return true;
     }
 

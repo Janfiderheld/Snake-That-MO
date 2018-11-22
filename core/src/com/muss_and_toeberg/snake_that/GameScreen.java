@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import static com.muss_and_toeberg.snake_that.HitDirection.*;
-
 // first Level of the Game
 public class GameScreen extends ApplicationAdapter {
 	// Objects to fill the screen with life
@@ -19,15 +17,15 @@ public class GameScreen extends ApplicationAdapter {
 	private SpriteBatch batch;
 
 	// Constant Values
-	final int WIDTH = 1920;
-	final int HEIGHT = 1080;
+	final int CAMERA_WIDTH = 1920;
+	final int CAMERA_HEIGHT = 1080;
 	final int MAX_VECTOR_LENGTH = 500;
 	final int PICTURE_SIZE = 256;
 	final int LINE_LENGTH = 10;
 	
 	// Constant Position of Waluigi
-	final int WAAA_X = (WIDTH / 2) - (PICTURE_SIZE / 2);
-	final int WAAA_Y = (HEIGHT / 2) - (PICTURE_SIZE / 2);
+	final int WAAA_X = (CAMERA_WIDTH / 2) - (PICTURE_SIZE / 2);
+	final int WAAA_Y = (CAMERA_HEIGHT / 2) - (PICTURE_SIZE / 2);
 
 	// Textures and Hitboxes for the character and obstacles
 	private Texture snakeImg;
@@ -51,7 +49,7 @@ public class GameScreen extends ApplicationAdapter {
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, WIDTH, HEIGHT);
+		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
 		
 		batch = new SpriteBatch();
 		snakeImg = new Texture("badlogic.jpg");
@@ -83,8 +81,8 @@ public class GameScreen extends ApplicationAdapter {
 		snakeHitBox.y = snakeMovement.y;
 
 		if(Gdx.input.isTouched()) {
-		    endTouchVector.x = Gdx.input.getX();
-		    endTouchVector.y = HEIGHT - Gdx.input.getY();
+			endTouchVector.x = CAMERA_WIDTH*Gdx.input.getX()/Gdx.graphics.getWidth();
+			endTouchVector.y = CAMERA_HEIGHT*(Gdx.graphics.getHeight()-Gdx.input.getY())/Gdx.graphics.getHeight();
 
 		    if(startTouchVector.dst(endTouchVector) > MAX_VECTOR_LENGTH){
 		    	Vector2 connectionVect = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
@@ -151,11 +149,11 @@ public class GameScreen extends ApplicationAdapter {
 
 	// checks if the snake collides with the wall
 	private void checkCollisionWithWall() {
-        if (snakeMovement.x + PICTURE_SIZE >= WIDTH || snakeMovement.x <= 0) {
+        if (snakeMovement.x + PICTURE_SIZE >= CAMERA_WIDTH || snakeMovement.x <= 0) {
             snakeDirection.x *= -1;
         }
 
-        if (snakeMovement.y + PICTURE_SIZE >= HEIGHT || snakeMovement.y <= 0) {
+        if (snakeMovement.y + PICTURE_SIZE >= CAMERA_HEIGHT || snakeMovement.y <= 0) {
             snakeDirection.y *= -1;
         }
     }

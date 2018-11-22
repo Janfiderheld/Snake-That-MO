@@ -24,16 +24,17 @@ public class TouchInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        // Vector2 start = new Vector2(screenX, 1080-screenY);
-        GameScreen.setStartVector();
+        GameScreen.setDirectionVectDown();
         GameScreen.stopMovement = true;
+		
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        GameScreen.setDirectionVector();
+        GameScreen.setDirectionVectUp();
         GameScreen.stopMovement = false;
+		
         return true;
     }
 

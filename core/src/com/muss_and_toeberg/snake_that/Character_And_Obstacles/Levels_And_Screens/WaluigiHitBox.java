@@ -1,10 +1,11 @@
-package com.muss_and_toeberg.snake_that;
+package com.muss_and_toeberg.snake_that.Character_And_Obstacles.Levels_And_Screens;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.muss_and_toeberg.snake_that.Technical.*;
 
 // describes the hitbox for waluigi as four small hitboxes as his outlines
 public class WaluigiHitBox {
-	final int HIT_BOX_SIZE = 245;
+	final int HIT_BOX_SIZE = 255;
 	
 	private int x;
 	private int y;

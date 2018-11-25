@@ -5,11 +5,13 @@ Verantwortlich: [Niclas Muss](https://github.com/NiclasMuss) & [Jan-Philipp Töb
 Projektbetreuer: M.Sc. Andreas Schmelter & Prof. Dr. rer. nat. Stefan Heiss
 
 
-Startdatum: 06.11.2018
+Start: 06.11.2018
 
-Endedatum: 08.01.2019
+Zwischenstand: 11.12.2018
 
-Präsentation: 08.01., 15.01. oder 22.01. 2019
+Abgabe: 08.01.2019
+
+Präsentation: 08.01., 15.01. oder 22.01.2019
 
 ## Projektbeschreibung:
 

@@ -1,4 +1,4 @@
-package com.muss_and_toeberg.snake_that;
+package com.muss_and_toeberg.snake_that.Levels_And_Screens;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -9,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import com.muss_and_toeberg.snake_that.Character_And_Obstacles.Levels_And_Screens.*;
+import com.muss_and_toeberg.snake_that.Technical.*;
 
 import java.util.Iterator;
 
@@ -24,37 +25,26 @@ public class GameScreen extends ApplicationAdapter {
 	final int CAMERA_HEIGHT = 1080;
 	final int MAX_VECTOR_LENGTH = 500;
 	final int PICTURE_SIZE = 256;
-	final int SNAKESIZE = 50;
 	final int LINE_LENGTH = 10;
-	final int SNAKELENGTH = 30;
 
 	// Constant Position of Waluigi
 	final int WAAA_X = (CAMERA_WIDTH / 2) - (PICTURE_SIZE / 2);
 	final int WAAA_Y = (CAMERA_HEIGHT / 2) - (PICTURE_SIZE / 2);
 
-	// Textures and Hitboxes for obstacles
-	private Texture snakeImg;
+	// Obstacles and Player Character
+    private static Snake snake = new Snake();
 	private Texture waluigiImg;
 	private WaluigiHitBox waluigi = new WaluigiHitBox(WAAA_X, WAAA_Y);
-
-	// Snake Hitboxes
-	private Rectangle snakeHitBox;
-	private Array<Rectangle> snakeBody = new Array<Rectangle>();
-	private Rectangle snakeBodyTemp;
-	private Rectangle snakeHead;
-	private Rectangle SnakeBodyBack;
-	private Rectangle SnakeBodyFront;
 
 	// all Vectors (2D) which are used
 	static Vector2 startTouchVector = new Vector2(0, 0);
 	static Vector2 endTouchVector = new Vector2(0, 0);
 	static Vector2 lineTouchVector = new Vector2(0, 0);
-	static Vector2 snakeDirection = new Vector2(1, 1);
-	static Vector2 snakeMovement = new Vector2(1, 1);
 
 	// variables
-	static int speed = 10;
-	static boolean stopMovement = false;
+	private static int speed = 10;
+	public static boolean stopMovement = false;
+    private static int snakeSize = snake.getSizeOfOneBlock();
 
 	// creates the screen
 	// this method is called once at the beginning of the lifecycle
@@ -64,30 +54,13 @@ public class GameScreen extends ApplicationAdapter {
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
 
 		batch = new SpriteBatch();
-		snakeImg = new Texture("badlogic.jpg");
 		waluigiImg = new Texture("WaluigiBlock.png");
 
 		TouchInputProcessor inputProcessor = new TouchInputProcessor();
 		Gdx.input.setInputProcessor(inputProcessor);
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 
-		snakeHitBox = createNewSnake();
-		snakeHead = new Rectangle();
-		snakeHead.width = SNAKESIZE;
-		snakeHead.height = SNAKESIZE;
-		Rectangle bodyBlock;
-
-		for (int i = 0; i<SNAKELENGTH; i++){
-			bodyBlock = new Rectangle();
-			bodyBlock.width = 50;
-			bodyBlock.height = 50;
-			bodyBlock.x = snakeHead.x;
-			bodyBlock.y = snakeHead.y;
-
-			bodyBlock.x = bodyBlock.x - snakeMovement.x * (i+1);
-			bodyBlock.y = bodyBlock.y - snakeMovement.y * (i+1);
-			snakeBody.add(bodyBlock);
-		}
+		snake.createSnake();
 	}
 
 	// renders the screen (= fills it with everything)
@@ -98,50 +71,27 @@ public class GameScreen extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 
 		batch.begin();
-		//batch.draw(snakeImg, snakeMovement.x, snakeMovement.y);	Old Image
 		batch.draw(waluigiImg, WAAA_X, WAAA_Y);
 		batch.end();
 
-		//renders the Snake
+		// renders the Snake
 		ShapeRenderer snakeRenderer = new ShapeRenderer();
 		snakeRenderer.setProjectionMatrix(camera.combined);
 		snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		snakeRenderer.setColor(0, 1, 1, 1);
-		//Head
-		snakeRenderer.rect(snakeHead.x,snakeHead.y,SNAKESIZE,SNAKESIZE);
-		//Body
-		for (Iterator<Rectangle> iter = snakeBody.iterator(); iter.hasNext(); ){
+		// Head
+        snakeRenderer.rect(snake.getXValueHead(), snake.getYValueHead(), snakeSize, snakeSize);
+		// Body
+		for (Iterator<Rectangle> iter = snake.getBody().iterator(); iter.hasNext(); ){
 			Rectangle body = iter.next();
-			snakeRenderer.rect(body.x,body.y,SNAKESIZE,SNAKESIZE);
+			snakeRenderer.rect(body.x, body.y, snakeSize, snakeSize);
 		}
-
 		snakeRenderer.end();
 
-		startTouchVector.x = snakeMovement.x + (SNAKESIZE / 2);
-		startTouchVector.y = snakeMovement.y + (SNAKESIZE / 2);
+		startTouchVector.x = snake.getMovementInX() + (snakeSize / 2);
+		startTouchVector.y = snake.getMovementInY() + (snakeSize / 2);
 
-
-		//Moves the Snake Body
-		for(int i = 0; i < snakeBody.size-1; i++){
-			SnakeBodyBack = snakeBody.get(snakeBody.size-1-i);
-			SnakeBodyFront = snakeBody.get(snakeBody.size-1-(i+1));
-			SnakeBodyBack.x = SnakeBodyFront.x;
-			SnakeBodyBack.y = SnakeBodyFront.y;
-		}
-		snakeBodyTemp = snakeBody.get(0);
-		snakeBodyTemp.x = snakeHead.x;
-		snakeBodyTemp.y = snakeHead.y;
-		snakeBody.set(0,snakeBodyTemp);
-
-		//Moves the Snakes Head
-		snakeHead.x = snakeMovement.x;
-		snakeHead.y = snakeMovement.y;
-
-		//Moves old Hitbox
-		//snakeHitBox.x = snakeMovement.x;
-		//snakeHitBox.y = snakeMovement.y;
-
-
+		snake.moveSnakeBody();
 
 		if(Gdx.input.isTouched()) {
 			endTouchVector.x = CAMERA_WIDTH*Gdx.input.getX()/Gdx.graphics.getWidth();
@@ -165,7 +115,7 @@ public class GameScreen extends ApplicationAdapter {
 
 		checkCollisionWithWall();
 		checkCollisionWithWaluigi();
-		snakeMovement.add(snakeDirection);
+		snake.moveWholeSnake();
 
 		camera.update();
 	}
@@ -174,59 +124,46 @@ public class GameScreen extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		snakeImg.dispose();
 		waluigiImg.dispose();
 	}
 
 	// sets the direction vector to reduced speed as soon as the screen is touched
 	public static void setDirectionVectDown(){
 		speed = 2;
-		snakeDirection.x = snakeDirection.x * (speed / snakeDirection.len());
-		snakeDirection.y = snakeDirection.y * (speed / snakeDirection.len());
+		snake.scaleDirection(speed);
 	}
 
 	// sets the direction vector to normal speed as soon as the touch is lifted
 	public static void setDirectionVectUp(){
 		speed = 10;
 		Vector2 connectionVect = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
-		snakeDirection.x = connectionVect.x * (speed / connectionVect.len());
-		snakeDirection.y = connectionVect.y * (speed / connectionVect.len());
-		snakeDirection.rotate(180);
+		snake.scaleDirectionWithVector(speed, connectionVect);
 	}
 
 	// checks if the snake collides with something (currently only waluigi)
 	private void checkCollisionWithWaluigi() {
-		HitDirection side = waluigi.checkWhichCollisionSide(snakeHitBox);
+		HitDirection side = waluigi.checkWhichCollisionSide(snake.getHeadAsRectangle());
 
 		switch(side) {
 			case LeftSide:
 			case RightSide:
-				snakeDirection.x *= (-1);
+				snake.invertXDirection();
 				break;
 			case Upwards:
 			case Downwards:
-				snakeDirection.y *= (-1);
+                snake.invertYDirection();
 				break;
 		}
 	}
 
 	// checks if the snake collides with the wall
 	private void checkCollisionWithWall() {
-		if (snakeMovement.x + SNAKESIZE >= CAMERA_WIDTH || snakeMovement.x <= 0) {
-			snakeDirection.x *= -1;
+		if (snake.getMovementInX() + snakeSize >= CAMERA_WIDTH || snake.getMovementInX() <= 0) {
+            snake.invertXDirection();
 		}
 
-		if (snakeMovement.y + SNAKESIZE >= CAMERA_HEIGHT || snakeMovement.y <= 0) {
-			snakeDirection.y *= -1;
+		if (snake.getMovementInY() + snakeSize >= CAMERA_HEIGHT || snake.getMovementInY() <= 0) {
+            snake.invertYDirection();
 		}
-	}
-
-	// create a new Hitbox for the snake
-	private Rectangle createNewSnake() {
-		Rectangle hitBox = new Rectangle();
-		hitBox.width = PICTURE_SIZE;
-		hitBox.height = PICTURE_SIZE;
-
-		return hitBox;
 	}
 }

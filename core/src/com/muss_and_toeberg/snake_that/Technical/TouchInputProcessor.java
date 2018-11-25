@@ -1,10 +1,7 @@
-package com.muss_and_toeberg.snake_that;
+package com.muss_and_toeberg.snake_that.Technical;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.muss_and_toeberg.snake_that.Levels_And_Screens.*;
 
 public class TouchInputProcessor implements InputProcessor {
     @Override

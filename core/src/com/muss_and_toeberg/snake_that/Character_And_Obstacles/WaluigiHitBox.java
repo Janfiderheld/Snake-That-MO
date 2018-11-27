@@ -1,4 +1,4 @@
-package com.muss_and_toeberg.snake_that.Character_And_Obstacles.Levels_And_Screens;
+package com.muss_and_toeberg.snake_that.Character_And_Obstacles;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.muss_and_toeberg.snake_that.Technical.*;

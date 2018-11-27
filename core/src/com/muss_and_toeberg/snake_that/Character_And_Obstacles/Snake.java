@@ -1,33 +1,41 @@
-package com.muss_and_toeberg.snake_that.Character_And_Obstacles.Levels_And_Screens;
+package com.muss_and_toeberg.snake_that.Character_And_Obstacles;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.Iterator;
+
 // Represents the player character (= snake)
 public class Snake {
     // Constant Values
-    private final int BLOCK_SIZE = 50;
-    private final int BLOCK_AMOUNT = 30;
+    private final int BODY_PART_SIZE = 50;
+    private final int BODY_PART_START_AMOUNT = 30;
+    private final int ADD_WHEN_COLLECTED = 5;
+    private final int BODY_PART_MAX_AMOUNT = 120;
+    private final int START_FOR_SUDOKU = 5;
 
     // Snake Hitboxes
     private Array<Rectangle> bodyParts = new Array<Rectangle>();
     private Rectangle bodyPartTemp;
+    private Rectangle bodyPartTemp2;
     private Rectangle head;
-    private Rectangle bodyBack;
-    private Rectangle bodyFront;
 
     // 2D-Vectors
     private Vector2 direction = new Vector2(1, 1);
     private Vector2 movement = new Vector2(1, 1);
 
+    // local variables
+    private int countBodyParts = BODY_PART_START_AMOUNT;
+    int currentNeck = 0;
+
     // creates all the hitBoxes for the snake
     public void createSnake() {
         head = new Rectangle();
-        head.width = BLOCK_SIZE;
-        head.height = BLOCK_SIZE;
+        head.width = BODY_PART_SIZE;
+        head.height = BODY_PART_SIZE;
 
-        for (int i = 0; i < BLOCK_AMOUNT; i++){
+        for (int i = 0; i < countBodyParts; i++){
             float tempX = head.x - movement.x * (i + 1);
             float tempY = head.y - movement.y * (i + 1);
 
@@ -52,7 +60,7 @@ public class Snake {
 
     // returns the Size of each Block
     public int getSizeOfOneBlock() {
-        return BLOCK_SIZE;
+        return BODY_PART_SIZE;
     }
 
     // returns the array with all body parts
@@ -73,8 +81,8 @@ public class Snake {
     // creates a new rectangle at the given position
     private Rectangle createNewHitBox(float x, float y) {
         Rectangle hitBox = new Rectangle();
-        hitBox.width = BLOCK_SIZE;
-        hitBox.height = BLOCK_SIZE;
+        hitBox.width = BODY_PART_SIZE;
+        hitBox.height = BODY_PART_SIZE;
         hitBox.x = x;
         hitBox.y = y;
         return hitBox;
@@ -82,26 +90,19 @@ public class Snake {
 
     // moves the whole body step by step (rectangle by rectangle)
     public void moveSnakeBody() {
-        int length = bodyParts.size - 1;
-
-        for(int i = 0; i < length; i++){
-            bodyBack = bodyParts.get(length - i);
-            bodyFront = bodyParts.get(length - (i + 1));
-
-            bodyBack.x = bodyFront.x;
-            bodyBack.y = bodyFront.y;
-        }
-
-        moveHeadAndNeck();
-    }
-
-    // moves the last (or first) two rectangles
-    private void moveHeadAndNeck() {
-        bodyPartTemp = bodyParts.get(0);
+        bodyPartTemp = bodyParts.get(currentNeck++);
         bodyPartTemp.x = head.x;
         bodyPartTemp.y = head.y;
-        bodyParts.set(0, bodyPartTemp);
 
+        if (currentNeck == countBodyParts){
+            currentNeck = 0;
+        }
+
+        moveHead();
+    }
+
+    // moves the head of the snake
+    private void moveHead() {
         head.x = movement.x;
         head.y = movement.y;
     }
@@ -136,9 +137,35 @@ public class Snake {
 
     // adds a new rectangle to the body
     public void addNewBodyPart() {
-        float tempX = head.x - movement.x * (BLOCK_AMOUNT + 1);
-        float tempY = head.y - movement.y * (BLOCK_AMOUNT + 1);
+        for (int i = 0; i < ADD_WHEN_COLLECTED; i++) {
+            float tempX = head.x - movement.x * (countBodyParts + 1);
+            float tempY = head.y - movement.y * (countBodyParts + 1);
 
-        bodyParts.add(createNewHitBox(tempX, tempY));
+            bodyParts.add(createNewHitBox(tempX, tempY));
+            countBodyParts++;
+        }
+    }
+
+    public boolean checkSudoku() {
+        int startingValue = (currentNeck + 1) % countBodyParts;
+
+        /*
+        for(Iterator<Rectangle> iter = bodyParts.iterator(); iter.hasNext();) {
+            bodyPartTemp = iter.next();
+            if(head.overlaps(bodyPartTemp)) {
+                return true;
+            }
+        }
+
+
+        for(int i = startingValue; i < startingValue - START_FOR_SUDOKU || i > startingValue; i = i++ % countBodyParts) {
+            bodyPartTemp2 = bodyParts.get(i);
+            if(head.overlaps(bodyPartTemp2)) {
+                return true;
+            }
+        }
+        */
+
+        return false;
     }
 }

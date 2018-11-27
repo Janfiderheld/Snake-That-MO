@@ -86,11 +86,6 @@ public class GameScreen extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 
-		batch.begin();
-		batch.draw(waluigiImg, WAAA_X, WAAA_Y);
-		batch.draw(losCoinos, coinX, coinY);
-		batch.end();
-
 		// renders the Snake
 		snakeRenderer.setProjectionMatrix(camera.combined);
 		snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -103,6 +98,12 @@ public class GameScreen extends ApplicationAdapter {
 			snakeRenderer.rect(body.x, body.y, snakeSize, snakeSize);
 		}
 		snakeRenderer.end();
+
+		//renders the Texture Objekts
+		batch.begin();
+		batch.draw(waluigiImg, WAAA_X, WAAA_Y);
+		batch.draw(losCoinos, coinX, coinY);
+		batch.end();
 
 		startTouchVector.x = snake.getMovementInX() + (snakeSize / 2);
 		startTouchVector.y = snake.getMovementInY() + (snakeSize / 2);
@@ -202,10 +203,10 @@ public class GameScreen extends ApplicationAdapter {
 	// creates a new coin at a random place which is not close to the snake Head and not inside Waluigi
 	private void randomizeNewCoin() {
         coinX = rndGenerator.nextInt(CAMERA_WIDTH - (COIN_SIZE + PICTURE_SIZE + snakeSize * 2));
-        if(coinX > WAAA_X - COIN_SIZE) {
+        if(coinX >= WAAA_X - COIN_SIZE) {
         	coinX += PICTURE_SIZE;
 		}
-		if(coinX > snake.getXValueHead() - (snakeSize / 2 + COIN_SIZE )) {
+		if(coinX >= snake.getXValueHead() - (snakeSize / 2 + COIN_SIZE )) {
         	coinX += 2 * snakeSize;
 		}
 

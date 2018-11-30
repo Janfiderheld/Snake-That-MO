@@ -58,6 +58,7 @@ public class GameScreen extends ApplicationAdapter {
 	private static int speed = 10;
 	public static boolean stopMovement = false;
     private static int snakeSize = snake.getSizeOfOneBlock();
+    public static boolean hasHitWall = true;
 
 	// creates the screen
 	// this method is called once at the beginning of the lifecycle
@@ -110,7 +111,7 @@ public class GameScreen extends ApplicationAdapter {
 
 		snake.moveSnakeBody();
 
-		if (Gdx.input.isTouched()) {
+		if (Gdx.input.isTouched() && hasHitWall) {
 			endTouchVector.x = CAMERA_WIDTH * Gdx.input.getX() / Gdx.graphics.getWidth();
 			endTouchVector.y = CAMERA_HEIGHT * (Gdx.graphics.getHeight() - Gdx.input.getY()) / Gdx.graphics.getHeight();
 
@@ -154,12 +155,20 @@ public class GameScreen extends ApplicationAdapter {
 
 	// sets the direction vector to reduced speed as soon as the screen is touched
 	public static void setDirectionVectDown(){
+		if (!hasHitWall) {
+			return;
+		}
+
 		speed = 2;
 		snake.scaleDirection(speed);
 	}
 
 	// sets the direction vector to normal speed as soon as the touch is lifted
 	public static void setDirectionVectUp(){
+		if (!hasHitWall) {
+			return;
+		}
+
 		speed = 10;
 		Vector2 connectionVect = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
 		snake.scaleDirectionWithVector(speed, connectionVect);
@@ -185,10 +194,12 @@ public class GameScreen extends ApplicationAdapter {
 	private void checkCollisionWithWall() {
 		if (snake.getMovementInX() + snakeSize >= CAMERA_WIDTH || snake.getMovementInX() <= 0) {
 			snake.invertXDirection();
+			hasHitWall = true;
 		}
 
 		if (snake.getMovementInY() + snakeSize >= CAMERA_HEIGHT || snake.getMovementInY() <= 0) {
 			snake.invertYDirection();
+			hasHitWall = true;
 		}
 	}
 

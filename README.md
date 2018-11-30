@@ -16,6 +16,8 @@ Präsentation: 08.01., 15.01. oder 22.01.2019
 ## Projektbeschreibung:
 
 Bei Snake That! handelt es sich um ein innovatives Android-Spiel, welches den Klassiker Snake neu auflegt und mit einer interessanten Steuerung per Touch kombiniert!
+Der Spieler muss Punkte (in Form von NFC-Tags (Stand: 30.11.)) einsammeln um mit seiner Schlange zu wachsen und den Highscore zu knacken.
+Dabei wird die Schlange über eine "Schleuder"-Mechanik intuitiv bedient & gesteuert!
 
 ### Programmier-Konventionen
 
@@ -36,6 +38,13 @@ Die Einhaltung der folgenden Konventionen wird von der Java-Sprachsyntax nicht z
 
 ### Hilfreiche Links / Quellen
 
-- [libGDX](https://libgdx.badlogicgames.com/)
-- [libGDX-Tutorial](https://github.com/libgdx/libgdx/wiki/A-simple-game)
+- [libGDX: Website](https://libgdx.badlogicgames.com/)
+- [libGDX: Beispiel-Spiel / Tutorial](https://github.com/libgdx/libgdx/wiki/A-simple-game)
+- [libGDX: Memory Management](https://github.com/libgdx/libgdx/wiki/Memory-management)
 - [Artikel über die am häufig vorhandenen Bildschirmauflösungen von Android-Smartphones](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions)
+
+### aktuelle Bildquellen (Stand: 30.11.)
+
+- [Waluigi-Block](http://www.softicons.com/game-icons/super-mario-blocks-icons-by-dannysp/waluigi-block-icon)
+- [NFC-Symbol](https://nfc-reader.en.softonic.com/android)
+- [Bitcoin](https://addons.opera.com/de/extensions/details/bitcoin-monero-miner/)

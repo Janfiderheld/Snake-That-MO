@@ -31,6 +31,7 @@ public class TouchInputProcessor implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         GameScreen.setDirectionVectUp();
         GameScreen.stopMovement = false;
+        GameScreen.hasHitWall = false;
 		
         return true;
     }

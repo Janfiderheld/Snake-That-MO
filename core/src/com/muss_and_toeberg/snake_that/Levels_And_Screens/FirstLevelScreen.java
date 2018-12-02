@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+
 import com.muss_and_toeberg.snake_that.Character_And_Obstacles.*;
 import com.muss_and_toeberg.snake_that.Technical.*;
 
@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 // first Level of the Game
-public class GameScreen extends ApplicationAdapter {
+public class FirstLevelScreen extends ApplicationAdapter {
 	// Objects to fill the screen with life
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
@@ -31,23 +31,16 @@ public class GameScreen extends ApplicationAdapter {
 	final int MAX_VECTOR_LENGTH = 500;
 	final int PICTURE_SIZE = 256;
 	final int LINE_LENGTH = 10;
-	final int COIN_RADIUS = 32;
-	final int COIN_SIZE = COIN_RADIUS * 2;
 
 	// Constant Position of Waluigi
 	final int WAAA_X = (CAMERA_WIDTH / 2) - (PICTURE_SIZE / 2);
 	final int WAAA_Y = (CAMERA_HEIGHT / 2) - (PICTURE_SIZE / 2);
 
-	// Random Position of the Bitcoin
-	private int coinX;
-	private int coinY;
-
 	// Obstacles and Player Character
     private static Snake snake = new Snake();
+    private Coin coin = new Coin();
 	private Texture waluigiImg;
-	private Texture losCoinos;
 	private WaluigiHitBox waluigi = new WaluigiHitBox(WAAA_X, WAAA_Y);
-	private Circle coinHitbox = new Circle();
 
 	// all Vectors (2D) which are used
 	static Vector2 startTouchVector = new Vector2(0, 0);
@@ -68,16 +61,18 @@ public class GameScreen extends ApplicationAdapter {
 		camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
 
 		batch = new SpriteBatch();
-		waluigiImg = new Texture("WaluigiBlock.png");
-		losCoinos = new Texture("NFC.png");
-
 		TouchInputProcessor inputProcessor = new TouchInputProcessor();
 		Gdx.input.setInputProcessor(inputProcessor);
-		Gdx.gl.glClearColor(1, 0, 0, 1);
 
 		snakeRenderer = new ShapeRenderer();
 		snake.createSnake();
-        randomizeNewCoin();
+
+		waluigiImg = new Texture("WaluigiBlock.png");
+		coin.setNFCTexture(new Texture("NFC.png"));
+		coin.setBitCoinTexture(new Texture("Bitcoin.png"));
+		randomizeNewCoin();
+
+		Gdx.gl.glClearColor(1, 0, 0, 1);
 	}
 
 	// renders the screen (= fills it with everything)
@@ -100,10 +95,10 @@ public class GameScreen extends ApplicationAdapter {
 		}
 		snakeRenderer.end();
 
-		//renders the Texture Objekts
+		//renders the Texture Objects
 		batch.begin();
 		batch.draw(waluigiImg, WAAA_X, WAAA_Y);
-		batch.draw(losCoinos, coinX, coinY);
+		batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
 		batch.end();
 
 		startTouchVector.x = snake.getMovementInX() + (snakeSize / 2);
@@ -111,6 +106,7 @@ public class GameScreen extends ApplicationAdapter {
 
 		snake.moveSnakeBody();
 
+		// checks if the screen is currently touched (= can the snake be directed?)
 		if (Gdx.input.isTouched() && hasHitWall) {
 			endTouchVector.x = CAMERA_WIDTH * Gdx.input.getX() / Gdx.graphics.getWidth();
 			endTouchVector.y = CAMERA_HEIGHT * (Gdx.graphics.getHeight() - Gdx.input.getY()) / Gdx.graphics.getHeight();
@@ -130,6 +126,7 @@ public class GameScreen extends ApplicationAdapter {
 			snakeRenderer.end();
 		}
 
+		// checks the different possible collisions
 		checkCollisionWithWall();
 		checkCollisionWithWaluigi();
 		checkCollisionWithCoin();
@@ -149,7 +146,7 @@ public class GameScreen extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		waluigiImg.dispose();
-		losCoinos.dispose();
+		coin.getTexture().dispose();
 		snakeRenderer.dispose();
 	}
 
@@ -170,8 +167,8 @@ public class GameScreen extends ApplicationAdapter {
 		}
 
 		speed = 10;
-		Vector2 connectionVect = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
-		snake.scaleDirectionWithVector(speed, connectionVect);
+		Vector2 connectionVector = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
+		snake.scaleDirectionWithVector(speed, connectionVector);
 	}
 
 	// checks if the snake collides with something (currently only waluigi)
@@ -203,34 +200,37 @@ public class GameScreen extends ApplicationAdapter {
 		}
 	}
 
-	// checks if the snake collides with the wall
+	// checks if the snake collides a coin
 	private void checkCollisionWithCoin() {
-		if (Intersector.overlaps(coinHitbox, snake.getHeadAsRectangle())) {
+		if (Intersector.overlaps(coin.getHitBox(), snake.getHeadAsRectangle())) {
 			snake.addNewBodyPart();
 			randomizeNewCoin();
 		}
 	}
 
-	// creates a new coin at a random place which is not close to the snake Head and not inside Waluigi
+	// changes the x and y coordinates of the coin at a random place
+	// (which is not inside Waluigi and not to close to the snake head)
 	private void randomizeNewCoin() {
-        coinX = rndGenerator.nextInt(CAMERA_WIDTH - (COIN_SIZE + PICTURE_SIZE + snakeSize * 2));
-        if(coinX >= WAAA_X - COIN_SIZE) {
+        int coinX = rndGenerator.nextInt(CAMERA_WIDTH - (coin.getSize() + PICTURE_SIZE + snakeSize * 2));
+        if(coinX >= WAAA_X - coin.getSize()) {
         	coinX += PICTURE_SIZE;
 		}
-		if(coinX >= snake.getXValueHead() - (snakeSize / 2 + COIN_SIZE )) {
+		if(coinX >= snake.getXValueHead() - (snakeSize / 2 + coin.getSize() )) {
         	coinX += 2 * snakeSize;
 		}
 
-        coinY = rndGenerator.nextInt(CAMERA_HEIGHT - (COIN_SIZE + PICTURE_SIZE + snakeSize * 2));
-        if(coinY > WAAA_Y - COIN_SIZE) {
+        int coinY = rndGenerator.nextInt(CAMERA_HEIGHT - (coin.getSize() + PICTURE_SIZE + snakeSize * 2));
+        if(coinY > WAAA_Y - coin.getSize()) {
         	coinY += PICTURE_SIZE;
 		}
-		if(coinY > snake.getYValueHead() - (snakeSize / 2 + COIN_SIZE )) {
+		if(coinY > snake.getYValueHead() - (snakeSize / 2 + coin.getSize() )) {
 			coinY += 2 * snakeSize;
 		}
 
-        coinHitbox.x = coinX + COIN_RADIUS;
-        coinHitbox.y = coinY + COIN_RADIUS;
-        coinHitbox.radius = COIN_RADIUS;
+		int rndTexture = rndGenerator.nextInt(100);
+
+		coin.setXPosition(coinX);
+        coin.setYPosition(coinY);
+        coin.setRandomTexture(rndTexture);
     }
 }

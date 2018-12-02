@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.Iterator;
-
 // Represents the player character (= snake)
 public class Snake {
     // Constant Values
@@ -18,7 +16,6 @@ public class Snake {
     // Snake Hitboxes
     private Array<Rectangle> bodyParts = new Array<Rectangle>();
     private Rectangle bodyPartTemp;
-    private Rectangle bodyPartTemp2;
     private Rectangle head;
 
     // 2D-Vectors
@@ -146,25 +143,19 @@ public class Snake {
         }
     }
 
+    // checks if the snake collides with itself
     public boolean checkSudoku() {
-        int startingValue = (currentNeck + 1) % countBodyParts;
+        int startingValue = currentNeck  % countBodyParts;
+        int bodyPartsToCheck = countBodyParts - START_FOR_SUDOKU;
+        int checkedBodyParts = 0;
 
-        /*
-        for(Iterator<Rectangle> iter = bodyParts.iterator(); iter.hasNext();) {
-            bodyPartTemp = iter.next();
-            if(head.overlaps(bodyPartTemp)) {
+        for(int i = startingValue; checkedBodyParts < bodyPartsToCheck; i = i-- % countBodyParts) {
+            bodyPartTemp = bodyParts.get(i);
+            checkedBodyParts++;
+            if(bodyPartTemp.overlaps(head)) {
                 return true;
             }
         }
-
-
-        for(int i = startingValue; i < startingValue - START_FOR_SUDOKU || i > startingValue; i = i++ % countBodyParts) {
-            bodyPartTemp2 = bodyParts.get(i);
-            if(head.overlaps(bodyPartTemp2)) {
-                return true;
-            }
-        }
-        */
 
         return false;
     }

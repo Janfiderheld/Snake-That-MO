@@ -16,7 +16,7 @@ Präsentation: 08.01., 15.01. oder 22.01.2019
 ## Projektbeschreibung:
 
 Bei Snake That! handelt es sich um ein innovatives Android-Spiel, welches den Klassiker Snake neu auflegt und mit einer interessanten Steuerung per Touch kombiniert!
-Der Spieler muss Punkte (in Form von NFC-Tags (Stand: 30.11.)) einsammeln um mit seiner Schlange zu wachsen und den Highscore zu knacken.
+Der Spieler muss Punkte in Form von NFC-Tags & Bitcoins einsammeln um mit seiner Schlange zu wachsen und den Highscore zu knacken. Dabei muss unterschiedlichen Hindernissen ausgewichen werden.
 Dabei wird die Schlange über eine "Schleuder"-Mechanik intuitiv bedient & gesteuert!
 
 ### Programmier-Konventionen
@@ -33,18 +33,24 @@ Die Einhaltung der folgenden Konventionen wird von der Java-Sprachsyntax nicht z
   - Nur eine Anweisung je Zeile.
   - Zeilen innerhalb eines Anweisungsblocks (zwischen den geschweiften Klammern {...}) einrücken (2 oder 4 Leerzeichen).
   - Für Verzweigungsbedingungen (if(..), else if(..), else) und Schleifenanfänge (for(..;..;..), while(..), do) ist jeweils eine eigene Zeile zu nutzen. (Auch eine einzelne return-Anweisung nach einer if-Abfrage sollte (eingerückt) auf eine eigene Zeile geschrieben werden.)
-- Exceptions sollten in aller Regel nicht mit einer leerencatch-Anweisungen weggefangen werden (Empfehlung:printStackTrace() verwenden).
+- Exceptions sollten in aller Regel nicht mit einer leeren catch-Anweisungen weggefangen werden (Empfehlung: printStackTrace() verwenden).
 - Zeilenlänge: Maximal 80 Zeichen
 
-### Hilfreiche Links / Quellen
+## Hilfreiche / wichtige Links (Stand: 04.12.)
+
+### Text- / Quellcode-Quellen 
 
 - [libGDX: Website](https://libgdx.badlogicgames.com/)
-- [libGDX: Beispiel-Spiel / Tutorial](https://github.com/libgdx/libgdx/wiki/A-simple-game)
 - [libGDX: Memory Management](https://github.com/libgdx/libgdx/wiki/Memory-management)
+- [libGDX: Beispiel-Spiel (Tutorial)](https://github.com/libgdx/libgdx/wiki/A-simple-game)
+- [Umsetzung (mit Erweiterung) des Beispielspiels](https://drive.google.com/drive/folders/11WqeAeZgEVUvycyAEVo4V9yjTBE-AW-w)
+- [Hiero (Bitmap Font Packaging Tool)](https://github.com/libgdx/libgdx/wiki/Hiero)
+- [Texte & Schriftarten in libGDX verwenden](https://www.gamefromscratch.com/post/2014/11/21/LibGDX-Video-Tutorial-Creating-and-Using-Fonts-and-Text.aspx)
 - [Artikel über die am häufig vorhandenen Bildschirmauflösungen von Android-Smartphones](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions)
 
-### aktuelle Bildquellen (Stand: 30.11.)
+### Bildquellen 
 
 - [Waluigi-Block](http://www.softicons.com/game-icons/super-mario-blocks-icons-by-dannysp/waluigi-block-icon)
 - [NFC-Symbol](https://nfc-reader.en.softonic.com/android)
 - [Bitcoin](https://addons.opera.com/de/extensions/details/bitcoin-monero-miner/)
+- Herz (gefüllt und ungefüllt) <-- selbstgemacht ;)

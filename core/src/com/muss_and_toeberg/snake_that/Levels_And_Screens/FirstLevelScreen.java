@@ -5,11 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Color;
 
 import com.muss_and_toeberg.snake_that.Character_And_Obstacles.*;
 import com.muss_and_toeberg.snake_that.Technical.*;
@@ -24,6 +26,10 @@ public class FirstLevelScreen extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private ShapeRenderer snakeRenderer;
 	private Random rndGenerator = new Random();
+	private BitmapFont font;
+	private Texture heart1;
+	private Texture heart2;
+	private Texture heart3;
 
 	// Constant Values
 	final int CAMERA_WIDTH = 1920;
@@ -31,6 +37,9 @@ public class FirstLevelScreen extends ApplicationAdapter {
 	final int MAX_VECTOR_LENGTH = 500;
 	final int PICTURE_SIZE = 256;
 	final int LINE_LENGTH = 10;
+	final int SIZE_OF_HUD = 150;
+	final static float NORMAL_SPEED = 10;
+	final static float SLOW_SPEED = 2;
 
 	// Constant Position of Waluigi
 	final int WAAA_X = (CAMERA_WIDTH / 2) - (PICTURE_SIZE / 2);
@@ -48,7 +57,7 @@ public class FirstLevelScreen extends ApplicationAdapter {
 	static Vector2 lineTouchVector = new Vector2(0, 0);
 
 	// variables
-	private static int speed = 10;
+	private static float speed = 10;
 	public static boolean stopMovement = false;
     private static int snakeSize = snake.getSizeOfOneBlock();
     public static boolean hasHitWall = true;
@@ -67,12 +76,18 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		snakeRenderer = new ShapeRenderer();
 		snake.createSnake();
 
+		heart1 = new Texture("Heart_filled.png");
+		heart2 = new Texture("Heart_filled.png");
+		heart3 = new Texture("Heart_unfilled.png");
+
 		waluigiImg = new Texture("WaluigiBlock.png");
 		coin.setNFCTexture(new Texture("NFC.png"));
 		coin.setBitCoinTexture(new Texture("Bitcoin.png"));
 		randomizeNewCoin();
 
 		Gdx.gl.glClearColor(1, 0, 0, 1);
+
+		font = new BitmapFont (Gdx.files.internal("Comic_Sans.fnt"));
 	}
 
 	// renders the screen (= fills it with everything)
@@ -93,12 +108,19 @@ public class FirstLevelScreen extends ApplicationAdapter {
 			Rectangle body = iter.next();
 			snakeRenderer.rect(body.x, body.y, snakeSize, snakeSize);
 		}
+
+		snakeRenderer.rect(0,CAMERA_HEIGHT - SIZE_OF_HUD,CAMERA_WIDTH, SIZE_OF_HUD, Color.BLACK,Color.OLIVE,Color.GOLD,Color.BROWN);
 		snakeRenderer.end();
 
 		//renders the Texture Objects
 		batch.begin();
+		batch.draw(heart1,CAMERA_WIDTH-700+450,CAMERA_HEIGHT-100);
+		batch.draw(heart2,CAMERA_WIDTH-700+530,CAMERA_HEIGHT-100);
+		batch.draw(heart3,CAMERA_WIDTH-700+610,CAMERA_HEIGHT-100);
 		batch.draw(waluigiImg, WAAA_X, WAAA_Y);
 		batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
+		font.draw(batch, "Punkte: 1000" , 5, CAMERA_HEIGHT);
+		font.draw(batch, "Leben:",CAMERA_WIDTH-700,CAMERA_HEIGHT);
 		batch.end();
 
 		startTouchVector.x = snake.getMovementInX() + (snakeSize / 2);
@@ -131,12 +153,6 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		checkCollisionWithWaluigi();
 		checkCollisionWithCoin();
 
-		if (snake.checkSudoku()) {
-			Gdx.gl.glClearColor(0, 1, 0, 1);
-		} else {
-			Gdx.gl.glClearColor(1, 0, 0, 1);
-		}
-
 		snake.moveWholeSnake();
 		camera.update();
 	}
@@ -156,7 +172,7 @@ public class FirstLevelScreen extends ApplicationAdapter {
 			return;
 		}
 
-		speed = 2;
+		speed = SLOW_SPEED;
 		snake.scaleDirection(speed);
 	}
 
@@ -166,9 +182,10 @@ public class FirstLevelScreen extends ApplicationAdapter {
 			return;
 		}
 
-		speed = 10;
+		speed = NORMAL_SPEED;
 		Vector2 connectionVector = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
 		snake.scaleDirectionWithVector(speed, connectionVector);
+
 	}
 
 	// checks if the snake collides with something (currently only waluigi)
@@ -194,7 +211,7 @@ public class FirstLevelScreen extends ApplicationAdapter {
 			hasHitWall = true;
 		}
 
-		if (snake.getMovementInY() + snakeSize >= CAMERA_HEIGHT || snake.getMovementInY() <= 0) {
+		if (snake.getMovementInY() + snakeSize >= CAMERA_HEIGHT - SIZE_OF_HUD || snake.getMovementInY() <= 0) {
 			snake.invertYDirection();
 			hasHitWall = true;
 		}
@@ -219,7 +236,7 @@ public class FirstLevelScreen extends ApplicationAdapter {
         	coinX += 2 * snakeSize;
 		}
 
-        int coinY = rndGenerator.nextInt(CAMERA_HEIGHT - (coin.getSize() + PICTURE_SIZE + snakeSize * 2));
+        int coinY = rndGenerator.nextInt(CAMERA_HEIGHT- SIZE_OF_HUD - (coin.getSize() + PICTURE_SIZE + snakeSize * 2));
         if(coinY > WAAA_Y - coin.getSize()) {
         	coinY += PICTURE_SIZE;
 		}

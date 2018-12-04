@@ -11,7 +11,8 @@ public class Snake {
     private final int BODY_PART_START_AMOUNT = 30;
     private final int ADD_WHEN_COLLECTED = 5;
     private final int BODY_PART_MAX_AMOUNT = 120;
-    private final int START_FOR_SUDOKU = 5;
+    private final int START_FOR_SUDOKU = 15;
+    private final float BODY_PART_DISTANCE = 5;
 
     // Snake Hitboxes
     private Array<Rectangle> bodyParts = new Array<Rectangle>();
@@ -24,7 +25,7 @@ public class Snake {
 
     // local variables
     private int countBodyParts = BODY_PART_START_AMOUNT;
-    int currentNeck = 0;
+    private int currentNeck = 0;
 
     // creates all the hitBoxes for the snake
     public void createSnake() {
@@ -115,13 +116,13 @@ public class Snake {
     }
 
     // scales the direction by the given factor
-    public void scaleDirection(int factor) {
+    public void scaleDirection(float factor) {
         direction.x *= (factor / direction.len());
         direction.y *= (factor / direction.len());
     }
 
     // scales the direction by the given Factor and the given vector
-    public void scaleDirectionWithVector(int factor, Vector2 newDirection) {
+    public void scaleDirectionWithVector(float factor, Vector2 newDirection) {
         direction.x = newDirection.x * (factor / newDirection.len());
         direction.y = newDirection.y * (factor / newDirection.len());
         direction.rotate(180);
@@ -145,13 +146,19 @@ public class Snake {
 
     // checks if the snake collides with itself
     public boolean checkSudoku() {
-        int startingValue = currentNeck  % countBodyParts;
+        int startingValue = (currentNeck - START_FOR_SUDOKU)  % countBodyParts;
+        if (startingValue <0){
+            startingValue += countBodyParts;
+        }
         int bodyPartsToCheck = countBodyParts - START_FOR_SUDOKU;
-        int checkedBodyParts = 0;
+        int currentBodyPart = startingValue;
 
-        for(int i = startingValue; checkedBodyParts < bodyPartsToCheck; i = i-- % countBodyParts) {
-            bodyPartTemp = bodyParts.get(i);
-            checkedBodyParts++;
+        for(int checkedBodyParts = 0; checkedBodyParts < bodyPartsToCheck; checkedBodyParts++) {
+            bodyPartTemp = bodyParts.get(currentBodyPart);
+            currentBodyPart = (currentBodyPart - 1) % countBodyParts;
+            if (currentBodyPart <0){
+                currentBodyPart += countBodyParts;
+            }
             if(bodyPartTemp.overlaps(head)) {
                 return true;
             }

@@ -79,13 +79,13 @@ public class Coin {
 
     // sets the Texture to the Bitcoin Icon
     private void setTextureToBitcoin() {
-        // image = new Texture("Bitcoin.png");
+        // image = new Texture(Gdx.files.internal("Bitcoin.png"));
         image = imgBitCoin;
     }
 
     // sets the Texture to the NFC Icon
     private void setTextureToNFC() {
-        // image = new Texture("NFC.png");
+        // image = new Texture(Gdx.files.internal("NFC.png"));
         image = imgNFC;
     }
 

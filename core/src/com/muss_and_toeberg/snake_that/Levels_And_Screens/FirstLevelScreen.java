@@ -46,6 +46,7 @@ public class FirstLevelScreen extends ApplicationAdapter {
 	private ShapeRenderer snakeRenderer;
 	private BitmapFont font;
 	private Heart[] hearts = new Heart[HEART_AMOUNT];
+	private  Texture background;
 
 	// Obstacles and Player Character
     private static Snake snake = new Snake();
@@ -70,6 +71,9 @@ public class FirstLevelScreen extends ApplicationAdapter {
     private static int snakeSize = snake.getSizeOfOneBlock();
     public static boolean hasHitWall = true;
 	private int lives = HEART_AMOUNT;
+	private int score = 0;
+	static int coin_value;
+	public static boolean firstShot = false;
 
 	// creates the screen
 	// this method is called once at the beginning of the lifecycle
@@ -92,11 +96,14 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		}
 
 		waluigiImg = new Texture("WaluigiBlock.png");
+		background = new Texture ("background.png");
 		coin.setNFCTexture(new Texture("NFC.png"));
 		coin.setBitCoinTexture(new Texture("Bitcoin.png"));
+
 		randomizeNewCoin();
 
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor((float)0.7,(float)0.7,(float)0.7,0);
+
 	}
 
 	// renders the screen (= fills it with everything)
@@ -104,7 +111,16 @@ public class FirstLevelScreen extends ApplicationAdapter {
 	@Override
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		batch.setProjectionMatrix(camera.combined);
+
+		//Draw the Grid-Background uncomment if required
+		/*
+		batch.begin();
+		batch.draw(background,0 ,0);
+		batch.end();
+		*/
+
 		snakeRenderer.setProjectionMatrix(camera.combined);
 		
 		// renders the snake
@@ -118,7 +134,8 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		}
 
 		// renders the HUD
-		snakeRenderer.rect(0, HUD_BEGIN_Y, CAMERA_WIDTH, SIZE_OF_HUD, Color.BLACK, Color.OLIVE, Color.GOLD, Color.BROWN);
+		snakeRenderer.rect(0, HUD_BEGIN_Y, CAMERA_WIDTH, SIZE_OF_HUD,
+							Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY);
 		snakeRenderer.end();
 
 		
@@ -130,7 +147,7 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		}
 		batch.draw(waluigiImg, WAAA_X, WAAA_Y);
 		batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
-		font.draw(batch, "Punkte: 1000", 5, TEXT_BEGIN_Y);
+		font.draw(batch, "Punkte: " + score, 5, TEXT_BEGIN_Y);
 		font.draw(batch, "Leben:", CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
 		batch.end();
 
@@ -237,6 +254,7 @@ public class FirstLevelScreen extends ApplicationAdapter {
 	private void checkCollisionWithCoin() {
 		if (Intersector.overlaps(coin.getHitBox(), snake.getHeadAsRectangle())) {
 			snake.addNewBodyPart();
+			score += coin_value;
 			randomizeNewCoin();
 		}
 	}
@@ -246,8 +264,10 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		if(!snake.checkSudoku()) {
 			return;
 		}
-		
-		looseALive();
+		//you can only loose a live if you have already shot at least once
+		if (firstShot){
+			looseALive();
+		}
 	}
 	
 	// player looses a live and one heart gets unfilled
@@ -257,6 +277,17 @@ public class FirstLevelScreen extends ApplicationAdapter {
 			if(tempHeart.isFilled()) {
 				tempHeart.unfillTheHeart();
 				lives--;
+				return;
+			}
+		}
+	}
+
+	private void gainALive() {
+		for(int i = HEART_AMOUNT-1; i > 0; i--) {
+			Heart tempHeart = hearts[i];
+			if(!tempHeart.isFilled()) {
+				tempHeart.fillTheHeart();
+				lives++;
 				return;
 			}
 		}
@@ -285,6 +316,6 @@ public class FirstLevelScreen extends ApplicationAdapter {
 
 		coin.setXPosition(coinX);
         coin.setYPosition(coinY);
-        coin.setRandomTexture(rndTexture);
+        coin_value = coin.setRandomTexture(rndTexture);
     }
 }

@@ -3,6 +3,8 @@ package com.muss_and_toeberg.snake_that.Character_And_Obstacles;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Circle;
 
+import java.util.Random;
+
 public class Coin {
     // Texture for the image and the hitBox
     private Texture image;
@@ -18,6 +20,10 @@ public class Coin {
     // the Position on the coordinate system
     private int xPos = RADIUS;
     private int yPos = RADIUS;
+
+    //
+    private Random rndGenerator = new Random();
+    private int bitCoinStock;
 
     // Constructor
     public Coin() {
@@ -69,11 +75,14 @@ public class Coin {
     }
 
     // sets the texture to either NFC or Bitcoin at random
-    public void setRandomTexture(int rndValue) {
+    public int setRandomTexture(int rndValue) {
         if(rndValue < NFC_PROBABILITY) {
             setTextureToNFC();
+            return 50;
         } else {
             setTextureToBitcoin();
+            bitCoinStock = rndGenerator.nextInt(100);
+            return bitCoinStock;
         }
     }
 

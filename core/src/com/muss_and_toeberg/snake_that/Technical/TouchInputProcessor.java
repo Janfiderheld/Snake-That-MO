@@ -32,6 +32,7 @@ public class TouchInputProcessor implements InputProcessor {
         FirstLevelScreen.setDirectionVectUp();
         FirstLevelScreen.stopMovement = false;
         FirstLevelScreen.hasHitWall = false;
+        FirstLevelScreen.firstShot = true;
 		
         return true;
     }

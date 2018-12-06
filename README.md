@@ -36,21 +36,23 @@ Die Einhaltung der folgenden Konventionen wird von der Java-Sprachsyntax nicht z
 - Exceptions sollten in aller Regel nicht mit einer leeren catch-Anweisungen weggefangen werden (Empfehlung: printStackTrace() verwenden).
 - Zeilenlänge: Maximal 80 Zeichen
 
-## Hilfreiche / wichtige Links (Stand: 04.12.)
+## Hilfreiche / wichtige Links (Stand: 06.12.)
 
 ### Text- / Quellcode-Quellen 
 
-- [libGDX: Website](https://libgdx.badlogicgames.com/)
-- [libGDX: Memory Management](https://github.com/libgdx/libgdx/wiki/Memory-management)
-- [libGDX: Beispiel-Spiel (Tutorial)](https://github.com/libgdx/libgdx/wiki/A-simple-game)
-- [Umsetzung (mit Erweiterung) des Beispielspiels](https://drive.google.com/drive/folders/11WqeAeZgEVUvycyAEVo4V9yjTBE-AW-w)
-- [Hiero (Bitmap Font Packaging Tool)](https://github.com/libgdx/libgdx/wiki/Hiero)
-- [Texte & Schriftarten in libGDX verwenden](https://www.gamefromscratch.com/post/2014/11/21/LibGDX-Video-Tutorial-Creating-and-Using-Fonts-and-Text.aspx)
-- [Artikel über die am häufig vorhandenen Bildschirmauflösungen von Android-Smartphones](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions)
+- [libGDX: Website](https://libgdx.badlogicgames.com/) (abgerufen am: 07.11.)
+- [libGDX: Memory Management](https://github.com/libgdx/libgdx/wiki/Memory-management) (abgerufen am: 27.11.)
+- [libGDX: Beispiel-Spiel (Tutorial)](https://github.com/libgdx/libgdx/wiki/A-simple-game) (abgerufen am: 13.11.)
+- [Umsetzung (mit Erweiterung) des Beispielspiels](https://drive.google.com/drive/folders/11WqeAeZgEVUvycyAEVo4V9yjTBE-AW-w) (abgerufen am: 13.11.)
+- [Hiero (Bitmap Font Packaging Tool)](https://github.com/libgdx/libgdx/wiki/Hiero) (abgerufen am: 04.12.)
+- [Texte & Schriftarten in libGDX verwenden](https://www.gamefromscratch.com/post/2014/11/21/LibGDX-Video-Tutorial-Creating-and-Using-Fonts-and-Text.aspx) (abgerufen am: 04.12.)
+- [Artikel über die am häufig vorhandenen Bildschirmauflösungen von Android-Smartphones](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions) (abgerufen am: 13.11.)
+- [Tipps zum Umgang mit Bugs & Debugging bei Indie-Spielen](https://unity3d.com/de/how-to/set-up-a-stable-build-pipeline?_ga=2.246399629.886479601.1544079477-2019608718.1544079477) (abgerufen am: 06.12.)
 
 ### Bildquellen 
 
-- [Waluigi-Block](http://www.softicons.com/game-icons/super-mario-blocks-icons-by-dannysp/waluigi-block-icon)
-- [NFC-Symbol](https://nfc-reader.en.softonic.com/android)
-- [Bitcoin](https://addons.opera.com/de/extensions/details/bitcoin-monero-miner/)
-- Herz (gefüllt und ungefüllt) <-- selbstgemacht ;)
+- [Waluigi-Block](http://www.softicons.com/game-icons/super-mario-blocks-icons-by-dannysp/waluigi-block-icon) (zuletzt abgerufen am: 20.11.)
+- [NFC-Symbol](https://nfc-reader.en.softonic.com/android) (abgerufen am: 27.11.)
+- [Bitcoin](https://addons.opera.com/de/extensions/details/bitcoin-monero-miner/) (abgerufen am: 27.11.)
+- Herz (gefüllt und ungefüllt): selbstgemacht
+- Grid-Hintergrund: ebenfalls selbstgemacht

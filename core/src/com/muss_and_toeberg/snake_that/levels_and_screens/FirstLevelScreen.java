@@ -1,4 +1,4 @@
-package com.muss_and_toeberg.snake_that.Levels_And_Screens;
+package com.muss_and_toeberg.snake_that.levels_and_screens;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -13,15 +13,22 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Color;
 
-import com.muss_and_toeberg.snake_that.Character_And_Obstacles.*;
-import com.muss_and_toeberg.snake_that.Technical.*;
+import com.muss_and_toeberg.snake_that.obstacles_and_elements.Coin;
+import com.muss_and_toeberg.snake_that.obstacles_and_elements.Heart;
+import com.muss_and_toeberg.snake_that.obstacles_and_elements.Snake;
+import com.muss_and_toeberg.snake_that.obstacles_and_elements.WaluigiHitBox;
+import com.muss_and_toeberg.snake_that.technical.HitDirection;
+import com.muss_and_toeberg.snake_that.technical.TouchInputProcessor;
 
 import java.util.Iterator;
 import java.util.Random;
 
-// first Level of the Game
+/**
+ * First Level of the game
+ * Derivative of the ApplicationAdapter (from libGDX)
+ */
 public class FirstLevelScreen extends ApplicationAdapter {
-	// Constant width & height values
+    // Constant width & height values
 	final int CAMERA_WIDTH = 1920;
 	final int CAMERA_HEIGHT = 1080;
 	final int PICTURE_SIZE = 256;
@@ -46,7 +53,7 @@ public class FirstLevelScreen extends ApplicationAdapter {
 	private ShapeRenderer snakeRenderer;
 	private BitmapFont font;
 	private Heart[] hearts = new Heart[HEART_AMOUNT];
-	private  Texture background;
+	private Texture background;
 
 	// Obstacles and Player Character
     private static Snake snake = new Snake();
@@ -64,19 +71,22 @@ public class FirstLevelScreen extends ApplicationAdapter {
 	static Vector2 endTouchVector = new Vector2(0, 0);
 	static Vector2 lineTouchVector = new Vector2(0, 0);
 
-	// variables & objects
+	// local variables & objects
 	private Random rndGenerator = new Random();
-	private static float speed = NORMAL_SPEED;
-	public static boolean stopMovement = false;
-    private static int snakeSize = snake.getSizeOfOneBlock();
-    public static boolean hasHitWall = true;
 	private int lives = HEART_AMOUNT;
 	private int score = 0;
-	static int coin_value;
-	public static boolean firstShot = false;
+	private boolean invincibilityOff = true;
 
-	// creates the screen
-	// this method is called once at the beginning of the lifecycle
+	// class variables
+	public static boolean hasHitWall = true;
+	private static float speed = NORMAL_SPEED;
+    private static int snakeSize = snake.getSizeOfOneBlock();
+	private static int coin_value;
+
+    /**
+     * creates the screen
+     * this method is called once at the beginning of the lifecycle
+     */
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();
@@ -95,7 +105,9 @@ public class FirstLevelScreen extends ApplicationAdapter {
 			hearts[i] = tempHeart;
 		}
 
-		waluigiImg = new Texture("WaluigiBlock.png");
+		// for demonstration purposes: Brick instead of Waluigi
+		waluigiImg = new Texture("Brick.png");
+		// waluigiImg = new Texture("WaluigiBlock.png");
 		background = new Texture ("background.png");
 		coin.setNFCTexture(new Texture("NFC.png"));
 		coin.setBitCoinTexture(new Texture("Bitcoin.png"));
@@ -106,18 +118,20 @@ public class FirstLevelScreen extends ApplicationAdapter {
 
 	}
 
-	// renders the screen (= fills it with everything)
-	// gets called in a constant loop
+    /**
+     * renders the screen (= fills it with everything)
+     * gets called in a constant loop
+     */
 	@Override
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.setProjectionMatrix(camera.combined);
 
-		//Draw the Grid-Background uncomment if required
+		// Draw the Grid-Background (uncomment if required)
 		/*
 		batch.begin();
-		batch.draw(background,0 ,0);
+		batch.draw(background, 0, 0);
 		batch.end();
 		*/
 
@@ -182,11 +196,13 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		checkCollisionWithCoin();
 		checkCollisionWithSnakeBody();
 
-		snake.moveWholeSnake();
+		snake.increaseMovementVector();
 		camera.update();
 	}
 
-	// disposes the textures as soon as the app is closed for good (aka end of Lifecycle)
+    /**
+     * disposes the textures as soon as the app is closed for good (aka end of Lifecycle)
+     */
 	@Override
 	public void dispose () {
 		batch.dispose();
@@ -199,7 +215,9 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		}
 	}
 
-	// sets the direction vector to reduced speed as soon as the screen is touched
+    /**
+     * changes the speed of the snake to reduced speed as soon as the screen is touched
+     */
 	public static void setDirectionVectDown(){
 		if (!hasHitWall) {
 			return;
@@ -209,7 +227,9 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		snake.scaleDirection(speed);
 	}
 
-	// sets the direction vector to normal speed as soon as the touch is lifted
+    /**
+     * changes the speed of the snake to normal speed as soon as the touch is lifted
+     */
 	public static void setDirectionVectUp(){
 		if (!hasHitWall) {
 			return;
@@ -217,11 +237,13 @@ public class FirstLevelScreen extends ApplicationAdapter {
 
 		speed = NORMAL_SPEED;
 		Vector2 connectionVector = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
-		snake.scaleDirectionWithVector(speed, connectionVector);
+		snake.setDirectionToScaledVector(speed, connectionVector);
 
 	}
 
-	// checks if the snake collides with something (currently only waluigi)
+    /**
+     * checks if the snake collides with the block in the middle (= Waluigi)
+     */
 	private void checkCollisionWithWaluigi() {
 		HitDirection side = waluigi.checkWhichCollisionSide(snake.getHeadAsRectangle());
 
@@ -237,7 +259,9 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		}
 	}
 
-	// checks if the snake collides with the wall
+    /**
+     * checks if the snake collides with the outer walls
+     */
 	private void checkCollisionWithWall() {
 		if (snake.getMovementInX() + snakeSize >= CAMERA_WIDTH || snake.getMovementInX() <= 0) {
 			snake.invertXDirection();
@@ -250,27 +274,37 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		}
 	}
 
-	// checks if the snake collides a coin
+    /**
+     * checks if the snake collides with a coin
+     */
 	private void checkCollisionWithCoin() {
 		if (Intersector.overlaps(coin.getHitBox(), snake.getHeadAsRectangle())) {
 			snake.addNewBodyPart();
 			score += coin_value;
+			if(coin_value != coin.getPointsForNFC()) {
+				gainALive();
+			}
 			randomizeNewCoin();
 		}
 	}
-	
-	// checks if the snake collides with itself
+
+    /**
+     * checks if the snake collides with itself
+     */
 	private void checkCollisionWithSnakeBody() {
 		if(!snake.checkSudoku()) {
-			return;
-		}
-		//you can only loose a live if you have already shot at least once
-		if (firstShot){
-			looseALive();
+			invincibilityOff = true;
+		} else {
+			if(invincibilityOff && !Gdx.input.isTouched()) {
+				looseALive();
+				invincibilityOff = false;
+			}
 		}
 	}
-	
-	// player looses a live and one heart gets unfilled
+
+    /**
+     * player looses a live and one heart gets unfilled
+     */
 	private void looseALive() {				
 		for(int i = 0; i < HEART_AMOUNT; i++) {
 			Heart tempHeart = hearts[i];
@@ -282,8 +316,11 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		}
 	}
 
+    /**
+     * player gains a live and one heart gets filled
+     */
 	private void gainALive() {
-		for(int i = HEART_AMOUNT-1; i > 0; i--) {
+		for(int i = HEART_AMOUNT - 1; i >= 0; i--) {
 			Heart tempHeart = hearts[i];
 			if(!tempHeart.isFilled()) {
 				tempHeart.fillTheHeart();
@@ -293,8 +330,10 @@ public class FirstLevelScreen extends ApplicationAdapter {
 		}
 	}
 
-	// changes the x and y coordinates of the coin at a random place
-	// (which is not inside Waluigi and not to close to the snake head)
+    /**
+     * changes the x and y coordinates of the coin at a random place
+     * (which is not inside the block and not to close to the snake head)
+     */
 	private void randomizeNewCoin() {
         int coinX = rndGenerator.nextInt(CAMERA_WIDTH - (coin.getSize() + PICTURE_SIZE + snakeSize * 2));
         if(coinX >= WAAA_X - coin.getSize()) {
@@ -312,10 +351,8 @@ public class FirstLevelScreen extends ApplicationAdapter {
 			coinY += 2 * snakeSize;
 		}
 
-		int rndTexture = rndGenerator.nextInt(100);
-
 		coin.setXPosition(coinX);
         coin.setYPosition(coinY);
-        coin_value = coin.setRandomTexture(rndTexture);
+        coin_value = coin.setRandomTexture(rndGenerator.nextInt(99) + 1);
     }
 }

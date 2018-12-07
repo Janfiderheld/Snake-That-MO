@@ -1,20 +1,22 @@
-package com.muss_and_toeberg.snake_that.Character_And_Obstacles;
+package com.muss_and_toeberg.snake_that.obstacles_and_elements;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-// Represents the player character (= snake)
+/**
+ * Represents the snake (= player character)
+ */
 public class Snake {
     // Constant Values
     private final int BODY_PART_SIZE = 50;
     private final int BODY_PART_START_AMOUNT = 30;
-    private final int ADD_WHEN_COLLECTED = 5;
-    private final int BODY_PART_MAX_AMOUNT = 120;
+    private final int ADD_WHEN_COLLECTED = 3;
     private final int START_FOR_SUDOKU = 15;
+    private final int BODY_PART_MAX_AMOUNT = 120;
     private final float BODY_PART_DISTANCE = 5;
 
-    // Snake Hitboxes
+    // Snake HitBoxes
     private Array<Rectangle> bodyParts = new Array<Rectangle>();
     private Rectangle bodyPartTemp;
     private Rectangle head;
@@ -27,7 +29,9 @@ public class Snake {
     private int countBodyParts = BODY_PART_START_AMOUNT;
     private int currentNeck = 0;
 
-    // creates all the hitBoxes for the snake
+    /**
+     * creates all the hitBoxes for the snake
+     */
     public void createSnake() {
         head = new Rectangle();
         head.width = BODY_PART_SIZE;
@@ -41,42 +45,61 @@ public class Snake {
         }
     }
 
-    // returns the X value of the HitBox for the first rectangle (= head)
+    /**
+     * @return position of the first rectangle (= head) on the x-axis
+     */
     public float getXValueHead() {
         return head.x;
     }
 
-    // returns the Y value of the HitBox for the first rectangle (= head)
+    /**
+     * @return position of the first rectangle (= head) on the y-axis
+     */
     public float getYValueHead() {
         return head.y;
     }
 
-    // returns the whole HitBox for the first rectangle (= head)
+    /**
+     * @return hitBox for the Head as a Rectangle-Object
+     */
     public Rectangle getHeadAsRectangle() {
         return head;
     }
 
-    // returns the Size of each Block
+    /**
+     * @return constant size of each block
+     */
     public int getSizeOfOneBlock() {
         return BODY_PART_SIZE;
     }
 
-    // returns the array with all body parts
+    /**
+     * @return array containing all body parts (= Rectangles)
+     */
     public Array<Rectangle> getBody() {
         return bodyParts;
     }
 
-    // returns the current x-Value of the Movement-Vector (= current position)
+    /**
+     * @return position of the head / movement vector on the x-axis
+     */
     public float getMovementInX() {
         return movement.x;
     }
 
-    // returns the current y-Value of the Movement-Vector (= current position)
+    /**
+     * @return position of the head / movement vector on the y-axis
+     */
     public float getMovementInY() {
         return movement.y;
     }
 
-    // creates a new rectangle at the given position
+    /**
+     * creates a new rectangle at the given position
+     * @param x position on the x-axis
+     * @param y position on the y-axis
+     * @return new body part
+     */
     private Rectangle createNewHitBox(float x, float y) {
         Rectangle hitBox = new Rectangle();
         hitBox.width = BODY_PART_SIZE;
@@ -86,7 +109,10 @@ public class Snake {
         return hitBox;
     }
 
-    // moves the whole body step by step (rectangle by rectangle)
+    /**
+     * moves snake body forward in the direction of the head
+     * always changes the position of the last rectangle to the one position of the head
+     */
     public void moveSnakeBody() {
         bodyPartTemp = bodyParts.get(currentNeck++);
         bodyPartTemp.x = head.x;
@@ -99,41 +125,58 @@ public class Snake {
         moveHead();
     }
 
-    // moves the head of the snake
+    /**
+     * moves the head of the snake
+     */
     private void moveHead() {
         head.x = movement.x;
         head.y = movement.y;
     }
 
-    // inverts the x-component of the direction
+    /**
+     * inverts the direction on the x-axis (= rotates vector by 180°)
+     */
     public void invertXDirection() {
         direction.x *= (-1);
     }
 
-    // inverts the y-component of the direction
+    /**
+     * inverts the direction on the y-axis (= rotates vector by 180°)
+     */
     public void invertYDirection() {
         direction.y *= (-1);
     }
 
-    // scales the direction by the given factor
+    /**
+     * sets the moving speed by scaling the direction vector
+     * @param factor scaling factor
+     */
     public void scaleDirection(float factor) {
         direction.x *= (factor / direction.len());
         direction.y *= (factor / direction.len());
     }
 
-    // scales the direction by the given Factor and the given vector
-    public void scaleDirectionWithVector(float factor, Vector2 newDirection) {
+    /**
+     * sets the direction to the given vector scaled by the given factor
+     * @param factor scaling factor
+     * @param newDirection vector to scale
+     */
+    public void setDirectionToScaledVector(float factor, Vector2 newDirection) {
         direction.x = newDirection.x * (factor / newDirection.len());
         direction.y = newDirection.y * (factor / newDirection.len());
         direction.rotate(180);
     }
 
-    // moves the whole snake forward
-    public void moveWholeSnake() {
+    /**
+     * increases Movement Vector in the given direction
+     */
+    public void increaseMovementVector() {
         movement.add(direction);
     }
 
-    // adds a new rectangle to the body
+    /**
+     * adds a new rectangle to the body
+     */
     public void addNewBodyPart() {
         for (int i = 0; i < ADD_WHEN_COLLECTED; i++) {
             float tempX = head.x - movement.x * (countBodyParts + 1);
@@ -144,10 +187,13 @@ public class Snake {
         }
     }
 
-    // checks if the snake collides with itself
+    /**
+     * checks if the snake collides with itself
+     * @return true if collision appears
+     */
     public boolean checkSudoku() {
         int startingValue = (currentNeck - START_FOR_SUDOKU)  % countBodyParts;
-        if (startingValue <0){
+        if (startingValue < 0){
             startingValue += countBodyParts;
         }
         int bodyPartsToCheck = countBodyParts - START_FOR_SUDOKU;
@@ -156,7 +202,7 @@ public class Snake {
         for(int checkedBodyParts = 0; checkedBodyParts < bodyPartsToCheck; checkedBodyParts++) {
             bodyPartTemp = bodyParts.get(currentBodyPart);
             currentBodyPart = (currentBodyPart - 1) % countBodyParts;
-            if (currentBodyPart <0){
+            if (currentBodyPart < 0){
                 currentBodyPart += countBodyParts;
             }
             if(bodyPartTemp.overlaps(head)) {

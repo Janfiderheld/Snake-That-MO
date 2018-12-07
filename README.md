@@ -19,40 +19,44 @@ Bei Snake That! handelt es sich um ein innovatives Android-Spiel, welches den Kl
 Der Spieler muss Punkte in Form von NFC-Tags & Bitcoins einsammeln um mit seiner Schlange zu wachsen und den Highscore zu knacken. Dabei muss unterschiedlichen Hindernissen ausgewichen werden.
 Dabei wird die Schlange über eine "Schleuder"-Mechanik intuitiv bedient & gesteuert!
 
-### Programmier-Konventionen
+## Hilfreiche / wichtige Links & Quellen
 
-Die Einhaltung der folgenden Konventionen wird von der Java-Sprachsyntax nicht zwingend vorgeschrieben. Ihre Einhaltung erhöht die Lesbarkeit der Programmquellen allerdings ungemein. Nur durch die Beachtung von einheitlichen Programmierkonventionen kann umfangreicherer Quellcode mit vertretbaren Aufwand gereviewed, gepflegt und ergänzt werden. Die Einhaltung folgender Konventionen wird empfohlen (vgl. auch mit SUNs Empfehlungen Code Conventions for the Java Programming Language):
-- Schreibweisen (s.a.Code Conventions for the Java Programming Language, Kap. 9):
-  - Klassen- und Interfacenamen beginnen mit einem Großbuchstaben und sollten ein Substantiv sein.
-  - Methodennamen beginnen mit einem Kleinbuchstaben und sollten ein Verb sein.
-  - Variablen beginnen mit einem Kleinbuchstaben.
-  - Konstanten (final deklarierte Variablen) werden nur aus Großbuchstaben und dem Underscore-Zeichen '_' zusammengesetzt.
-  - Paketnamen (Packages) beginnen mit einem Kleinbuchstaben.
-- Der Zweck von Klassen, Methoden und Variablen, die nicht nur lokal in einer Methode genutzt werden, ist durch eine entsprechend sinnvolle Namensgebung deutlich zu machen. Sind ausführlichere Erklärungen zu Zweck und Nutzung nötig, so sind diese in einer (Javadoc-)Kommentierung anzugeben.
-- Anweisungen (Statements):
-  - Nur eine Anweisung je Zeile.
-  - Zeilen innerhalb eines Anweisungsblocks (zwischen den geschweiften Klammern {...}) einrücken (2 oder 4 Leerzeichen).
-  - Für Verzweigungsbedingungen (if(..), else if(..), else) und Schleifenanfänge (for(..;..;..), while(..), do) ist jeweils eine eigene Zeile zu nutzen. (Auch eine einzelne return-Anweisung nach einer if-Abfrage sollte (eingerückt) auf eine eigene Zeile geschrieben werden.)
-- Exceptions sollten in aller Regel nicht mit einer leeren catch-Anweisungen weggefangen werden (Empfehlung: printStackTrace() verwenden).
-- Zeilenlänge: Maximal 80 Zeichen
-
-## Hilfreiche / wichtige Links (Stand: 06.12.)
+Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der Erstellung der App geholfen haben.
 
 ### Text- / Quellcode-Quellen 
 
 - [libGDX: Website](https://libgdx.badlogicgames.com/) (abgerufen am: 07.11.)
-- [libGDX: Memory Management](https://github.com/libgdx/libgdx/wiki/Memory-management) (abgerufen am: 27.11.)
 - [libGDX: Beispiel-Spiel (Tutorial)](https://github.com/libgdx/libgdx/wiki/A-simple-game) (abgerufen am: 13.11.)
-- [Umsetzung (mit Erweiterung) des Beispielspiels](https://drive.google.com/drive/folders/11WqeAeZgEVUvycyAEVo4V9yjTBE-AW-w) (abgerufen am: 13.11.)
+- [Umsetzung (mit Erweiterung) des Beispiel-Spiels](https://drive.google.com/drive/folders/11WqeAeZgEVUvycyAEVo4V9yjTBE-AW-w) (abgerufen am: 13.11.)
+- [Artikel über die am häufig vorhandenen Bildschirmauflösungen von Android-Smartphones](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions) (abgerufen am: 13.11.)
+- [libGDX: Memory Management](https://github.com/libgdx/libgdx/wiki/Memory-management) (abgerufen am: 27.11.)
 - [Hiero (Bitmap Font Packaging Tool)](https://github.com/libgdx/libgdx/wiki/Hiero) (abgerufen am: 04.12.)
 - [Texte & Schriftarten in libGDX verwenden](https://www.gamefromscratch.com/post/2014/11/21/LibGDX-Video-Tutorial-Creating-and-Using-Fonts-and-Text.aspx) (abgerufen am: 04.12.)
-- [Artikel über die am häufig vorhandenen Bildschirmauflösungen von Android-Smartphones](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions) (abgerufen am: 13.11.)
 - [Tipps zum Umgang mit Bugs & Debugging bei Indie-Spielen](https://unity3d.com/de/how-to/set-up-a-stable-build-pipeline?_ga=2.246399629.886479601.1544079477-2019608718.1544079477) (abgerufen am: 06.12.)
+- [Zusammenfassung der Apache 2.0 Lizenz](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)) (abgerufen am: 06.12.)
 
 ### Bildquellen 
 
-- [Waluigi-Block](http://www.softicons.com/game-icons/super-mario-blocks-icons-by-dannysp/waluigi-block-icon) (zuletzt abgerufen am: 20.11.)
-- [NFC-Symbol](https://nfc-reader.en.softonic.com/android) (abgerufen am: 27.11.)
+- [Waluigi](http://www.softicons.com/game-icons/super-mario-blocks-icons-by-dannysp/waluigi-block-icon) (abgerufen am: 20.11.)
+- [NFC](https://nfc-reader.en.softonic.com/android) (abgerufen am: 27.11.)
 - [Bitcoin](https://addons.opera.com/de/extensions/details/bitcoin-monero-miner/) (abgerufen am: 27.11.)
+- [Ziegelstein-Block](https://soundimage.org/txr-brick-cartoon/) (abgerufen am: 07.12.)
 - Herz (gefüllt und ungefüllt): selbstgemacht
 - Grid-Hintergrund: ebenfalls selbstgemacht
+
+### Programmier-Konventionen
+
+Die Einhaltung der folgenden Konventionen wird von der Java-Sprachsyntax nicht zwingend vorgeschrieben. Ihre Einhaltung erhöht die Lesbarkeit der Programmquellen allerdings ungemein. Nur durch die Beachtung von einheitlichen Programmierkonventionen kann umfangreicherer Quellcode mit vertretbaren Aufwand gereviewed, gepflegt und ergänzt werden. Die Einhaltung folgender Konventionen wird empfohlen (vgl. auch mit SUNs Empfehlungen Code Conventions for the Java Programming Language):
+- Schreibweisen (s.a.Code Conventions for the Java Programming Language, Kap. 9):
+  - Klassen- und Interfacenamen beginnen mit einem Großbuchstaben und sollten ein Substantiv sein
+  - Methodennamen beginnen mit einem Kleinbuchstaben und sollten ein Verb sein
+  - Variablen beginnen mit einem Kleinbuchstaben
+  - Konstanten (final deklarierte Variablen) werden nur aus Großbuchstaben und dem Underscore-Zeichen '_' zusammengesetzt
+  - Paketnamen (Packages) beginnen mit einem Kleinbuchstaben
+- Der Zweck von Klassen, Methoden und Variablen, die nicht nur lokal in einer Methode genutzt werden, ist durch eine entsprechend sinnvolle Namensgebung deutlich zu machen. Sind ausführlichere Erklärungen zu Zweck und Nutzung nötig, so sind diese in einer (Javadoc-)Kommentierung anzugeben
+- Anweisungen (Statements):
+  - Nur eine Anweisung je Zeile
+  - Zeilen innerhalb eines Anweisungsblocks (zwischen den geschweiften Klammern {...}) einrücken (2 oder 4 Leerzeichen)
+  - Für Verzweigungsbedingungen (if(..), else if(..), else) und Schleifenanfänge (for(..;..;..), while(..), do) ist jeweils eine eigene Zeile zu nutzen. (Auch eine einzelne return-Anweisung nach einer if-Abfrage sollte (eingerückt) auf eine eigene Zeile geschrieben werden.)
+- Exceptions sollten in aller Regel nicht mit einer leeren catch-Anweisungen weggefangen werden (Empfehlung: printStackTrace() verwenden)
+- Zeilenlänge: Maximal 80 Zeichen

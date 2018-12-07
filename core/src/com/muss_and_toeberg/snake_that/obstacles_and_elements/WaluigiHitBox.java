@@ -1,21 +1,30 @@
-package com.muss_and_toeberg.snake_that.Character_And_Obstacles;
+package com.muss_and_toeberg.snake_that.obstacles_and_elements;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.muss_and_toeberg.snake_that.Technical.*;
+import com.muss_and_toeberg.snake_that.technical.HitDirection;
 
-// describes the hitbox for waluigi as four small hitboxes as his outlines
+/**
+ * describes the hitBox for Waluigi as four small hitBoxes as his outlines
+ */
 public class WaluigiHitBox {
+	// constant values
 	final int HIT_BOX_SIZE = 255;
-	
+
+	// position of the waluigi
 	private int x;
 	private int y;
 
+	// the four hitBoxes
 	private Rectangle rightSide;
 	private Rectangle leftSide;
 	private Rectangle upSide;
 	private Rectangle downSide;
-	
-	// Constructor which creates the four hitboxes
+
+	/**
+	 * creates the four rectangles at the right places
+	 * @param x x position of the bottom left point of the whole rectangle
+	 * @param y y position of the bottom left point of the whole rectangle
+	 */
 	public WaluigiHitBox(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -25,8 +34,14 @@ public class WaluigiHitBox {
 		upSide = createRectangle(x, y + HIT_BOX_SIZE- 1, true);
 		downSide = createRectangle(x, y - 1, true);
 	}
-	
-	// creates a Rectangle (= Hitbox) at the given location	
+
+	/**
+	 * creates a Rectangle (= hitBox) at the given location
+	 * @param x x position of the hitBox
+	 * @param y y position of the hitBox
+	 * @param isUpDown true if the hitBox is the one for up or down
+	 * @return hitBox as a rectangle
+	 */
 	private Rectangle createRectangle(int x, int y, boolean isUpDown) {
 		Rectangle rect = new Rectangle();
 		rect.x = x;
@@ -42,8 +57,12 @@ public class WaluigiHitBox {
 		
 		return rect;
 	}
-	
-	// checks the collision with the snake and returns from which side waluigi was hitbox
+
+	/**
+	 * checks the collision with the snake
+	 * @param snake head of the snake as a rectangle
+	 * @return side from which the snake hit
+	 */
 	public HitDirection checkWhichCollisionSide(Rectangle snake) {
 		if(rightSide.overlaps(snake)) {
 			return HitDirection.RightSide;

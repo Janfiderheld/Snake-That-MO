@@ -34,6 +34,8 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [Texte & Schriftarten in libGDX verwenden](https://www.gamefromscratch.com/post/2014/11/21/LibGDX-Video-Tutorial-Creating-and-Using-Fonts-and-Text.aspx) (abgerufen am: 04.12.)
 - [Tipps zum Umgang mit Bugs & Debugging bei Indie-Spielen](https://unity3d.com/de/how-to/set-up-a-stable-build-pipeline?_ga=2.246399629.886479601.1544079477-2019608718.1544079477) (abgerufen am: 06.12.)
 - [Zusammenfassung der Apache 2.0 Lizenz](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)) (abgerufen am: 06.12.)
+- [Wechseln von Screens in LibGDX](https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx) (abgerufen am: 11.12.)
+- [Erweiterung des Beispiel-Spiels um Menüs] (https://github.com/libgdx/libgdx/wiki/Extending-the-simple-game) (abgerufen am: 11.12.)
 
 ### Bildquellen 
 

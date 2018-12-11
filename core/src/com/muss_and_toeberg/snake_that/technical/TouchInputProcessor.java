@@ -1,7 +1,8 @@
 package com.muss_and_toeberg.snake_that.technical;
 
 import com.badlogic.gdx.InputProcessor;
-import com.muss_and_toeberg.snake_that.levels_and_screens.*;
+import com.muss_and_toeberg.snake_that.levels_and_screens.FirstLevel;
+import com.muss_and_toeberg.snake_that.levels_and_screens.MainGame;
 
 /**
  * Implementation of the InputProcessor
@@ -18,7 +19,11 @@ public class TouchInputProcessor implements InputProcessor {
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        FirstLevelScreen.setDirectionVectDown();
+
+
+        if(MainGame.levelStarted) {
+            FirstLevel.setDirectionVectDown();
+        }
         return true;
     }
 
@@ -32,8 +37,10 @@ public class TouchInputProcessor implements InputProcessor {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        FirstLevelScreen.setDirectionVectUp();
-        FirstLevelScreen.hasHitWall = false;
+        if(MainGame.levelStarted) {
+            FirstLevel.setDirectionVectUp();
+            FirstLevel.hasHitWall = false;
+        }
         return true;
     }
 

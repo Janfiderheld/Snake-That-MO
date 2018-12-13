@@ -19,10 +19,8 @@ public class TouchInputProcessor implements InputProcessor {
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-
         if(MainGame.levelStarted) {
-            FirstLevel.setDirectionVectDown();
+            FirstLevel.setDirectionVectorDown();
         }
         return true;
     }
@@ -38,7 +36,7 @@ public class TouchInputProcessor implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if(MainGame.levelStarted) {
-            FirstLevel.setDirectionVectUp();
+            FirstLevel.setDirectionVectorUp();
             FirstLevel.hasHitWall = false;
         }
         return true;

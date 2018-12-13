@@ -72,7 +72,7 @@ public class Coin {
      * @param xPos - new Position on the x-axis
      */
     public void setXPosition(int xPos) {
-        this.xPos = xPos + RADIUS;
+        this.xPos = xPos;
         refreshHitBox();
     }
 
@@ -81,7 +81,7 @@ public class Coin {
      * @param yPos - new Position on the y-axis
      */
     public void setYPosition(int yPos) {
-        this.yPos = yPos + RADIUS;
+        this.yPos = yPos;
         refreshHitBox();
     }
 
@@ -90,6 +90,13 @@ public class Coin {
      */
     public int getPointsForNFC() {
         return NFC_SCORE;
+    }
+
+    /**
+     * @return radius of the coin
+     */
+    public int getRadius() {
+        return RADIUS;
     }
 
     /**
@@ -135,8 +142,16 @@ public class Coin {
      * refreshes the x and y Position of the hitBox
      */
     private void refreshHitBox() {
-        hitBox.x = xPos;
-        hitBox.y = yPos;
+        hitBox.setPosition(xPos, yPos);
+    }
+
+    /**
+     * disposes all (= also the internal) textures
+     */
+    public void disposeAllTextures() {
+        image.dispose();
+        imgBitCoin.dispose();
+        imgNFC.dispose();
     }
 
     // HACK

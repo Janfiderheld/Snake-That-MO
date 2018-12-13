@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Snake {
     // Constant Values
-    private final int BODY_PART_SIZE = 50;
+    public static final int BODY_PART_SIZE = 50;
     private final int BODY_PART_START_AMOUNT = 30;
     private final int ADD_WHEN_COLLECTED = 3;
     private final int START_FOR_SUDOKU = 15;
@@ -64,13 +64,6 @@ public class Snake {
      */
     public Rectangle getHeadAsRectangle() {
         return head;
-    }
-
-    /**
-     * @return constant size of each block
-     */
-    public int getSizeOfOneBlock() {
-        return BODY_PART_SIZE;
     }
 
     /**

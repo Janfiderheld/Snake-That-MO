@@ -15,6 +15,7 @@ import com.muss_and_toeberg.snake_that.obstacles_and_elements.Heart;
 import com.muss_and_toeberg.snake_that.obstacles_and_elements.Snake;
 import com.muss_and_toeberg.snake_that.obstacles_and_elements.QuadraticBlockHitBox;
 import com.muss_and_toeberg.snake_that.technical.HitDirection;
+import com.muss_and_toeberg.snake_that.technical.Menu;
 import com.muss_and_toeberg.snake_that.technical.TouchInputProcessor;
 
 import java.util.Iterator;
@@ -83,7 +84,7 @@ public class FirstLevel implements Screen {
         Gdx.input.setInputProcessor(inputProcessor);
 
         snakeRenderer = new ShapeRenderer();
-        snake.createSnake();
+        snake.createSnake(new Vector2(SLOW_SPEED,SLOW_SPEED), new Vector2(300, 300));
 
         for(int i = 0; i < HEART_AMOUNT; i++) {
             Heart tempHeart = new Heart();
@@ -99,7 +100,8 @@ public class FirstLevel implements Screen {
 
         randomizeNewCoin();
 
-        Gdx.gl.glClearColor((float)0.7,(float)0.7,(float)0.7,0);
+        Gdx.gl.glClearColor((float)0.7, (float)0.7, (float)0.7, 0);
+        // MainGame.currentMenu = Menu.Level;
     }
 
     /**
@@ -109,12 +111,13 @@ public class FirstLevel implements Screen {
      */
     @Override
     public void render(float delta) {
-        if(!MainGame.levelStarted) {
-            MainGame.levelStarted = true;
+        // HACK
+        if(MainGame.currentMenu != Menu.Level) {
+            MainGame.currentMenu = Menu.Level;
         }
+        // HACK
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.setProjectionMatrix(game.camera.combined);
 
         // Draw the Grid-Background (uncomment if required)
 		/*
@@ -124,12 +127,10 @@ public class FirstLevel implements Screen {
 		*/
 
         snakeRenderer.setProjectionMatrix(game.camera.combined);
-
         // renders the snake
         snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         snakeRenderer.setColor(0, 1, 1, 1);
         snakeRenderer.rect(snake.getXValueHead(), snake.getYValueHead(), Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
-
         for (Iterator<Rectangle> iter = snake.getBody().iterator(); iter.hasNext(); ) {
             Rectangle body = iter.next();
             snakeRenderer.rect(body.x, body.y, Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
@@ -140,7 +141,6 @@ public class FirstLevel implements Screen {
                 Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY);
         snakeRenderer.end();
 
-
         //renders the Texture Objects & fills the HUD with text
         game.batch.begin();
         for(int i = 0; i < HEART_AMOUNT; i++) {
@@ -149,6 +149,7 @@ public class FirstLevel implements Screen {
         }
         game.batch.draw(blockTexture, BLOCK_X, BLOCK_Y);
         game.batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
+        // TODO: Make these strings multilingual
         game.font.draw(game.batch, "Punkte: " + score, 5, TEXT_BEGIN_Y);
         game.font.draw(game.batch, "Leben:", CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
         game.batch.end();
@@ -182,6 +183,7 @@ public class FirstLevel implements Screen {
         checkCollisionWithBlock();
         checkCollisionWithCoin();
         checkCollisionWithSnakeBody();
+        checkCollisionWithObstacle();
 
         snake.increaseMovementVector();
         game.camera.update();
@@ -224,7 +226,6 @@ public class FirstLevel implements Screen {
         speed = NORMAL_SPEED;
         Vector2 connectionVector = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
         snake.setDirectionToScaledVector(speed, connectionVector);
-
     }
 
     /**
@@ -278,7 +279,7 @@ public class FirstLevel implements Screen {
      * checks if the snake collides with itself
      */
     private void checkCollisionWithSnakeBody() {
-        if(!snake.checkSudoku()) {
+        if(!snake.checkSuicide()) {
             invincibilityOff = true;
         } else {
             if(invincibilityOff && !Gdx.input.isTouched()) {
@@ -286,6 +287,13 @@ public class FirstLevel implements Screen {
                 invincibilityOff = false;
             }
         }
+    }
+
+    /**
+     * checks if the snake collides with one of the Obstacles
+     */
+    private void checkCollisionWithObstacle() {
+        // TODO: Fill with collision detection when obstacles are added
     }
 
     /**

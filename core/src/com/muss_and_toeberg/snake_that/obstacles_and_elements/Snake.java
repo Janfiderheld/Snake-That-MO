@@ -14,7 +14,7 @@ public class Snake {
     private final int ADD_WHEN_COLLECTED = 3;
     private final int START_FOR_SUDOKU = 15;
     private final int BODY_PART_MAX_AMOUNT = 120;
-    private final float BODY_PART_DISTANCE = 5;
+    private final float BODY_PART_DISTANCE = 10;
 
     // Snake HitBoxes
     private Array<Rectangle> bodyParts = new Array<Rectangle>();
@@ -22,24 +22,27 @@ public class Snake {
     private Rectangle head;
 
     // 2D-Vectors
-    private Vector2 direction = new Vector2(1, 1);
-    private Vector2 movement = new Vector2(1, 1);
+    private Vector2 direction;
+    private Vector2 movement;
 
     // local variables
     private int countBodyParts = BODY_PART_START_AMOUNT;
-    private int currentNeck = 0;
+    private int currentNeck = countBodyParts - 1;
 
     /**
-     * creates all the hitBoxes for the snake
+     * creates all the hitBoxes for the snake & sets the Vectors
+     * @param startingDirection new starting direction
+     * @param startingPosition new starting position
      */
-    public void createSnake() {
-        head = new Rectangle();
-        head.width = BODY_PART_SIZE;
-        head.height = BODY_PART_SIZE;
+    public void createSnake(Vector2 startingDirection, Vector2 startingPosition) {
+        direction = startingDirection.cpy();
+        movement = startingPosition.cpy();
+
+        head = createNewHitBox(movement.x, movement.y);
 
         for (int i = 0; i < countBodyParts; i++){
-            float tempX = head.x - movement.x * (i + 1);
-            float tempY = head.y - movement.y * (i + 1);
+            float tempX = head.x - BODY_PART_DISTANCE * (i + 1);
+            float tempY = head.y - BODY_PART_DISTANCE * (i + 1);
 
             bodyParts.add(createNewHitBox(tempX, tempY));
         }
@@ -107,12 +110,12 @@ public class Snake {
      * always changes the position of the last rectangle to the one position of the head
      */
     public void moveSnakeBody() {
-        bodyPartTemp = bodyParts.get(currentNeck++);
+        bodyPartTemp = bodyParts.get(currentNeck--);
         bodyPartTemp.x = head.x;
         bodyPartTemp.y = head.y;
 
-        if (currentNeck == countBodyParts){
-            currentNeck = 0;
+        if (currentNeck < 0){
+            currentNeck = countBodyParts - 1;
         }
 
         moveHead();
@@ -184,7 +187,7 @@ public class Snake {
      * checks if the snake collides with itself
      * @return true if collision appears
      */
-    public boolean checkSudoku() {
+    public boolean checkSuicide() {
         int startingValue = (currentNeck - START_FOR_SUDOKU)  % countBodyParts;
         if (startingValue < 0){
             startingValue += countBodyParts;

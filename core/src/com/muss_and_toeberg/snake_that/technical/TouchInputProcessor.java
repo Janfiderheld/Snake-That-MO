@@ -19,8 +19,22 @@ public class TouchInputProcessor implements InputProcessor {
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(MainGame.levelStarted) {
-            FirstLevel.setDirectionVectorDown();
+        switch(MainGame.currentMenu) {
+            case MainMenu:
+                break;
+            case LevelSelection:
+                break;
+            case Level:
+                FirstLevel.setDirectionVectorDown();
+                break;
+            case Settings:
+                break;
+            case Highscore:
+                break;
+            case Statistics:
+                break;
+            case None:
+                break;
         }
         return true;
     }
@@ -35,9 +49,23 @@ public class TouchInputProcessor implements InputProcessor {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if(MainGame.levelStarted) {
-            FirstLevel.setDirectionVectorUp();
-            FirstLevel.hasHitWall = false;
+        switch(MainGame.currentMenu) {
+            case MainMenu:
+                break;
+            case LevelSelection:
+                break;
+            case Level:
+                FirstLevel.setDirectionVectorUp();
+                FirstLevel.hasHitWall = false;
+                break;
+            case Settings:
+                break;
+            case Highscore:
+                break;
+            case Statistics:
+                break;
+            case None:
+                break;
         }
         return true;
     }

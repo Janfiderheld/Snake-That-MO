@@ -51,6 +51,7 @@ public class TouchInputProcessor implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         switch(MainGame.currentMenu) {
             case MainMenu:
+                checkMainMenuButtons(screenX, screenY);
                 break;
             case LevelSelection:
                 break;
@@ -68,6 +69,13 @@ public class TouchInputProcessor implements InputProcessor {
                 break;
         }
         return true;
+    }
+
+    /**
+     * checks which button of the mainMenu is used
+     */
+    private void checkMainMenuButtons(int screenPosX, int screenPosY) {
+        return;
     }
 
 

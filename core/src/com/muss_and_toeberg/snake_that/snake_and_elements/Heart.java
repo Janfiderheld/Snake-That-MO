@@ -1,4 +1,4 @@
-package com.muss_and_toeberg.snake_that.obstacles_and_elements;
+package com.muss_and_toeberg.snake_that.snake_and_elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,8 +12,8 @@ public class Heart {
 	private Texture currentImg; 
 
 	// textures for the hearts
-	public static Texture filledImg = new Texture(Gdx.files.internal("Heart_filled.png"));
-	public static Texture unfilledImg = new Texture(Gdx.files.internal("Heart_unfilled.png"));
+	private Texture filledImg = new Texture(Gdx.files.internal("texturesToKeep/Heart_filled.png"));
+    private Texture unfilledImg = new Texture(Gdx.files.internal("texturesToKeep/Heart_unfilled.png"));
 
     /**
      * fills the heart during its creation
@@ -40,7 +40,7 @@ public class Heart {
      * empties the heart
      */
 	public void unfillTheHeart() {
-		currentImg = Heart.unfilledImg;
+		currentImg = unfilledImg;
 		isFilled = false;
 	}
 
@@ -48,7 +48,7 @@ public class Heart {
      * fills the heart
      */
 	public void fillTheHeart() {
-		currentImg = Heart.filledImg;
+		currentImg = filledImg;
 		isFilled = true;
 	}		
 }

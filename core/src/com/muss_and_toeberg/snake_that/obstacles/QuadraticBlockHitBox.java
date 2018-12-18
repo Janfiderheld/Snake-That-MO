@@ -1,4 +1,4 @@
-package com.muss_and_toeberg.snake_that.obstacles_and_elements;
+package com.muss_and_toeberg.snake_that.obstacles;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;

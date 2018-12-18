@@ -2,10 +2,13 @@ package com.muss_and_toeberg.snake_that.levels_and_screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.muss_and_toeberg.snake_that.technical.Menu;
+import java.util.Locale;
 
 /**
  * MainGame
@@ -22,6 +25,8 @@ public class MainGame extends Game {
 
     // class variables
     public static Menu currentMenu;
+    private FileHandle languageFileHandler;
+    public static I18NBundle myLangBundle;
 
     /**
      * gets called once when the game is created
@@ -36,7 +41,14 @@ public class MainGame extends Game {
         camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
         batch.setProjectionMatrix(camera.combined);
 
-        font = new BitmapFont(Gdx.files.internal("Comic_Sans.fnt"));
+        font = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans.fnt"));
+
+        languageFileHandler = Gdx.files.internal("i18n/strings");
+        myLangBundle = I18NBundle.createBundle(languageFileHandler);
+
+        // Uncomment to check the german strings
+        // Locale loc = new Locale("de");
+        // myLangBundle = I18NBundle.createBundle(languageFileHandler, loc);
     }
 
     /**

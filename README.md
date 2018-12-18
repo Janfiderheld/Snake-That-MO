@@ -36,6 +36,9 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [Zusammenfassung der Apache 2.0 Lizenz](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)) (abgerufen am: 06.12.)
 - [Wechseln von Screens in LibGDX](https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx) (abgerufen am: 11.12.)
 - [Erweiterung des Beispiel-Spiels um Menüs](https://github.com/libgdx/libgdx/wiki/Extending-the-simple-game) (abgerufen am: 11.12.)
+- [StackOverflow: Datentyp eines generischen Objekts rausfinden](https://stackoverflow.com/questions/11798951/generic-type-of-local-variable-at-runtime) (abgerufen am: 16.12.)
+- [multi-linguale Strings mit libGDX](https://github.com/libgdx/libgdx/wiki/Internationalization-and-Localization) (abgerufen am: 18.12.)
+- [Erstellung von eigenen Exceptions](https://stackoverflow.com/questions/1754315/how-to-create-custom-exceptions-in-java) (abgerufen am: 18.12.)
 
 ### Bildquellen 
 
@@ -43,6 +46,8 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [NFC](https://nfc-reader.en.softonic.com/android) (abgerufen am: 27.11.)
 - [Bitcoin](https://addons.opera.com/de/extensions/details/bitcoin-monero-miner/) (abgerufen am: 27.11.)
 - [Ziegelstein-Block](https://soundimage.org/txr-brick-cartoon/) (abgerufen am: 07.12.)
+- [Pipes-Hintergrund](https://www.toptal.com/designers/subtlepatterns/pipes-pattern/) (abgerufen am: 18.12.)
+- [16 Seiten für lizenzfreie Bilder](https://v-play.net/game-resources/16-sites-featuring-free-game-graphics#_OpenGameArt.org) (abgerufen am: 18.12.)
 - Herz (gefüllt und ungefüllt): selbstgemacht
 - Grid-Hintergrund: ebenfalls selbstgemacht
 

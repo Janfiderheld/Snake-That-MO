@@ -1,7 +1,8 @@
-package com.muss_and_toeberg.snake_that.obstacles_and_elements;
+package com.muss_and_toeberg.snake_that.obstacles;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.muss_and_toeberg.snake_that.levels_and_screens.MainGame;
 import com.muss_and_toeberg.snake_that.technical.IsNoCircleException;
 
 /**
@@ -76,7 +77,7 @@ public class Obstacle<THitBoxType> {
      */
     public int getRadius() throws IsNoCircleException {
         if(hasRectangleHitBox) {
-            throw new IsNoCircleException();
+            throw new IsNoCircleException(MainGame.myLangBundle.get("errMsgNoCircle"));
         }
         return radius;
     }

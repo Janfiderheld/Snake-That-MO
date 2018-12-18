@@ -1,5 +1,6 @@
-package com.muss_and_toeberg.snake_that.obstacles_and_elements;
+package com.muss_and_toeberg.snake_that.snake_and_elements;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Circle;
 
@@ -11,8 +12,6 @@ import java.util.Random;
 public class Coin {
     // Texture for the image and the hitBox
     private Texture image;
-    private Texture imgNFC;
-    private Texture imgBitCoin;
     private Circle hitBox = new Circle();
 
     // Constant Values
@@ -126,16 +125,14 @@ public class Coin {
      * sets the local Texture to the BitCoin-Icon
      */
     private void setTextureToBitcoin() {
-        // image = new Texture(Gdx.files.internal("Bitcoin.png"));
-        image = imgBitCoin;
+        image = new Texture(Gdx.files.internal("texturesToChange/Bitcoin.png"));
     }
 
     /**
      * sets the local Texture to the NFC-Icon
      */
     private void setTextureToNFC() {
-        // image = new Texture(Gdx.files.internal("NFC.png"));
-        image = imgNFC;
+        image = new Texture(Gdx.files.internal("texturesToChange/NFC.png"));
     }
 
     /**
@@ -146,24 +143,9 @@ public class Coin {
     }
 
     /**
-     * disposes all (= also the internal) textures
+     * disposes the texture
      */
-    public void disposeAllTextures() {
+    public void disposeTexture() {
         image.dispose();
-        imgBitCoin.dispose();
-        imgNFC.dispose();
     }
-
-    // HACK
-    // Since I don't know how to access our assets (= the images) from this class,
-    // they are accessed by the LevelScreen and made into texture-objetcs there
-    // with these two methods, they can be set
-    public void setNFCTexture(Texture nfc) {
-        imgNFC = nfc;
-    }
-
-    public void setBitCoinTexture(Texture bitCoin) {
-        imgBitCoin = bitCoin;
-    }
-    // HACK
 }

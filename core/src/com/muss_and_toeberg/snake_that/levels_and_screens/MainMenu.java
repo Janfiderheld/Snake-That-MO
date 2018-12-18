@@ -2,6 +2,7 @@ package com.muss_and_toeberg.snake_that.levels_and_screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
 /**
@@ -26,6 +27,10 @@ public class MainMenu implements Screen {
      */
     @Override
     public void render(float delta) {
+        game.batch.begin();
+        game.batch.draw(new Texture("texturesToKeep/backgroundGrid.png"), 0, 0);
+        game.batch.end();
+
         if (Gdx.input.isTouched()){
             game.setScreen(new FirstLevel(game));
             dispose();

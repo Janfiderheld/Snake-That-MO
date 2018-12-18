@@ -1,4 +1,4 @@
-package com.muss_and_toeberg.snake_that.obstacles_and_elements;
+package com.muss_and_toeberg.snake_that.snake_and_elements;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +12,7 @@ public class Snake {
     public static final int BODY_PART_SIZE = 50;
     private final int BODY_PART_START_AMOUNT = 30;
     private final int ADD_WHEN_COLLECTED = 3;
-    private final int START_FOR_SUDOKU = 15;
+    private final int START_FOR_SUDOKU = 10;
     private final int BODY_PART_MAX_AMOUNT = 120;
     private final float BODY_PART_DISTANCE = 10;
 
@@ -188,19 +188,13 @@ public class Snake {
      * @return true if collision appears
      */
     public boolean checkSuicide() {
-        int startingValue = (currentNeck - START_FOR_SUDOKU)  % countBodyParts;
-        if (startingValue < 0){
-            startingValue += countBodyParts;
-        }
+        int startingValue = (currentNeck + START_FOR_SUDOKU)  % countBodyParts;
         int bodyPartsToCheck = countBodyParts - START_FOR_SUDOKU;
         int currentBodyPart = startingValue;
 
         for(int checkedBodyParts = 0; checkedBodyParts < bodyPartsToCheck; checkedBodyParts++) {
             bodyPartTemp = bodyParts.get(currentBodyPart);
-            currentBodyPart = (currentBodyPart - 1) % countBodyParts;
-            if (currentBodyPart < 0){
-                currentBodyPart += countBodyParts;
-            }
+            currentBodyPart = (currentBodyPart + 1) % countBodyParts;
             if(bodyPartTemp.overlaps(head)) {
                 return true;
             }

@@ -10,10 +10,10 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import com.muss_and_toeberg.snake_that.obstacles_and_elements.Coin;
-import com.muss_and_toeberg.snake_that.obstacles_and_elements.Heart;
-import com.muss_and_toeberg.snake_that.obstacles_and_elements.Snake;
-import com.muss_and_toeberg.snake_that.obstacles_and_elements.QuadraticBlockHitBox;
+import com.muss_and_toeberg.snake_that.snake_and_elements.Coin;
+import com.muss_and_toeberg.snake_that.snake_and_elements.Heart;
+import com.muss_and_toeberg.snake_that.snake_and_elements.Snake;
+import com.muss_and_toeberg.snake_that.obstacles.QuadraticBlockHitBox;
 import com.muss_and_toeberg.snake_that.technical.HitDirection;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 import com.muss_and_toeberg.snake_that.technical.TouchInputProcessor;
@@ -71,7 +71,9 @@ public class FirstLevel implements Screen {
     // class variables
     public static boolean hasHitWall = true;
     private static float speed = NORMAL_SPEED;
+    private boolean gameHasStarted;
     private static int coin_value;
+    private float sumOfTimes = 0;
 
     /**
      * Constructor which is used to create all objects that only need to be created once
@@ -92,16 +94,14 @@ public class FirstLevel implements Screen {
         }
 
         // for demonstration purposes: Brick instead of Waluigi
-        blockTexture = new Texture("Brick.png");
-        // blockTexture = new Texture("WaluigiBlock.png");
-        background = new Texture ("background.png");
-        coin.setNFCTexture(new Texture("NFC.png"));
-        coin.setBitCoinTexture(new Texture("Bitcoin.png"));
+        blockTexture = new Texture("texturesToKeep/Brick.png");
+        // blockTexture = new Texture("texturesToChange/WaluigiBlock.png");
+        background = new Texture ("texturesToKeep/backgroundPipes.png");
 
         randomizeNewCoin();
+        gameHasStarted = true;
 
         Gdx.gl.glClearColor((float)0.7, (float)0.7, (float)0.7, 0);
-        // MainGame.currentMenu = Menu.Level;
     }
 
     /**
@@ -117,14 +117,17 @@ public class FirstLevel implements Screen {
         }
         // HACK
 
+        if(!gameHasStarted) {
+            // TODO: Show Message to the player
+            return;
+        }
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Draw the Grid-Background (uncomment if required)
-		/*
 		game.batch.begin();
 		game.batch.draw(background, 0, 0);
 		game.batch.end();
-		*/
 
         snakeRenderer.setProjectionMatrix(game.camera.combined);
         // renders the snake
@@ -149,9 +152,8 @@ public class FirstLevel implements Screen {
         }
         game.batch.draw(blockTexture, BLOCK_X, BLOCK_Y);
         game.batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
-        // TODO: Make these strings multilingual
-        game.font.draw(game.batch, "Punkte: " + score, 5, TEXT_BEGIN_Y);
-        game.font.draw(game.batch, "Leben:", CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
+        game.font.draw(game.batch, game.myLangBundle.format("points", score), 5, TEXT_BEGIN_Y);
+        game.font.draw(game.batch, game.myLangBundle.get("lives"), CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
         game.batch.end();
 
         startTouchVector.x = snake.getMovementInX() + (Snake.BODY_PART_SIZE / 2);
@@ -182,7 +184,7 @@ public class FirstLevel implements Screen {
         checkCollisionWithWall();
         checkCollisionWithBlock();
         checkCollisionWithCoin();
-        checkCollisionWithSnakeBody();
+        checkCollisionWithSnakeBody(delta);
         checkCollisionWithObstacle();
 
         snake.increaseMovementVector();
@@ -195,7 +197,7 @@ public class FirstLevel implements Screen {
     @Override
     public void dispose() {
         blockTexture.dispose();
-        coin.disposeAllTextures();
+        coin.disposeTexture();
         snakeRenderer.dispose();
         for(int i = 0; i < HEART_AMOUNT; i++) {
             Heart tempHeart = hearts[i];
@@ -277,11 +279,17 @@ public class FirstLevel implements Screen {
 
     /**
      * checks if the snake collides with itself
+     * HACK: checks the time to keep the invincibility until the snake is completely unfolded
+     * @param deltaTime time since the last render
      */
-    private void checkCollisionWithSnakeBody() {
+    private void checkCollisionWithSnakeBody(float deltaTime) {
+        sumOfTimes += deltaTime;
         if(!snake.checkSuicide()) {
-            invincibilityOff = true;
+            if(sumOfTimes > 2f) {
+                invincibilityOff = true;
+            }
         } else {
+            sumOfTimes = 0;
             if(invincibilityOff && !Gdx.input.isTouched()) {
                 looseALive();
                 invincibilityOff = false;
@@ -304,7 +312,9 @@ public class FirstLevel implements Screen {
             Heart tempHeart = hearts[i];
             if(tempHeart.isFilled()) {
                 tempHeart.unfillTheHeart();
-                lives--;
+                if(--lives == 0) {
+                    looseTheGame();
+                }
                 return;
             }
         }
@@ -322,6 +332,17 @@ public class FirstLevel implements Screen {
                 return;
             }
         }
+    }
+
+    /**
+     * gets called when the player has lost his/her last live
+     * returns the player back to the main menu
+     */
+    private void looseTheGame() {
+        //TODO: save the score locally
+        gameHasStarted = false;
+        game.setScreen(new MainMenu(game));
+        dispose();
     }
 
     /**

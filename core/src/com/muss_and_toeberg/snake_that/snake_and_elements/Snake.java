@@ -17,7 +17,7 @@ public class Snake {
     private final float BODY_PART_DISTANCE = 10;
 
     // Snake HitBoxes
-    private Array<Rectangle> bodyParts = new Array<Rectangle>();
+    private Array<Rectangle> bodyParts;
     private Rectangle bodyPartTemp;
     private Rectangle head;
 
@@ -30,6 +30,7 @@ public class Snake {
     private int currentNeck = countBodyParts - 1;
 
     /**
+	 * TODO: Check the performance if a new rectangle Array is created every game - Maybe re-use the old one? (see Memory Management in Sources)
      * creates all the hitBoxes for the snake & sets the Vectors
      * @param startingDirection new starting direction
      * @param startingPosition new starting position
@@ -37,7 +38,8 @@ public class Snake {
     public void createSnake(Vector2 startingDirection, Vector2 startingPosition) {
         direction = startingDirection.cpy();
         movement = startingPosition.cpy();
-
+		
+		bodyParts = new Array<Rectangle>();
         head = createNewHitBox(movement.x, movement.y);
 
         for (int i = 0; i < countBodyParts; i++){
@@ -188,9 +190,8 @@ public class Snake {
      * @return true if collision appears
      */
     public boolean checkSuicide() {
-        int startingValue = (currentNeck + START_FOR_SUDOKU)  % countBodyParts;
+        int currentBodyPart = (currentNeck + START_FOR_SUDOKU)  % countBodyParts;
         int bodyPartsToCheck = countBodyParts - START_FOR_SUDOKU;
-        int currentBodyPart = startingValue;
 
         for(int checkedBodyParts = 0; checkedBodyParts < bodyPartsToCheck; checkedBodyParts++) {
             bodyPartTemp = bodyParts.get(currentBodyPart);

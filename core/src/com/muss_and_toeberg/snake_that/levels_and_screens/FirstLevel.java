@@ -33,6 +33,8 @@ public class FirstLevel implements Screen {
     final int TEXT_BEGIN_Y = CAMERA_HEIGHT - 15;
     final int BLOCK_X = (CAMERA_WIDTH / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
     final int BLOCK_Y = (CAMERA_HEIGHT / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
+    // set true if the invincibility Frames should be activated
+    final boolean DEBUG_INVINC_FRAMES = false;
 
     // Constant Values for the hearts
     final int HEART_AMOUNT = 3;
@@ -73,7 +75,7 @@ public class FirstLevel implements Screen {
     private static float speed = NORMAL_SPEED;
     private boolean gameHasStarted;
     private static int coin_value;
-    private float sumOfTimes = 0;
+    private float countInvincFrames = 0;
 
     /**
      * Constructor which is used to create all objects that only need to be created once
@@ -184,7 +186,7 @@ public class FirstLevel implements Screen {
         checkCollisionWithWall();
         checkCollisionWithBlock();
         checkCollisionWithCoin();
-        checkCollisionWithSnakeBody(delta);
+        checkCollisionWithSnakeBody();
         checkCollisionWithObstacle();
 
         snake.increaseMovementVector();
@@ -280,16 +282,15 @@ public class FirstLevel implements Screen {
     /**
      * checks if the snake collides with itself
      * HACK: checks the time to keep the invincibility until the snake is completely unfolded
-     * @param deltaTime time since the last render
      */
-    private void checkCollisionWithSnakeBody(float deltaTime) {
-        sumOfTimes += deltaTime;
+    private void checkCollisionWithSnakeBody() {
+        countInvincFrames++;
         if(!snake.checkSuicide()) {
-            if(sumOfTimes > 2f) {
+            if(countInvincFrames > snake.BODY_PART_SIZE / SLOW_SPEED || !DEBUG_INVINC_FRAMES) {
                 invincibilityOff = true;
             }
         } else {
-            sumOfTimes = 0;
+            countInvincFrames = 0;
             if(invincibilityOff && !Gdx.input.isTouched()) {
                 looseALive();
                 invincibilityOff = false;

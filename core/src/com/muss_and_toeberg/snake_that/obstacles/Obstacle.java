@@ -2,6 +2,7 @@ package com.muss_and_toeberg.snake_that.obstacles;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.Texture;
 import com.muss_and_toeberg.snake_that.levels_and_screens.MainGame;
 import com.muss_and_toeberg.snake_that.technical.IsNoCircleException;
 
@@ -9,12 +10,15 @@ import com.muss_and_toeberg.snake_that.technical.IsNoCircleException;
  * Parent-Class for the different obstacles
  * @param <THitBoxType> specifies the type of HitBox (if Rectangle or Circle)
  */
-public class Obstacle<THitBoxType> {
-    private THitBoxType hitBox;
+public abstract class Obstacle<THitBoxType> {
+	// coordinates & sizes
     private float xPos;
     private float yPos;
     private int size;
     private int radius;
+	// hitbox and texture
+	private THitBoxType hitBox;
+	private Texture image;
     private boolean hasRectangleHitBox;
 
     /**
@@ -23,10 +27,12 @@ public class Obstacle<THitBoxType> {
      * @param yPos position on the y-axis
      * @param size size of the obstacle
      */
-    public Obstacle(float xPos, float yPos, int size) {
+    public Obstacle(float xPos, float yPos, int size, Texture imgToShow) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.size = size;
+		image = imgToShow;
+		
         if(hitBox instanceof Rectangle) {
             hasRectangleHitBox = true;
         } else {
@@ -41,6 +47,13 @@ public class Obstacle<THitBoxType> {
     public THitBoxType getHitBox() {
         return hitBox;
     }
+	
+	/**
+	 * @return image to render as a texture
+	 */
+	public Texture getTexture() {
+		return image;
+	}
 
     /**
      * @return position on the x-axis
@@ -113,6 +126,13 @@ public class Obstacle<THitBoxType> {
         this.yPos = yPos;
         refreshHitBox();
     }
+	
+	/**
+	 * @param newImage new Texture to render
+	  */
+	public void setTexture(Texture newImage) {
+		image = newImage;
+	}
 
     /**
      * sets the size to the given value and refreshes the hitBox
@@ -143,7 +163,7 @@ public class Obstacle<THitBoxType> {
      */
     private void refreshHitBox() {
         if (hasRectangleHitBox) {
-            ((Rectangle)hitBox).set(xPos, yPos, size, size);
+            ((Rectangle) hitBox).set(xPos, yPos, size, size);
         } else {
             ((Circle) hitBox).set(xPos, yPos, radius);
         }

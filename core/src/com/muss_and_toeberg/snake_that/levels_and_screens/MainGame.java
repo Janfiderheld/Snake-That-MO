@@ -2,6 +2,8 @@ package com.muss_and_toeberg.snake_that.levels_and_screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,6 +20,7 @@ public class MainGame extends Game {
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public BitmapFont font;
+    public Music music;
 
     // constant values
     final int CAMERA_WIDTH = 1920;
@@ -40,6 +43,10 @@ public class MainGame extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
         batch.setProjectionMatrix(camera.combined);
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/despacito.mp3"));
+        music.setLooping(true);
+        music.play();
 
         font = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans.fnt"));
 

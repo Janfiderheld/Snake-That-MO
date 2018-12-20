@@ -2,6 +2,7 @@ package com.muss_and_toeberg.snake_that.levels_and_screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -52,6 +53,7 @@ public class FirstLevel implements Screen {
     private MainGame game;
     private Heart[] hearts = new Heart[HEART_AMOUNT];
     private Texture background;
+    private Sound stackSound;
 
     // Obstacles and Player Character
     private static Snake snake = new Snake();
@@ -99,6 +101,7 @@ public class FirstLevel implements Screen {
         blockTexture = new Texture("texturesToKeep/Brick.png");
         // blockTexture = new Texture("texturesToChange/WaluigiBlock.png");
         background = new Texture ("texturesToKeep/backgroundPipes.png");
+        stackSound = Gdx.audio.newSound(Gdx.files.internal("audio/oof.mp3"));
 
         randomizeNewCoin();
         gameHasStarted = true;
@@ -271,6 +274,7 @@ public class FirstLevel implements Screen {
     private void checkCollisionWithCoin() {
         if (Intersector.overlaps(coin.getHitBox(), snake.getHeadAsRectangle())) {
             snake.addNewBodyPart();
+            stackSound.play();
             score += coin_value;
             if(coin_value != coin.getPointsForNFC()) {
                 gainALive();

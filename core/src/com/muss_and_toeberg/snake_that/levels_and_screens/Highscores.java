@@ -33,6 +33,9 @@ public class Highscores implements Screen {
     Label.LabelStyle scoretableStyle;
     Table scoretable;
     Table menuTable;
+    Label[] names;
+    Label[] scores;
+    int[] points;
 
     /**
      * Constructor which is used to create all objects that only need to be created once
@@ -61,19 +64,22 @@ public class Highscores implements Screen {
         scoretableStyle = new Label.LabelStyle();
         scoretableStyle.font = font;    // for some reason I cant use game.font
 
-        //creates the Labels for the Scoretable
-        mainMenu_button = new TextButton("Main Menu", textButtonStyle);
-        Label label1 = new Label("1.",scoretableStyle);
-        Label label2 = new Label("2.",scoretableStyle);
-        Label label3 = new Label("3.",scoretableStyle);
-        Label label4 = new Label("4.",scoretableStyle);
-        Label label5 = new Label("5.",scoretableStyle);
+        //get the scores and names for the scoretable
+        points = new int[]{Integer.MAX_VALUE, 123456,1337,969,0};
 
-        Label score1 = new Label("99999999",scoretableStyle);
-        Label score2 = new Label("really good score.",scoretableStyle);
-        Label score3 = new Label("80085",scoretableStyle);
-        Label score4 = new Label("1337",scoretableStyle);
-        Label score5 = new Label("-132",scoretableStyle);
+        names = new Label[]{new Label("Integer",scoretableStyle),
+                new Label("J.Stalin",scoretableStyle),
+                new Label("Joseph S.",scoretableStyle),
+                new Label("Jan S.",scoretableStyle),
+                new Label("Guy Fieri",scoretableStyle)};
+
+        scores = new Label[]{new Label(String.valueOf(points[0]),scoretableStyle),
+                new Label(String.valueOf(points[1]),scoretableStyle),
+                new Label(String.valueOf(points[2]),scoretableStyle),
+                new Label(String.valueOf(points[3]),scoretableStyle),
+                new Label(String.valueOf(points[4]),scoretableStyle)};
+
+        mainMenu_button = new TextButton("Main Menu", textButtonStyle);
 
         //creates the tables
         scoretable = new Table();
@@ -83,26 +89,13 @@ public class Highscores implements Screen {
 
         //start of the score table
         scoretable.pad(0,400,200,0);
-        //first place
-        scoretable.add(label1);
-        scoretable.add(score1);
-        scoretable.row();
-        //second place
-        scoretable.add(label2);
-        scoretable.add(score2);
-        scoretable.row();
-        //third place
-        scoretable.add(label3);
-        scoretable.add(score3);
-        scoretable.row();
-        //fourth place
-        scoretable.add(label4);
-        scoretable.add(score4);
-        scoretable.row();
-        //fifth place
-        scoretable.add(label5);
-        scoretable.add(score5);
-        scoretable.row();
+
+        for (int i =0;i<5;i++){
+            scoretable.add(new Label(String.valueOf(i+1)+".",scoretableStyle));
+            scoretable.add(names[i]);
+            scoretable.add(scores[i]);
+            scoretable.row();
+        }
 
         //start of the Menutable
         menuTable.bottom();

@@ -59,6 +59,7 @@ public class FirstLevel implements Screen {
     private static Snake snake = new Snake();
     private Coin coin = new Coin();
     private Texture blockTexture;
+    private Texture hat;
     private QuadraticBlockHitBox block = new QuadraticBlockHitBox(BLOCK_X, BLOCK_Y);
 
     // all Vectors (2D) which are used
@@ -101,6 +102,7 @@ public class FirstLevel implements Screen {
         blockTexture = new Texture("texturesToKeep/Brick.png");
         // blockTexture = new Texture("texturesToChange/WaluigiBlock.png");
         background = new Texture ("texturesToKeep/backgroundPipes.png");
+        hat = new Texture("texturesToChange/Santahat.png");
         stackSound = Gdx.audio.newSound(Gdx.files.internal("audio/oof.mp3"));
 
         randomizeNewCoin();
@@ -157,6 +159,7 @@ public class FirstLevel implements Screen {
         }
         game.batch.draw(blockTexture, BLOCK_X, BLOCK_Y);
         game.batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
+        game.batch.draw(hat,snake.getXValueHead(),snake.getYValueHead()+Snake.BODY_PART_SIZE);
         game.font.draw(game.batch, game.myLangBundle.format("points", score), 5, TEXT_BEGIN_Y);
         game.font.draw(game.batch, game.myLangBundle.get("lives"), CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
         game.batch.end();

@@ -19,7 +19,8 @@ public class MainGame extends Game {
     // Objects which are used throughout the whole game
     public SpriteBatch batch;
     public OrthographicCamera camera;
-    public BitmapFont font;
+    public BitmapFont fontHUD;
+    public BitmapFont fontMainMenu;
     public Music music;
 
     // constant values
@@ -48,7 +49,8 @@ public class MainGame extends Game {
         music.setLooping(true);
         music.play();
 
-        font = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans.fnt"));
+        fontHUD = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans_HUD.fnt"));
+        fontMainMenu = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans_MainMenu.fnt"));
 
         languageFileHandler = Gdx.files.internal("i18n/strings");
         myLangBundle = I18NBundle.createBundle(languageFileHandler);

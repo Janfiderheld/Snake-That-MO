@@ -18,10 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
  */
 public class MainMenu implements Screen {
     private MainGame game;
-
-    //Buttons
-    TextButton start_button;
-    TextButton higscore_button;
+    final int NUMBER_OF_BUTTONS = 5;
 
     //Graphical Elements
     protected Stage stage;
@@ -44,26 +41,42 @@ public class MainMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         //creates the Style for the Buttons
-        font = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans.fnt"));
+        font = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans_MainMenu.fnt"));
         skin = new Skin();
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
         textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = font;   // for some reason I cant use game.font
+        textButtonStyle.font = font;   // for some reason I cant use game.fontHUD
         textButtonStyle.up = skin.getDrawable("up-button");
         textButtonStyle.down = skin.getDrawable("down-button");
         textButtonStyle.checked = skin.getDrawable("checked-button");
 
         //create the Buttons
-        start_button = new TextButton("Start Game", textButtonStyle);
-        higscore_button = new TextButton("Highscores",textButtonStyle);
+        /* For some reason you can't get the text from the resource bundles
+        TextButton start_button = new TextButton(game.myLangBundle.get("startGame"), textButtonStyle);
+        TextButton highscore_button = new TextButton(game.myLangBundle.get("score"), textButtonStyle);
+        TextButton stats_button = new TextButton(game.myLangBundle.get("stats"), textButtonStyle);
+        TextButton settings_button = new TextButton(game.myLangBundle.get("settings"), textButtonStyle);
+        TextButton quit_button = new TextButton(game.myLangBundle.get("quit"), textButtonStyle);
+        */
+
+        TextButton start_button = new TextButton("Start game", textButtonStyle);
+        TextButton highscore_button = new TextButton("Highscore", textButtonStyle);
+        TextButton stats_button = new TextButton("Statistics", textButtonStyle);
+        TextButton settings_button = new TextButton("Settings", textButtonStyle);
+        TextButton quit_button = new TextButton("Quit game", textButtonStyle);
+
+        float buttonWidth = game.CAMERA_WIDTH / NUMBER_OF_BUTTONS;
 
         //adds all the Elements into a Table
         menuTable = new Table();
         menuTable.bottom();
         menuTable.left();
-        menuTable.add(start_button);              // Row 0, column 0
-        menuTable.add(higscore_button);           // Row 0, column 1
+        menuTable.add(start_button).width(buttonWidth);              // Row 0, column 0
+        menuTable.add(highscore_button).width(buttonWidth);          // Row 0, column 1
+        menuTable.add(stats_button).width(buttonWidth);          // Row 0, column 2
+        menuTable.add(settings_button).width(buttonWidth);           // Row 0, column 3
+        menuTable.add(quit_button).width(buttonWidth);               // Row 0, column 4
 
         //add the Table to the Stage
         stage.addActor(menuTable);
@@ -77,10 +90,34 @@ public class MainMenu implements Screen {
             }
         });
 
-        higscore_button.addListener(new ChangeListener() {
+        highscore_button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.setScreen(new Highscores(game));
+                dispose();
+            }
+        });
+
+        stats_button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new Statistics(game));
+                dispose();
+            }
+        });
+
+        settings_button.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.setScreen(new Settings(game));
+                dispose();
+            }
+        });
+
+        quit_button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
                 dispose();
             }
         });
@@ -93,17 +130,15 @@ public class MainMenu implements Screen {
      */
     @Override
     public void render(float delta) {
-
         game.batch.begin();
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //game.batch.draw(new Texture("texturesToKeep/backgroundGrid.png"), 0, 0);
-        game.font.draw(game.batch, "Welcome to Snake_That!!! ", 200, 800);
+        game.fontHUD.draw(game.batch, "Welcome to Snake That! ", 200, 800);
         game.batch.end();
         stage.draw();
         game.camera.update();
     }
-
 
     // currently not used implements of Screen
     @Override

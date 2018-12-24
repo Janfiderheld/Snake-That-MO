@@ -50,22 +50,22 @@ public class Highscores implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         //creates the Style for the Buttons
-        font = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans.fnt"));
+        font = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans_HUD.fnt"));
         skin = new Skin();
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
         textButtonStyle = new TextButtonStyle();
-        textButtonStyle.font = font;    // for some reason I cant use game.font
+        textButtonStyle.font = font;    // for some reason I cant use game.fontHUD
         textButtonStyle.up = skin.getDrawable("up-button");
         textButtonStyle.down = skin.getDrawable("down-button");
         textButtonStyle.checked = skin.getDrawable("checked-button");
 
         //create the Style for the Scoretable
         scoretableStyle = new Label.LabelStyle();
-        scoretableStyle.font = font;    // for some reason I cant use game.font
+        scoretableStyle.font = font;    // for some reason I cant use game.fontHUD
 
         //get the scores and names for the scoretable
-        points = new int[]{Integer.MAX_VALUE, 123456,1337,969,0};
+        points = new int[]{Integer.MAX_VALUE, 123456, 1337, 969, 0};
 
         names = new Label[]{new Label("Integer",scoretableStyle),
                 new Label("J.Stalin",scoretableStyle),

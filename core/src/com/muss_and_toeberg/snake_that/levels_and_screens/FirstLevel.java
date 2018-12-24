@@ -158,8 +158,8 @@ public class FirstLevel implements Screen {
         game.batch.draw(blockTexture, BLOCK_X, BLOCK_Y);
         game.batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
         game.batch.draw(hat,snake.getXValueHead(),snake.getYValueHead()+Snake.BODY_PART_SIZE);
-        game.font.draw(game.batch, game.myLangBundle.format("points", score), 5, TEXT_BEGIN_Y);
-        game.font.draw(game.batch, game.myLangBundle.get("lives"), CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
+        game.fontHUD.draw(game.batch, game.myLangBundle.format("points", score), 5, TEXT_BEGIN_Y);
+        game.fontHUD.draw(game.batch, game.myLangBundle.get("lives"), CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
         game.batch.end();
 
         startTouchVector.x = snake.getMovementInX() + (Snake.BODY_PART_SIZE / 2);

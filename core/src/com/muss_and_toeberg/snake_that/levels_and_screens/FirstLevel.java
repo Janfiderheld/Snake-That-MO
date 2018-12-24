@@ -34,8 +34,6 @@ public class FirstLevel implements Screen {
     final int TEXT_BEGIN_Y = CAMERA_HEIGHT - 15;
     final int BLOCK_X = (CAMERA_WIDTH / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
     final int BLOCK_Y = (CAMERA_HEIGHT / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
-    // set true if the invincibility Frames should be activated
-    final boolean DEBUG_INVINC_FRAMES = false;
 
     // Constant Values for the hearts
     final int HEART_AMOUNT = 3;
@@ -71,14 +69,14 @@ public class FirstLevel implements Screen {
     private Random rndGenerator = new Random();
     private int lives = HEART_AMOUNT;
     private int score = 0;
-    private boolean invincibilityOff = true;
+    private boolean invincibilityOn = true;
+    private float countInvincFrames = 0;
+    private boolean gameHasStarted;
 
     // class variables
     public static boolean hasHitWall = true;
     private static float speed = NORMAL_SPEED;
-    private boolean gameHasStarted;
     private static int coin_value;
-    private float countInvincFrames = 0;
 
     /**
      * Constructor which is used to create all objects that only need to be created once
@@ -293,14 +291,18 @@ public class FirstLevel implements Screen {
     private void checkCollisionWithSnakeBody() {
         countInvincFrames++;
         if(!snake.checkSuicide()) {
-            if(countInvincFrames > snake.BODY_PART_SIZE / SLOW_SPEED || !DEBUG_INVINC_FRAMES) {
-                invincibilityOff = true;
+            if(countInvincFrames > snake.BODY_PART_SIZE / SLOW_SPEED) {
+                invincibilityOn = false;
             }
         } else {
             countInvincFrames = 0;
-            if(invincibilityOff && !Gdx.input.isTouched()) {
-                looseALive();
-                invincibilityOff = false;
+            if(Gdx.input.isTouched()) {
+                invincibilityOn = true;
+            } else {
+                if(!invincibilityOn) {
+                    looseALive();
+                    invincibilityOn = true;
+                }
             }
         }
     }
@@ -349,6 +351,8 @@ public class FirstLevel implements Screen {
     private void looseTheGame() {
         //TODO: save the score locally
         gameHasStarted = false;
+        hasHitWall = true;
+        countInvincFrames = 0;
         game.setScreen(new MainMenu(game));
         dispose();
     }

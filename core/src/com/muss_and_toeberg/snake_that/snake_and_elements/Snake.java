@@ -40,6 +40,8 @@ public class Snake {
         movement = startingPosition.cpy();
 		
 		bodyParts = new Array<Rectangle>();
+		countBodyParts = BODY_PART_START_AMOUNT;
+		currentNeck = countBodyParts - 1;
         head = createNewHitBox(movement.x, movement.y);
 
         for (int i = 0; i < countBodyParts; i++){

@@ -98,10 +98,9 @@ public class FirstLevel implements Screen {
 
         // for demonstration purposes: Brick instead of Waluigi
         blockTexture = new Texture("texturesToKeep/Brick.png");
-        // blockTexture = new Texture("texturesToChange/WaluigiBlock.png");
         background = new Texture ("texturesToKeep/backgroundPipes.png");
         hat = new Texture("texturesToChange/Santahat.png");
-        stackSound = Gdx.audio.newSound(Gdx.files.internal("audio/oof.mp3"));
+        stackSound = Gdx.audio.newSound(Gdx.files.internal("audioToChange/oof.mp3"));
 
         randomizeNewCoin();
         gameHasStarted = true;
@@ -137,7 +136,7 @@ public class FirstLevel implements Screen {
         snakeRenderer.setProjectionMatrix(game.camera.combined);
         // renders the snake
         snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        snakeRenderer.setColor(0, 1, 1, 1);
+        snakeRenderer.setColor(Snake.getColor());
         snakeRenderer.rect(snake.getXValueHead(), snake.getYValueHead(), Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
         for (Iterator<Rectangle> iter = snake.getBody().iterator(); iter.hasNext(); ) {
             Rectangle body = iter.next();
@@ -157,9 +156,11 @@ public class FirstLevel implements Screen {
         }
         game.batch.draw(blockTexture, BLOCK_X, BLOCK_Y);
         game.batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
-        game.batch.draw(hat,snake.getXValueHead(),snake.getYValueHead()+Snake.BODY_PART_SIZE);
-        game.fontHUD.draw(game.batch, game.myLangBundle.format("points", score), 5, TEXT_BEGIN_Y);
-        game.fontHUD.draw(game.batch, game.myLangBundle.get("lives"), CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
+        if(Settings.christmasTheme) {
+            game.batch.draw(hat, snake.getXValueHead(),snake.getYValueHead() + Snake.BODY_PART_SIZE);
+        }
+        game.fontHUD.draw(game.batch, MainGame.myLangBundle.format("points", score), 5, TEXT_BEGIN_Y);
+        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("lives"), CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
         game.batch.end();
 
         startTouchVector.x = snake.getMovementInX() + (Snake.BODY_PART_SIZE / 2);
@@ -275,7 +276,9 @@ public class FirstLevel implements Screen {
     private void checkCollisionWithCoin() {
         if (Intersector.overlaps(coin.getHitBox(), snake.getHeadAsRectangle())) {
             snake.addNewBodyPart();
-            stackSound.play();
+            if(Settings.soundTurnedOn) {
+                stackSound.play();
+            }
             score += coin_value;
             if(coin_value != coin.getPointsForNFC()) {
                 gainALive();

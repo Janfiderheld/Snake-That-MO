@@ -27,9 +27,6 @@ public class Highscores implements Screen {
 
     //Graphical Elements
     protected Stage stage;
-    BitmapFont font;
-    TextureAtlas buttonAtlas;
-    Skin skin;
     Label.LabelStyle scoretableStyle;
     Table scoretable;
     Table menuTable;
@@ -49,20 +46,9 @@ public class Highscores implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        //creates the Style for the Buttons
-        font = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans_HUD.fnt"));
-        skin = new Skin();
-        buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
-        skin.addRegions(buttonAtlas);
-        textButtonStyle = new TextButtonStyle();
-        textButtonStyle.font = font;    // for some reason I cant use game.fontHUD
-        textButtonStyle.up = skin.getDrawable("up-button");
-        textButtonStyle.down = skin.getDrawable("down-button");
-        textButtonStyle.checked = skin.getDrawable("checked-button");
-
         //create the Style for the Scoretable
         scoretableStyle = new Label.LabelStyle();
-        scoretableStyle.font = font;    // for some reason I cant use game.fontHUD
+        scoretableStyle.font = game.fontHUD;
 
         //get the scores and names for the scoretable
         points = new int[]{Integer.MAX_VALUE, 123456, 1337, 969, 0};
@@ -79,7 +65,7 @@ public class Highscores implements Screen {
                 new Label(String.valueOf(points[3]),scoretableStyle),
                 new Label(String.valueOf(points[4]),scoretableStyle)};
 
-        mainMenu_button = new TextButton("Main Menu", textButtonStyle);
+        mainMenu_button = new TextButton("Main Menu", MainGame.btnStyleMainMenuFont);
 
         //creates the tables
         scoretable = new Table();

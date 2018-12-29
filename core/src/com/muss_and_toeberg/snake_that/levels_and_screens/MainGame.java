@@ -3,11 +3,13 @@ package com.muss_and_toeberg.snake_that.levels_and_screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 import java.util.Locale;
@@ -27,17 +29,19 @@ public class MainGame extends Game {
     final int CAMERA_WIDTH = 1920;
     final int CAMERA_HEIGHT = 1080;
 
-    // class variables
+    // static objects
     public static Menu currentMenu;
-    private FileHandle languageFileHandler;
     public static I18NBundle myLangBundle;
+    public static TextButton.TextButtonStyle btnStyleMainMenuFont;
+
+    // objects
+    private FileHandle languageFileHandler;
 
     /**
      * gets called once when the game is created
      */
     @Override
     public void create() {
-        this.setScreen(new MainMenu(this));
         batch = new SpriteBatch();
         currentMenu = Menu.None;
 
@@ -45,7 +49,8 @@ public class MainGame extends Game {
         camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
         batch.setProjectionMatrix(camera.combined);
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("audio/despacito.mp3"));
+        // music = Gdx.audio.newMusic(Gdx.files.internal("audioToChange/despacito.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("audioToKeep/background.mp3"));
         music.setLooping(true);
         music.play();
 
@@ -55,9 +60,28 @@ public class MainGame extends Game {
         languageFileHandler = Gdx.files.internal("i18n/strings");
         myLangBundle = I18NBundle.createBundle(languageFileHandler);
 
+        createButtonStyleMainMenuFont();
+
+        this.setScreen(new MainMenu(this));
+
         // Uncomment to check the german strings
         // Locale loc = new Locale("de");
         // myLangBundle = I18NBundle.createBundle(languageFileHandler, loc);
+    }
+
+    /**
+     * creates the button style with the mainMenu font
+     */
+    private void createButtonStyleMainMenuFont() {
+        Skin skin = new Skin();
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsControl.pack"));
+        skin.addRegions(buttonAtlas);
+
+        btnStyleMainMenuFont = new TextButton.TextButtonStyle();
+        btnStyleMainMenuFont.font = fontMainMenu;
+        btnStyleMainMenuFont.up = skin.getDrawable("up-button");
+        btnStyleMainMenuFont.down = skin.getDrawable("down-button");
+        btnStyleMainMenuFont.checked = skin.getDrawable("checked-button");
     }
 
     /**

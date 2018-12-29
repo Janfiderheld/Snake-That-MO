@@ -39,15 +39,17 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [StackOverflow: Datentyp eines generischen Objekts rausfinden](https://stackoverflow.com/questions/11798951/generic-type-of-local-variable-at-runtime) (abgerufen am: 16.12.)
 - [libGDX: multi-linguale Strings](https://github.com/libgdx/libgdx/wiki/Internationalization-and-Localization) (abgerufen am: 18.12.)
 - [StackOverflow: Erstellung von eigenen Exceptions](https://stackoverflow.com/questions/1754315/how-to-create-custom-exceptions-in-java) (abgerufen am: 18.12.)
+- [libGDX: Umgang mit Tabellen](https://github.com/libgdx/libgdx/wiki/Table) (abgerufen am: 29.12.)
+- [Texturen mit libGDX packen](http://www.programmingmoney.com/libgdx-texturepacker-tutorial/) (abgerufen am: 29.12.)
 
-### Bildquellen 
+### Bild- & Audioquellen
 
-- [Waluigi](http://www.softicons.com/game-icons/super-mario-blocks-icons-by-dannysp/waluigi-block-icon) (abgerufen am: 20.11.)
 - [NFC](https://nfc-reader.en.softonic.com/android) (abgerufen am: 27.11.)
 - [Bitcoin](https://addons.opera.com/de/extensions/details/bitcoin-monero-miner/) (abgerufen am: 27.11.)
 - [Ziegelstein-Block](https://soundimage.org/txr-brick-cartoon/) (abgerufen am: 07.12.)
 - [Pipes-Hintergrund](https://www.toptal.com/designers/subtlepatterns/pipes-pattern/) (abgerufen am: 18.12.)
 - [16 Seiten für lizenzfreie Bilder](https://v-play.net/game-resources/16-sites-featuring-free-game-graphics#_OpenGameArt.org) (abgerufen am: 18.12.)
+- [Hintergrundmusik: Magical Getaway] (http://soundimage.org/wp-content/uploads/2016/08/Magical-Getaway_Looping.mp3) (abgerufen am: 29.12.)
 - Herz (gefüllt und ungefüllt): selbstgemacht
 - Grid-Hintergrund: ebenfalls selbstgemacht
 

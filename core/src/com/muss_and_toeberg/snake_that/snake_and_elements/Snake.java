@@ -1,8 +1,10 @@
 package com.muss_and_toeberg.snake_that.snake_and_elements;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.muss_and_toeberg.snake_that.technical.SnakeColor;
 
 /**
  * Represents the snake (= player character)
@@ -21,6 +23,10 @@ public class Snake {
     private Rectangle bodyPartTemp;
     private Rectangle head;
 
+    // Color as a class object
+    private static SnakeColor colorAsEnum = SnakeColor.Cyan;
+    private static Color color = SnakeColor.createColor(colorAsEnum);
+
     // 2D-Vectors
     private Vector2 direction;
     private Vector2 movement;
@@ -30,7 +36,6 @@ public class Snake {
     private int currentNeck = countBodyParts - 1;
 
     /**
-	 * TODO: Check the performance if a new rectangle Array is created every game - Maybe re-use the old one? (see Memory Management in Sources)
      * creates all the hitBoxes for the snake & sets the Vectors
      * @param startingDirection new starting direction
      * @param startingPosition new starting position
@@ -64,6 +69,29 @@ public class Snake {
      */
     public float getYValueHead() {
         return head.y;
+    }
+
+    /**
+     * @return current Color of the snake
+     */
+    public static Color getColor() {
+        return color;
+    }
+
+    /**
+     * @return current Color of the snake as an enum entry
+     */
+    public static SnakeColor getColorAsEnum() {
+        return colorAsEnum;
+    }
+
+    /**
+     * sets the color of the snake
+     * @param col enum representative of the color
+     */
+    public static void setColorByRGB(SnakeColor col) {
+        colorAsEnum = col;
+        color = SnakeColor.createColor(col);
     }
 
     /**

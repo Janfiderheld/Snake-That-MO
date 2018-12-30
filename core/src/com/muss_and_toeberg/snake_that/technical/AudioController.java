@@ -21,7 +21,7 @@ public class AudioController {
     public AudioController() {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/background.mp3"));
         backgroundMusic.setLooping(true);
-        backgroundMusic.play();
+        startBackgroundMusic();
 
         pointsGet = Gdx.audio.newSound(Gdx.files.internal("audio/pointCoin.mp3"));
         explosion = Gdx.audio.newSound(Gdx.files.internal("audio/explosion.mp3"));

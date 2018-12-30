@@ -38,7 +38,7 @@ public class Settings implements Screen {
     public static boolean soundTurnedOn = true;
     public static boolean christmasTheme = true;
     // TODO: Add the possibility to change the player name
-    public static String playerName = MainGame.myLangBundle.get("player");
+    public static String playerName = "";
 
     // variables
     private float headerStartX;
@@ -54,6 +54,8 @@ public class Settings implements Screen {
 
         headerStartX = game.CAMERA_WIDTH / 2 - 200;
         headerStartY = game.CAMERA_HEIGHT - 25;
+
+        playerName = MainGame.myLangBundle.get("player");
 
         // creates the Stage
         stage = new Stage();

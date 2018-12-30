@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.muss_and_toeberg.snake_that.levels_and_screens.MainGame;
+import com.muss_and_toeberg.snake_that.screens.MainGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

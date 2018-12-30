@@ -44,14 +44,16 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 
 ### Bild- & Audioquellen
 
-- [NFC](https://nfc-reader.en.softonic.com/android) (abgerufen am: 27.11.)
-- [Bitcoin](https://addons.opera.com/de/extensions/details/bitcoin-monero-miner/) (abgerufen am: 27.11.)
 - [Ziegelstein-Block](https://soundimage.org/txr-brick-cartoon/) (abgerufen am: 07.12.)
 - [Pipes-Hintergrund](https://www.toptal.com/designers/subtlepatterns/pipes-pattern/) (abgerufen am: 18.12.)
-- [16 Seiten für lizenzfreie Bilder](https://v-play.net/game-resources/16-sites-featuring-free-game-graphics#_OpenGameArt.org) (abgerufen am: 18.12.)
-- [Hintergrundmusik: Magical Getaway] (http://soundimage.org/wp-content/uploads/2016/08/Magical-Getaway_Looping.mp3) (abgerufen am: 29.12.)
+- [Hintergrundmusik: Magical Getaway](http://soundimage.org/wp-content/uploads/2016/08/Magical-Getaway_Looping.mp3) (abgerufen am: 29.12.)
+- [Geräusch beim Einsammeln von Punkten](http://soundimage.org/wp-content/uploads/2016/04/UI_Quirky1.mp3) (abgerufen am: 30.12.)
+- [Explosion beim Berühren eines Fasses](http://soundimage.org/wp-content/uploads/2016/04/Explosion1.mp3) (abgerufen am: 30.12.)
+- [Lebensverlust](http://soundimage.org/wp-content/uploads/2016/04/Laser-Ricochet3.mp3) (abgerufen am: 30.12.)
+- [Leben dazu](http://soundimage.org/wp-content/uploads/2016/04/SynthChime6.mp3) (abgerufen am: 30.12.)
 - Herz (gefüllt und ungefüllt): selbstgemacht
-- Grid-Hintergrund: ebenfalls selbstgemacht
+- Coins (Leben & Punkte): selbstgemacht
+- Fass (explosiv): selbstgemacht
 
 ### Programmier-Konventionen
 

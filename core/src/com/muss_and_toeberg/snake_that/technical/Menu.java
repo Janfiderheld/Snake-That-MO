@@ -10,5 +10,6 @@ public enum Menu {
     Level,
     Highscore,
     Statistics,
+    Credits,
     None
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.muss_and_toeberg.snake_that.game_objects.Coin;
 import com.muss_and_toeberg.snake_that.game_objects.Heart;
 import com.muss_and_toeberg.snake_that.game_objects.Snake;
+import com.muss_and_toeberg.snake_that.game_objects.obstacles.ExplodingBarrel;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.QuadraticBlockHitBox;
 import com.muss_and_toeberg.snake_that.screens.MainGame;
 import com.muss_and_toeberg.snake_that.screens.MainMenu;
@@ -36,6 +37,8 @@ public class Level01 implements Screen {
     final int TEXT_BEGIN_Y = CAMERA_HEIGHT - 15;
     final int BLOCK_X = (CAMERA_WIDTH / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
     final int BLOCK_Y = (CAMERA_HEIGHT / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
+    final int BARREL_START_X = 1530;
+    final int BARREL_START_Y = 124;
 
     // Constant Values for the hearts
     final int HEART_AMOUNT = 3;
@@ -53,6 +56,7 @@ public class Level01 implements Screen {
     private MainGame game;
     private Heart[] hearts = new Heart[HEART_AMOUNT];
     private Texture background;
+    private ExplodingBarrel barrel = new ExplodingBarrel(BARREL_START_X, BARREL_START_Y);
 
     // Obstacles and Player Character
     private static Snake snake = new Snake();
@@ -155,6 +159,9 @@ public class Level01 implements Screen {
         }
         game.batch.draw(blockTexture, BLOCK_X, BLOCK_Y);
         game.batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
+        if(!barrel.checkExploded()) {
+            game.batch.draw(barrel.getTexture(), barrel.getXPosition(), barrel.getYPosition());
+        }
         if(Settings.christmasTheme) {
             game.batch.draw(hat, snake.getXValueHead(),snake.getYValueHead() + Snake.BODY_PART_SIZE);
         }
@@ -205,6 +212,7 @@ public class Level01 implements Screen {
         blockTexture.dispose();
         coin.disposeTexture();
         snakeRenderer.dispose();
+        barrel.dispose();
         for(int i = 0; i < HEART_AMOUNT; i++) {
             Heart tempHeart = hearts[i];
             tempHeart.getImage().dispose();
@@ -300,7 +308,7 @@ public class Level01 implements Screen {
                 invincibilityOn = true;
             } else {
                 if(!invincibilityOn) {
-                    looseALive();
+                    looseALive(true);
                     invincibilityOn = true;
                 }
             }
@@ -311,18 +319,28 @@ public class Level01 implements Screen {
      * checks if the snake collides with one of the Obstacles
      */
     private void checkCollisionWithObstacle() {
-        // TODO: Fill with collision detection when obstacles are added
+        if(barrel.checkIfCanExplode(snake.getHeadAsRectangle())) {
+            game.soundControl.playExplosionSound();
+            barrel.explode(score);
+            looseALive(false);
+            return;
+        }
+        if(barrel.checkExploded() && score - barrel.getPointsLastExplosion() >= barrel.POINTS_NEW_BARREL) {
+            addNewBarrel();
+        }
     }
 
     /**
      * player looses a live and one heart gets unfilled
      */
-    private void looseALive() {
+    private void looseALive(boolean shouldPlaySound) {
         for(int i = 0; i < HEART_AMOUNT; i++) {
             Heart tempHeart = hearts[i];
             if(tempHeart.isFilled()) {
                 tempHeart.emptyTheHeart();
-                game.soundControl.playLiveLoosingSound();
+                if(shouldPlaySound) {
+                    game.soundControl.playLiveLoosingSound();
+                }
                 if(--lives == 0) {
                     looseTheGame();
                 }
@@ -357,6 +375,28 @@ public class Level01 implements Screen {
         countInvincFrames = 0;
         game.setScreen(new MainMenu(game));
         dispose();
+    }
+
+    /**
+     * changes the position of the barrel
+     */
+    private void addNewBarrel() {
+        int barrelX = rndGenerator.nextInt(CAMERA_WIDTH  - (barrel.getSize() + QuadraticBlockHitBox.HIT_BOX_SIZE + barrel.getRadius()));
+        if(barrelX > BLOCK_X - barrel.getRadius() - 1) {
+            barrelX += QuadraticBlockHitBox.HIT_BOX_SIZE + barrel.getSize() + 1;
+        } else if (barrelX < barrel.getRadius()) {
+            barrelX += barrel.getRadius();
+        }
+
+        int barrelY = rndGenerator.nextInt(CAMERA_HEIGHT - (barrel.getSize() + QuadraticBlockHitBox.HIT_BOX_SIZE + SIZE_OF_HUD + barrel.getRadius() + 1));
+        if(barrelY >= BLOCK_Y - barrel.getRadius() - 1) {
+            barrelY += QuadraticBlockHitBox.HIT_BOX_SIZE + barrel.getSize() + 1;
+        } else if (barrelY < barrel.getRadius()) {
+            barrelY += barrel.getRadius();
+        }
+
+        barrel.setPosition(barrelX, barrelY);
+        barrel.setExplodedState(false);
     }
 
     /**

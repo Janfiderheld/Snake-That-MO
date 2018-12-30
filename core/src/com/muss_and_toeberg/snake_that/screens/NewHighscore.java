@@ -47,9 +47,10 @@ public class NewHighscore implements Screen {
         TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsControl.pack"));
         skin.addRegions(buttonAtlas);
         textfieldstyle = new TextField.TextFieldStyle();
-        textfieldstyle.font = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans_HUD.fnt"));
+        textfieldstyle.font = new BitmapFont(Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
         textfieldstyle.fontColor = new Color(0,0,0,1);
-        textfieldstyle.background = skin.getDrawable("checked-button"); //TODO: Textfield drawable
+        //TODO: Textfield drawable
+        textfieldstyle.background = skin.getDrawable("checked-button");
 
         textfield = new TextField("",textfieldstyle);
         textfield.setMessageText("Your Name");

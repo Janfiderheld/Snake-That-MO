@@ -116,7 +116,7 @@ public class MainMenu implements Screen {
         game.batch.begin();
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("headerMM"), 200, 800);
+        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("headerMM"), 100, 800);
         game.batch.end();
         stage.draw();
         game.camera.update();

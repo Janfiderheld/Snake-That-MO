@@ -3,10 +3,6 @@ package com.muss_and_toeberg.snake_that.game_objects.obstacles;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.Texture;
-import com.muss_and_toeberg.snake_that.screens.MainGame;
-import com.muss_and_toeberg.snake_that.technical.IsNoCircleException;
-
-// TODO: Create the Barrel as a subclass
 
 /**
  * Parent-Class for the different obstacles
@@ -37,10 +33,13 @@ public abstract class Obstacle<THitBoxType> {
 		
         if(hitBox instanceof Rectangle) {
             hasRectangleHitBox = true;
+            hitBox = (THitBoxType) new Rectangle();
         } else {
             hasRectangleHitBox = false;
+            hitBox = (THitBoxType) new Circle();
             this.radius = size / 2;
         }
+        refreshHitBox();
     }
 
     /**
@@ -87,14 +86,15 @@ public abstract class Obstacle<THitBoxType> {
     }
 
     /**
-     * @return radius of the obstacle
-     * @throws Exception when the obstacle is a rectangle (= has no radius)
+     * @return radius of the obstacle or 0 if it is no circle
      */
-    public int getRadius() throws IsNoCircleException {
-        if(hasRectangleHitBox) {
-            throw new IsNoCircleException(MainGame.myLangBundle.get("errMsgNoCircle"));
+    public int getRadius() {
+        if(!hasRectangleHitBox) {
+            return radius;
+        } else {
+            return 0;
         }
-        return radius;
+
     }
 
     /**
@@ -125,6 +125,17 @@ public abstract class Obstacle<THitBoxType> {
      *  @param yPos new position on the y-axis
      */
     public void setYPosition(float yPos) {
+        this.yPos = yPos;
+        refreshHitBox();
+    }
+
+    /**
+     * sets the current position to the given value and refreshes the hitBox
+     * @param xPos new position on the x-axis
+     * @param yPos new position on the y-axis
+     */
+    public void setPosition(float xPos, float yPos) {
+        this.xPos = xPos;
         this.yPos = yPos;
         refreshHitBox();
     }
@@ -169,5 +180,12 @@ public abstract class Obstacle<THitBoxType> {
         } else {
             ((Circle) hitBox).set(xPos, yPos, radius);
         }
+    }
+
+    /**
+     * disposes the texture
+     */
+    public void dispose() {
+        image.dispose();
     }
 }

@@ -14,8 +14,10 @@ import com.muss_and_toeberg.snake_that.game_objects.Coin;
 import com.muss_and_toeberg.snake_that.game_objects.Heart;
 import com.muss_and_toeberg.snake_that.game_objects.Snake;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.QuadraticBlockHitBox;
+import com.muss_and_toeberg.snake_that.screens.Highscores;
 import com.muss_and_toeberg.snake_that.screens.MainGame;
 import com.muss_and_toeberg.snake_that.screens.MainMenu;
+import com.muss_and_toeberg.snake_that.screens.NewHighscore;
 import com.muss_and_toeberg.snake_that.screens.Settings;
 import com.muss_and_toeberg.snake_that.technical.HitDirection;
 import com.muss_and_toeberg.snake_that.technical.Menu;
@@ -355,7 +357,12 @@ public class Level01 implements Screen {
         gameHasStarted = false;
         hasHitWall = true;
         countInvincFrames = 0;
-        game.setScreen(new MainMenu(game));
+        int placement = Highscores.checkForHigscore(score);
+        if (placement<0){
+            game.setScreen(new MainMenu(game));
+        }else {
+            game.setScreen(new NewHighscore(game,placement,score));
+        }
         dispose();
     }
 

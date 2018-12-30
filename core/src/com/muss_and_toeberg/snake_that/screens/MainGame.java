@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.muss_and_toeberg.snake_that.technical.AudioController;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
+import java.util.Locale;
+
 /**
  * MainGame
  */
@@ -20,9 +22,13 @@ public class MainGame extends Game {
     // Objects which are used throughout the whole game
     public SpriteBatch batch;
     public OrthographicCamera camera;
+    public AudioController soundControl;
+
+    // Fonts
     public BitmapFont fontHUD;
     public BitmapFont fontMainMenu;
-    public AudioController soundControl;
+    public BitmapFont fontCredits;
+    public BitmapFont fontDescription;
 
     // constant values
     final int CAMERA_WIDTH = 1920;
@@ -49,19 +55,21 @@ public class MainGame extends Game {
         camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
         batch.setProjectionMatrix(camera.combined);
 
-        fontHUD = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans_HUD.fnt"));
-        fontMainMenu = new BitmapFont(Gdx.files.internal("fonts/Comic_Sans_MainMenu.fnt"));
+        fontHUD = new BitmapFont(Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
+        fontMainMenu = new BitmapFont(Gdx.files.internal("fonts/ComicSans_MainMenu.fnt"));
+        fontCredits = new BitmapFont(Gdx.files.internal("fonts/ComicSans_Credits.fnt"));
+        fontDescription = new BitmapFont(Gdx.files.internal("fonts/ComicSans_Desc.fnt"));
 
         languageFileHandler = Gdx.files.internal("i18n/strings");
         myLangBundle = I18NBundle.createBundle(languageFileHandler);
 
-        createButtonStyleMainMenuFont();
-
-        this.setScreen(new MainMenu(this));
-
         // Uncomment to check the german strings
         // Locale loc = new Locale("de");
         // myLangBundle = I18NBundle.createBundle(languageFileHandler, loc);
+
+        createButtonStyleMainMenuFont();
+
+        this.setScreen(new MainMenu(this));
     }
 
     /**

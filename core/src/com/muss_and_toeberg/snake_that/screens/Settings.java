@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.muss_and_toeberg.snake_that.game_objects.Snake;
 import com.muss_and_toeberg.snake_that.technical.Menu;
@@ -29,7 +30,6 @@ public class Settings implements Screen {
     // objects & graphical elements
     private MainGame game;
     private Stage stage;
-    private Label.LabelStyle lblStyle;
     private TextButton.TextButtonStyle btnStyleSettingsOnOff;
     private Array<TextButton> colorButtons = new Array<TextButton>(COLOR_BUTTON_AMOUNT);
 
@@ -61,8 +61,12 @@ public class Settings implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
+        // creates the LabelStyle
+        Label.LabelStyle lblStyle = new Label.LabelStyle();
+        lblStyle.font = game.fontMainMenu;
+        lblStyle.fontColor = Color.WHITE;
+
         // create the Labels
-        createLabelStyle();
         Label lblMusic = new Label(MainGame.myLangBundle.get("music"), lblStyle);
         Label lblSound = new Label(MainGame.myLangBundle.get("sound"), lblStyle);
         Label lblChristmas = new Label(MainGame.myLangBundle.get("christmas"), lblStyle);
@@ -176,7 +180,7 @@ public class Settings implements Screen {
             menuTable.add(colorButtons.get(count)).space(10, 10, 100, 10).width(COLOR_BUTTON_WIDTH);
         }
         menuTable.row();
-        menuTable.add(btnBackMainMenu).width(550);
+        menuTable.add(btnBackMainMenu).width(550).align(Align.bottomLeft);
 
         //add the Table to the Stage
         stage.addActor(menuTable);
@@ -203,21 +207,12 @@ public class Settings implements Screen {
      * @param color of the button which was just checked
      */
     private void uncheckAllColorButtons(SnakeColor color) {
-        for(int count = 0; count < COLOR_BUTTON_AMOUNT; count++) {
+        for (int count = 0; count < COLOR_BUTTON_AMOUNT; count++) {
             TextButton tempButton = colorButtons.get(count);
-            if(SnakeColor.makeSnakeColorToInt(color) != count) {
+            if (SnakeColor.makeSnakeColorToInt(color) != count) {
                 tempButton.setChecked(false);
             }
         }
-    }
-
-    /**
-     * creates the style for the labels
-     */
-    private void createLabelStyle() {
-        lblStyle = new Label.LabelStyle();
-        lblStyle.font = game.fontMainMenu;
-        lblStyle.fontColor = Color.WHITE;
     }
 
     /**

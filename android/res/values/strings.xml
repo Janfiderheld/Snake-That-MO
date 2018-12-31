@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">snake_that</string>
-
+    <string name="app_name">Snake That!</string>
 </resources>

@@ -38,7 +38,7 @@ public class Level01 implements Screen {
     final int HUD_BEGIN_Y = CAMERA_HEIGHT - SIZE_OF_HUD;
     final int TEXT_BEGIN_Y = CAMERA_HEIGHT - 15;
     final int BLOCK_X = (CAMERA_WIDTH / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
-    final int BLOCK_Y = (CAMERA_HEIGHT / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
+    final int BLOCK_Y = ((CAMERA_HEIGHT - SIZE_OF_HUD) / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
     final int BARREL_START_X = 1530;
     final int BARREL_START_Y = 124;
 
@@ -261,6 +261,12 @@ public class Level01 implements Screen {
             case Downwards:
                 snake.invertYDirection();
                 break;
+            case UpAndLeft:
+            case UpAndRight:
+            case DownAndLeft:
+            case DownAndRight:
+                snake.invertBothDirections();
+                break;
         }
     }
 
@@ -345,7 +351,7 @@ public class Level01 implements Screen {
                     game.soundControl.playLiveLoosingSound();
                 }
                 if(--lives == 0) {
-                    looseTheGame();
+                    // looseTheGame();
                 }
                 return;
             }

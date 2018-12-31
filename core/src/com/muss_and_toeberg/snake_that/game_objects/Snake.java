@@ -176,6 +176,14 @@ public class Snake {
     }
 
     /**
+     * inverts both directions (= rotates vector by 180°)
+     */
+    public void invertBothDirections() {
+        invertXDirection();
+        invertYDirection();
+    }
+
+    /**
      * sets the moving speed by scaling the direction vector
      * @param factor scaling factor
      */

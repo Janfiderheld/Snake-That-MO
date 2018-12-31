@@ -52,6 +52,8 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - Herz (gefüllt und ungefüllt): selbstgemacht
 - Coins (Leben & Punkte): selbstgemacht
 - Fass (explosiv): selbstgemacht
+- Weihnachtsmann-Mütze: selbstgemacht
+- App-Icon: selbstgemacht
 
 ### Programmier-Konventionen
 

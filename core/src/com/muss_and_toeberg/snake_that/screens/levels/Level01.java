@@ -105,7 +105,7 @@ public class Level01 implements Screen {
 
         blockTexture = new Texture("textures/Brick.png");
         background = new Texture ("textures/backgroundPipes.png");
-        hat = new Texture("texturesToChange/Santahat.png");
+        hat = new Texture("textures/SantaHat.png");
 
         randomizeNewCoin();
         gameHasStarted = true;

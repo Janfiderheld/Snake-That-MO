@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.muss_and_toeberg.snake_that.technical.AudioController;
+import com.muss_and_toeberg.snake_that.technical.MemoryController;
 import com.muss_and_toeberg.snake_that.technical.Menu;
-
 import java.util.Locale;
 
 /**
@@ -23,6 +23,7 @@ public class MainGame extends Game {
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public AudioController soundControl;
+    public MemoryController memController;
 
     // Fonts
     public BitmapFont fontHUD;
@@ -49,7 +50,6 @@ public class MainGame extends Game {
     public void create() {
         batch = new SpriteBatch();
         currentMenu = Menu.None;
-        soundControl = new AudioController();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -69,6 +69,8 @@ public class MainGame extends Game {
 
         createButtonStyleMainMenuFont();
 
+        soundControl = new AudioController();
+        memController = new MemoryController();
         this.setScreen(new MainMenu(this));
     }
 

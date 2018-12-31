@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class ExplodingBarrel extends Obstacle<Circle> {
     // constant values
-    public final int POINTS_NEW_BARREL = 100;
+    public final int POINTS_NEW_BARREL = 250;
 
     // variables
     private boolean isExploded = false;

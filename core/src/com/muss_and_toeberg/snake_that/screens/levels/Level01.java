@@ -285,10 +285,11 @@ public class Level01 implements Screen {
     private void checkCollisionWithCoin() {
         if (Intersector.overlaps(coin.getHitBox(), snake.getHeadAsRectangle())) {
             snake.addNewBodyPart();
-            game.soundControl.playPointsSound();
             score += coin_value;
             if(coin_value != coin.getNotRandomPoints()) {
                 gainALive();
+            } else {
+                game.soundControl.playPointsSound();
             }
             randomizeNewCoin();
         }
@@ -359,7 +360,7 @@ public class Level01 implements Screen {
             Heart tempHeart = hearts[i];
             if(!tempHeart.isFilled()) {
                 tempHeart.fillTheHeart();
-                game.soundControl.playLiveLoosingSound();
+                game.soundControl.playLiveGainingSound();
                 lives++;
                 return;
             }
@@ -371,15 +372,15 @@ public class Level01 implements Screen {
      * returns the player back to the main menu
      */
     private void looseTheGame() {
-        // TODO: save the score locally
         gameHasStarted = false;
         hasHitWall = true;
         countInvincFrames = 0;
-        int placement = Highscores.checkForHigscore(score);
-        if (placement<0){
+
+        int placement = game.memController.checkHighscorePlacement(score);
+        if (placement < 0){
             game.setScreen(new MainMenu(game));
-        }else {
-            game.setScreen(new NewHighscore(game,placement,score));
+        } else {
+            game.setScreen(new NewHighscore(game, placement, score));
         }
         dispose();
     }

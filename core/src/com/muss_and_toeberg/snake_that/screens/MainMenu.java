@@ -17,6 +17,7 @@ import com.muss_and_toeberg.snake_that.technical.Menu;
 public class MainMenu implements Screen {
     // constant values
     private final int BUTTONS_PER_ROW = 3;
+    public final static int BACK_MM_BUTTON_WIDTH = 550;
 
     // objects & graphical elements
     private MainGame game;

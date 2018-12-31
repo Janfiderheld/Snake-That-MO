@@ -78,7 +78,7 @@ public class Credits implements Screen {
         menuTable.add(lblSoundAndMusic).space(10,10,10,10).align(Align.left).row();
         menuTable.add(lblBackground).space(10,10,10,10).align(Align.left).row();
         menuTable.add(lblRestTextures).space(10,10,10,10).align(Align.left).row();
-        menuTable.add(btnBackMainMenu).width(550).align(Align.bottomLeft);
+        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
 
         //add the Table to the Stage
         stage.addActor(menuTable);

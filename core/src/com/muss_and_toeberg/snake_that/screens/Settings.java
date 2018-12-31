@@ -26,6 +26,7 @@ public class Settings implements Screen {
     private int ON_OFF_BUTTON_WIDTH = 200;
     private int COLOR_BUTTON_WIDTH = 128;
     private int COLOR_BUTTON_AMOUNT = 6;
+    private int RESET_BUTTON_WIDTH = 700;
 
     // objects & graphical elements
     private MainGame game;
@@ -37,8 +38,6 @@ public class Settings implements Screen {
     public static boolean musicTurnedOn = true;
     public static boolean soundTurnedOn = true;
     public static boolean christmasTheme = true;
-    // TODO: Add the possibility to change the player name
-    public static String playerName = "";
 
     // variables
     private float headerStartX;
@@ -54,8 +53,6 @@ public class Settings implements Screen {
 
         headerStartX = game.CAMERA_WIDTH / 2 - 200;
         headerStartY = game.CAMERA_HEIGHT - 25;
-
-        playerName = MainGame.myLangBundle.get("player");
 
         // creates the Stage
         stage = new Stage();
@@ -77,6 +74,7 @@ public class Settings implements Screen {
         TextButton btnMusic = new TextButton(MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
         TextButton btnSound = new TextButton(MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
         TextButton btnChristmas = new TextButton(MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
+        TextButton btnReset = new TextButton(MainGame.myLangBundle.get("reset"), MainGame.btnStyleMainMenuFont);
         TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
 
         // check if the buttons should be checked
@@ -157,6 +155,14 @@ public class Settings implements Screen {
             }
         });
 
+        btnReset.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.memController.createEmptyHighscore();
+                ((TextButton)actor).setChecked(false);
+            }
+        });
+
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -165,25 +171,36 @@ public class Settings implements Screen {
             }
         });
 
-        // adds all the elements into a Table
+        // adds all the Labels and On/Off-Buttons into a Table
         Table menuTable = new Table();
         menuTable.bottom().left();
+        menuTable.pad(0,25,400,0);
         menuTable.add(lblMusic);
         menuTable.add(btnMusic).space(10, 10, 10, 10).width(ON_OFF_BUTTON_WIDTH);
         menuTable.add(lblSound).spaceLeft(300);
         menuTable.add(btnSound).space(10, 10, 10, 10).width(ON_OFF_BUTTON_WIDTH).row();
         menuTable.add(lblChristmas);
         menuTable.add(btnChristmas).space(10, 10, 10, 10).width(ON_OFF_BUTTON_WIDTH).row();
-        menuTable.add(lblColor).row();
-        // TODO: change position and layout of the color buttons
-        for(int count = 0; count < COLOR_BUTTON_AMOUNT; count++) {
-            menuTable.add(colorButtons.get(count)).space(10, 10, 100, 10).width(COLOR_BUTTON_WIDTH);
-        }
-        menuTable.row();
-        menuTable.add(btnBackMainMenu).width(550).align(Align.bottomLeft);
+        menuTable.add(lblColor);
 
-        //add the Table to the Stage
+        // adds the color buttons into a Table
+        Table colorTable = new Table();
+        colorTable.bottom().left();
+        colorTable.pad(0,25,250,0);
+        for(int count = 0; count < COLOR_BUTTON_AMOUNT; count++) {
+            colorTable.add(colorButtons.get(count)).space(10, 200, 100, 10).width(COLOR_BUTTON_WIDTH);
+        }
+
+        // adds the buttons to a Table
+        Table btnTable = new Table();
+        btnTable.bottom().left();
+        btnTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
+        btnTable.add(btnReset).width(RESET_BUTTON_WIDTH).spaceLeft(game.CAMERA_WIDTH - RESET_BUTTON_WIDTH - MainMenu.BACK_MM_BUTTON_WIDTH);
+
+        //add the Tables to the Stage
         stage.addActor(menuTable);
+        stage.addActor(colorTable);
+        stage.addActor(btnTable);
     }
 
     /**

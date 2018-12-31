@@ -13,80 +13,100 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
 public class NewHighscore implements Screen {
+    // constant values
+    private final int MAX_USERNAME_LENGTH = 12;
+
+    // objects & graphical elements
     private MainGame game;
+    private Stage stage;
+    private  TextField.TextFieldStyle txtStyleNameInput;
 
-    //Buttons
-    TextButton submitBtn;
-    TextField textfield;
-    TextField.TextFieldStyle textfieldstyle;
-
-    //Graphical Elements
-    protected Stage stage;
-    Label.LabelStyle scoretableStyle;
-    Label label;
-
+    /**
+     * Constructor which is used to create all objects that only need to be created once
+     * @param game game object which allows screen changing
+     * @param placement placement of the player
+     * @param score points the player earned
+     */
     public NewHighscore(final MainGame game, final int placement, final int score){
         this.game = game;
         MainGame.currentMenu = Menu.Highscore;
 
+        // creates the Stage
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        scoretableStyle = new Label.LabelStyle();
+        // creates the Label-Style for the Scoretable
+        Label.LabelStyle scoretableStyle = new Label.LabelStyle();
         scoretableStyle.font = game.fontHUD;
+        scoretableStyle.fontColor = Color.WHITE;
 
-        //label
-        label = new Label("New Highscore\nyou Placed "+(placement+1)+".",scoretableStyle);
-        label.setPosition(1920/2-400,1080/2+200);
+        // create the Label
+        Label lblHeading = new Label(MainGame.myLangBundle.format("headerNewHS", placement + 1), scoretableStyle);
+        lblHeading.setPosition((game.CAMERA_WIDTH / 2) - 400,(game.CAMERA_HEIGHT / 2) + 200);
 
-        //textfield
-        Skin skin = new Skin();
-        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsControl.pack"));
-        skin.addRegions(buttonAtlas);
-        textfieldstyle = new TextField.TextFieldStyle();
-        textfieldstyle.font = new BitmapFont(Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
-        textfieldstyle.fontColor = new Color(0,0,0,1);
-        //TODO: Textfield drawable
-        textfieldstyle.background = skin.getDrawable("checked-button");
+        // create the textfield to enter the name
+        createTextfieldStyle();
+        final TextField txtUserName = new TextField(MainGame.myLangBundle.get("player"), txtStyleNameInput);
+        txtUserName.setMaxLength(MAX_USERNAME_LENGTH);
+        txtUserName.setPosition((game.CAMERA_WIDTH / 2) - 425,(game.CAMERA_HEIGHT / 2) - 100);
+        txtUserName.setSize(1000,200);
+        txtUserName.setAlignment(Align.center);
 
-        textfield = new TextField("",textfieldstyle);
-        textfield.setMessageText("Your Name");
-        textfield.setMaxLength(10);
-        textfield.setPosition(1920/2-400,1080/2-100);
-        textfield.setSize(1000,200);
-
-        //submit Button
-        submitBtn = new TextButton(MainGame.myLangBundle.get("submit"), MainGame.btnStyleMainMenuFont);
-        submitBtn.setPosition(1920/2-100,200);
-        submitBtn.addListener(new ChangeListener() {
+        // create the button
+        TextButton btnSubmit = new TextButton(MainGame.myLangBundle.get("submit"), MainGame.btnStyleMainMenuFont);
+        btnSubmit.setPosition((game.CAMERA_WIDTH / 2) - 100,200);
+        btnSubmit.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                Highscores.writeHighscores(textfield.getText(),String.valueOf(score),placement);
+                game.memController.addScoreToHighscore(txtUserName.getText(), score, placement);
                 game.setScreen(new Highscores(game));
                 dispose();
             }
         });
 
         //add actors to stage
-        stage.addActor(textfield);
-        stage.addActor(label);
-        stage.addActor(submitBtn);
+        stage.addActor(txtUserName);
+        stage.addActor(lblHeading);
+        stage.addActor(btnSubmit);
     }
 
-    @Override
-    public void show() {
-
-    }
-
+    /**
+     * renders the screen (= fills it with everything)
+     * gets called in a constant loop
+     * @param delta time since the last render
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
         game.camera.update();
+    }
+
+    /**
+     * creates the Style for the Textfield
+     */
+    private void createTextfieldStyle() {
+        Skin skin = new Skin();
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsColors.pack"));
+        skin.addRegions(buttonAtlas);
+
+        txtStyleNameInput = new TextField.TextFieldStyle();
+        txtStyleNameInput.font = new BitmapFont(Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
+        txtStyleNameInput.fontColor = Color.BLACK;
+        txtStyleNameInput.background = skin.getDrawable("Down");
+    }
+
+
+
+    // currently not used implements of Screen
+    @Override
+    public void show() {
+
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.muss_and_toeberg.snake_that.screens.Settings;
  * controls everything related to sounds and music
  */
 public class AudioController {
+    // music & sound objects
     private Music backgroundMusic;
     private Sound pointsGet;
     private Sound explosion;

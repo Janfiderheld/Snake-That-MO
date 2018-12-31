@@ -2,7 +2,7 @@ package com.muss_and_toeberg.snake_that.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,33 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.muss_and_toeberg.snake_that.technical.Menu;
-
-import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Highscore Menu Screen
  */
 public class Highscores implements Screen {
+    // objects & graphical elements
     private MainGame game;
-
-    //Buttons
-    TextButton btnBackMainMenu;
-
-    //Graphical Elements
-    protected Stage stage;
-    Label.LabelStyle scoretableStyle;
-    Table scoretable;
-    Table menuTable;
-    Label[] names;
-    Label[] scores;
-
-    //Reading and writing files
-    FileHandle file;
-    OutputStream out;
-
-    String[] lines;
+    private Stage stage;
 
     /**
      * Constructor which is used to create all objects that only need to be created once
@@ -46,53 +29,27 @@ public class Highscores implements Screen {
         this.game = game;
         MainGame.currentMenu = Menu.Highscore;
 
-        //creates the Stage
+        // creates the Stage
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        //create the Style for the Scoretable
-        scoretableStyle = new Label.LabelStyle();
+        // creates the Label-Style for the Scoretable
+        Label.LabelStyle scoretableStyle = new Label.LabelStyle();
         scoretableStyle.font = game.fontHUD;
+        scoretableStyle.fontColor = Color.WHITE;
 
-        names = new Label[5];
-        scores = new Label[5];
-
-        lines = readHighscores();
-        //show the Highscores
-        for (int j=0;j<5;j++) {
-            String[] temp = lines[j].split(",");
-            names[j] = new Label(temp[0], scoretableStyle);
-            scores[j] = new Label(temp[1], scoretableStyle);
+        // create the Labels
+        Label[] lblNames = new Label[game.memController.NUMBER_PLAYERS];
+        Label[] lblScores = new Label[game.memController.NUMBER_PLAYERS];
+        String[] names = game.memController.getHighscoreNamesOrPoints(0);
+        String[] points = game.memController.getHighscoreNamesOrPoints(1);
+        for (int i = 0; i < game.memController.NUMBER_PLAYERS; i++) {
+            lblNames[i] = new Label(names[i], scoretableStyle);
+            lblScores[i] = new Label(points[i], scoretableStyle);
         }
 
-        //write the highscores file
-
-        btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
-
-        //creates the tables
-        scoretable = new Table();
-        menuTable = new Table();
-        scoretable.bottom();
-        scoretable.left();
-
-        //start of the score table
-        scoretable.pad(0,400,200,0);
-
-        for (int i =0;i<5;i++){
-            scoretable.add(new Label(String.valueOf(i+1)+".",scoretableStyle));
-            scoretable.add(names[i]);
-            scoretable.add(scores[i]);
-            scoretable.row();
-        }
-
-        //start of the Menutable
-        menuTable.bottom();
-        menuTable.left();
-        menuTable.add(btnBackMainMenu);
-
-        //add the Tables to the Stage
-        stage.addActor(scoretable);
-        stage.addActor(menuTable);
+        // create the Button
+        TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -100,6 +57,27 @@ public class Highscores implements Screen {
                 dispose();
             }
         });
+
+        // creates the Leaderboard
+        Table leaderboard = new Table();
+        leaderboard.bottom().left();
+        leaderboard.pad(0,400,200,0);
+        for (int i = 0; i < game.memController.NUMBER_PLAYERS; i++){
+            leaderboard.add(new Label(String.valueOf(i + 1) + ". ", scoretableStyle));
+            leaderboard.add(lblNames[i]);
+            leaderboard.add(new Label(" - ", scoretableStyle));
+            leaderboard.add(lblScores[i]);
+            leaderboard.row();
+        }
+
+        // creates the MenuTable
+        Table menuTable = new Table();
+        menuTable.bottom().left();
+        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
+
+        //add the Tables to the Stage
+        stage.addActor(leaderboard);
+        stage.addActor(menuTable);
     }
 
     /**
@@ -109,83 +87,14 @@ public class Highscores implements Screen {
      */
     @Override
     public void render(float delta) {
-
+        game.batch.begin();
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.batch.end();
         stage.draw();
         game.camera.update();
     }
 
-    /**
-     * @return String Array Highscores and the corresponding Playernames
-     */
-    private static String[] readHighscores(){
-        FileHandle file = Gdx.files.external("Android/data/com.muss_and_toeberg.snake_that/files/highscore.dat");
-
-        //read the highscores file
-        if (!file.exists()){
-            //write placeholder Highscores
-            OutputStream out = file.write(false);
-            byte[] bytes;
-            bytes = "Place1,10000\nPlace2,1000\nPlace3,100\nPlace4,10\nPlace5,1".getBytes();
-            try {
-                out.write(bytes);
-                out.close();
-            } catch (IOException e) {
-                // ¯\_(ツ)_/¯
-            }
-        }
-
-        //read the Highscores
-        String[] lines = file.readString().split("\\r?\\n");
-        return lines;
-    }
-
-    /**
-     * @return placement of the new Score
-     * checks if a newly made Score belongs on the Leaderbord
-     * @param score score of the run
-     */
-    public static int checkForHigscore(int score){
-        String[] lines = readHighscores();
-        for (int i=0;i<5;i++){
-            String[] line = lines[i].split(",");
-            if (score > Integer.parseInt((line[1]))){
-                //insert score
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * add a new Score to the Highscores
-     * @param name name of the Player
-     * @param score score of the run
-     * @param place placement in the Leaderboard
-     */
-    public static void writeHighscores(String name, String score,int place){
-        FileHandle file = Gdx.files.external("Android/data/com.muss_and_toeberg.snake_that/files/highscore.dat");
-        String[]lines = readHighscores();
-        //restructure scores
-        for (int i=4;i>place;i--){
-            lines[i]=lines[i-1];
-
-        }
-        //add the new Highscore
-        lines[place] =name+","+score;
-        String str = lines[0]+"\n"+lines[1]+"\n"+lines[2]+"\n"+lines[3]+"\n"+lines[4];
-        OutputStream out = file.write(false);
-
-        byte[] bytes;
-        bytes = str.getBytes();
-        try {
-            out.write(bytes);
-            out.close();
-        } catch (IOException e) {
-            // ¯\_(ツ)_/¯
-        }
-    }
 
     // currently not used implements of Screen
     @Override

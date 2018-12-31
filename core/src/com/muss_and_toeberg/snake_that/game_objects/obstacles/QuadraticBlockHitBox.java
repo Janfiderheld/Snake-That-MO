@@ -66,26 +66,26 @@ public class QuadraticBlockHitBox {
 	 * @return side from which the snake hit
 	 */
 	public HitDirection checkWhichCollisionSide(Rectangle snake) {
+		int sum = 0x00;
 		for(int i = 0; i < NO_OF_SIDES; i++) {
 			if(fourSides[i].overlaps(snake)) {
-				return getHitDirectionForSide(i);
+				switch (i) {
+					case 0:
+						sum = sum | 0x01;
+						break;
+					case 1:
+						sum = sum | 0x02;
+						break;
+					case 2:
+						sum = sum | 0x04;
+						break;
+					case 3:
+						sum = sum | 0x08;
+						break;
+				}
 			}
 		}
-		return HitDirection.NoHit;
-	}
-
-	/**
-	 *	checks if a coin is spawned inside the block (mainly for test purpose)
-	 * @param coinHitBox hitBox of the coin
-	 * @return true when the coin is inside the block
-	 */
-	public boolean checkIfCoinInside(Circle coinHitBox) {
-		for(int i = 0; i < NO_OF_SIDES; i++) {
-			if(Intersector.overlaps(coinHitBox, fourSides[i])) {
-				return true;
-			}
-		}
-		return false;
+		return getHitDirectionForSide(sum);
 	}
 
 	/**
@@ -95,14 +95,23 @@ public class QuadraticBlockHitBox {
 	 */
 	private HitDirection getHitDirectionForSide(int indexOfSide) {
 		switch (indexOfSide) {
-			case 0:
+			case 0x01:
 				return HitDirection.RightSide;
-			case 1:
+			case 0x02:
 				return HitDirection.LeftSide;
-			case 2:
+			case 0x04:
 				return HitDirection.Upwards;
-			case 3:
+			case 0x08:
 				return HitDirection.Downwards;
+			case 0x05:
+				return HitDirection.UpAndRight;
+			case 0x06:
+				return HitDirection.UpAndLeft;
+			case 0x09:
+				return HitDirection.DownAndRight;
+			case 0x0A:
+				return HitDirection.DownAndLeft;
+			case 0:
 			default:
 				return HitDirection.NoHit;
 		}

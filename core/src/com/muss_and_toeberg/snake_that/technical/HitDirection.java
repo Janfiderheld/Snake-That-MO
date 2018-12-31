@@ -8,5 +8,9 @@ public enum HitDirection {
 	RightSide,
 	Upwards,
 	Downwards,
+	UpAndLeft,
+	UpAndRight,
+	DownAndLeft,
+	DownAndRight,
 	NoHit
 }

@@ -351,7 +351,7 @@ public class Level01 implements Screen {
                     game.soundControl.playLiveLoosingSound();
                 }
                 if(--lives == 0) {
-                    // looseTheGame();
+                    looseTheGame();
                 }
                 return;
             }

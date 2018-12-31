@@ -50,7 +50,8 @@ public class NewHighscore implements Screen {
 
         // create the textfield to enter the name
         createTextfieldStyle();
-        final TextField txtUserName = new TextField(MainGame.myLangBundle.get("player"), txtStyleNameInput);
+        final TextField txtUserName = new TextField("", txtStyleNameInput);
+        txtUserName.setMessageText(MainGame.myLangBundle.get("player"));
         txtUserName.setMaxLength(MAX_USERNAME_LENGTH);
         txtUserName.setPosition((game.CAMERA_WIDTH / 2) - 425,(game.CAMERA_HEIGHT / 2) - 100);
         txtUserName.setSize(1000,200);

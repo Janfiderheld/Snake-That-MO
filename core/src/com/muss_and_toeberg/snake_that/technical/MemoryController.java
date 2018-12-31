@@ -17,15 +17,25 @@ public class MemoryController {
     private final String SAVE_LOCATION_STATS = "Android/data/com.muss_and_toeberg.snake_that/files/stats.dat";
     private final String DELIMITER = ",";
 
-    // objects
-    private FileHandle file = Gdx.files.external(SAVE_LOCATION_HIGHSCORE);
+    //Highscore objects
+    private FileHandle highscore_file = Gdx.files.external(SAVE_LOCATION_HIGHSCORE);
     private String[] currentHighscore;
+
+    //Stats objects
+    private FileHandle stats_file = Gdx.files.external(SAVE_LOCATION_STATS);
+    private int length;
+    private int barrels_hit;
+    private int longest_run; //TODO make Time Work
 
     /**
      * Constructor which gets called at the beginning
      */
     public MemoryController() {
         currentHighscore = readHighscoresFromFile();
+
+        length = Integer.parseInt(getStat(0));
+        barrels_hit = Integer.parseInt(getStat(1));
+        longest_run = Integer.parseInt(getStat(2));
     }
 
     /**
@@ -33,18 +43,18 @@ public class MemoryController {
      * @return String-Array filled with the Highscores
      */
     public String[] readHighscoresFromFile() {
-        if(!file.exists()) {
+        if(!highscore_file.exists()) {
             createEmptyHighscore();
         }
-        return file.readString().split("\\r?\\n");
+        return highscore_file.readString().split("\\r?\\n");
     }
 
     /**
-     * writes the current Highscore in the file
+     * writes the current Highscore in the highscore_file
      * @param concatedHighscore Highscore to write
      */
     private void writeHighscoreInFile(String concatedHighscore) {
-        OutputStream out = file.write(false);
+        OutputStream out = highscore_file.write(false);
         byte[] bytes = concatedHighscore.getBytes();
         try {
             out.write(bytes);
@@ -84,7 +94,7 @@ public class MemoryController {
     }
 
     /**
-     * creates a string which can be saved in a file from the array
+     * creates a string which can be saved in a highscore_file from the array
      * @return string to save
      */
     private String createStringToSave() {
@@ -119,5 +129,83 @@ public class MemoryController {
             currentHighscore[count] = playerName + DELIMITER + 0;
         }
         writeHighscoreInFile(createStringToSave());
+    }
+
+    /**
+     * reads the Stats from the File
+     * @return String-Array filled with the Stats
+     */
+    public String[] readStatsFromFile(){
+        if(!stats_file.exists()) {
+            createEmptyStats();
+        }
+        return stats_file.readString().split(DELIMITER);
+    }
+
+    /**
+     * create an Empty Stat File
+     */
+    public void createEmptyStats(){
+        //TODO
+        writeStatsInFile("0,0,0");
+    }
+
+    /**
+     * Returns a single stat from the file
+     * @param index which stat should be returned
+     *              0 for total length
+     *              1 for barrels hit
+     *              2 for longest run in seconds
+     * @return the choosen stat
+     */
+    public String getStat(int index){
+        return readStatsFromFile()[index];
+    }
+
+    /**
+     * writes the current Stats in the stat_file
+     * @param statString Stat String to save
+     */
+    public void writeStatsInFile(String statString){
+        OutputStream out = stats_file.write(false);
+        byte[] bytes = statString.getBytes();
+        try {
+            out.write(bytes);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * increase barrel-hit counter
+     */
+    public void addBarrel(){
+        barrels_hit++;
+    }
+
+    /**
+     * increase total length counter
+     */
+    public void addLength(){
+        length++;
+    }
+
+    /**
+     * saves all the Stats to the File
+     */
+    public void saveStats(){
+        writeStatsInFile(createStatString());
+    }
+
+    /**
+     * creates a string which can be saved in a stats_file
+     * @return string to save
+     */
+    public String createStatString(){
+        String stringtosave =   String.valueOf(length)+DELIMITER+
+                                String.valueOf(barrels_hit)+DELIMITER+
+                                String.valueOf(longest_run)+DELIMITER;
+        return stringtosave;
     }
 }

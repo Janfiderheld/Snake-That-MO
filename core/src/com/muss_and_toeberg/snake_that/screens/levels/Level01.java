@@ -285,6 +285,7 @@ public class Level01 implements Screen {
     private void checkCollisionWithCoin() {
         if (Intersector.overlaps(coin.getHitBox(), snake.getHeadAsRectangle())) {
             snake.addNewBodyPart();
+            game.memController.addLength();
             score += coin_value;
             if(coin_value != coin.getNotRandomPoints()) {
                 gainALive();
@@ -325,6 +326,7 @@ public class Level01 implements Screen {
         if(barrel.checkIfCanExplode(snake.getHeadAsRectangle())) {
             game.soundControl.playExplosionSound();
             barrel.explode(score);
+            game.memController.addBarrel();
             looseALive(false);
             return;
         }
@@ -376,6 +378,7 @@ public class Level01 implements Screen {
         hasHitWall = true;
         countInvincFrames = 0;
 
+        game.memController.saveStats();
         int placement = game.memController.checkHighscorePlacement(score);
         if (placement < 0){
             game.setScreen(new MainMenu(game));

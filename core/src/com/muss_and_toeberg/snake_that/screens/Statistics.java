@@ -2,9 +2,11 @@ package com.muss_and_toeberg.snake_that.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -28,6 +30,11 @@ public class Statistics implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
+        // creates the Label-Style for the Statstable
+        Label.LabelStyle statstableStyle = new Label.LabelStyle();
+        statstableStyle.font = game.fontHUD;
+        statstableStyle.fontColor = Color.WHITE;
+
         // create the Buttons
         TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
         btnBackMainMenu.addListener(new ChangeListener() {
@@ -38,6 +45,19 @@ public class Statistics implements Screen {
             }
         });
 
+        Table statsTable = new Table();
+        statsTable.bottom().left();
+        statsTable.pad(0,400,200,0);
+        statsTable.add(new Label(MainGame.myLangBundle.get("length"), statstableStyle));
+        statsTable.add(new Label(game.memController.getStat(0),statstableStyle));
+        statsTable.row();
+        statsTable.add(new Label(MainGame.myLangBundle.get("barrels"), statstableStyle));
+        statsTable.add(new Label(game.memController.getStat(1),statstableStyle));
+        statsTable.row();
+        statsTable.add(new Label(MainGame.myLangBundle.get("time"), statstableStyle));
+        statsTable.add(new Label(game.memController.getStat(2),statstableStyle));
+        statsTable.row();
+
         // adds all the elements into a Table
         Table menuTable = new Table();
         menuTable.bottom().left();
@@ -45,6 +65,7 @@ public class Statistics implements Screen {
 
         //add the Table to the Stage
         stage.addActor(menuTable);
+        stage.addActor(statsTable);
     }
 
     /**
@@ -57,7 +78,6 @@ public class Statistics implements Screen {
         game.batch.begin();
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.fontHUD.draw(game.batch, "Work in Progress", 200, 800);
         game.batch.end();
         stage.draw();
         game.camera.update();

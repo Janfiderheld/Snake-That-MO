@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.muss_and_toeberg.snake_that.technical.MemoryController;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
 public class Statistics implements Screen {
@@ -35,7 +36,7 @@ public class Statistics implements Screen {
         statstableStyle.font = game.fontHUD;
         statstableStyle.fontColor = Color.WHITE;
 
-        // create the Buttons
+        // create the Button
         TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
@@ -45,20 +46,16 @@ public class Statistics implements Screen {
             }
         });
 
+        // create the Table with the stats
         Table statsTable = new Table();
         statsTable.bottom().left();
         statsTable.pad(0,400,200,0);
-        statsTable.add(new Label(MainGame.myLangBundle.get("length"), statstableStyle));
-        statsTable.add(new Label(game.memController.getStat(0),statstableStyle));
-        statsTable.row();
-        statsTable.add(new Label(MainGame.myLangBundle.get("barrels"), statstableStyle));
-        statsTable.add(new Label(game.memController.getStat(1),statstableStyle));
-        statsTable.row();
-        statsTable.add(new Label(MainGame.myLangBundle.get("time"), statstableStyle));
-        statsTable.add(new Label(game.memController.getStat(2),statstableStyle));
-        statsTable.row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("length", game.memController.getStat(game.memController.INDEX_LENGTH)), statstableStyle)).row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("barrels", game.memController.getStat(game.memController.INDEX_BARRELS)), statstableStyle)).row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("games", game.memController.getStat(game.memController.INDEX_GAMES_NO)), statstableStyle)).row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("time", game.memController.getStat(game.memController.INDEX_LONG_RUN)), statstableStyle));
 
-        // adds all the elements into a Table
+        // add the button into a Table
         Table menuTable = new Table();
         menuTable.bottom().left();
         menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);

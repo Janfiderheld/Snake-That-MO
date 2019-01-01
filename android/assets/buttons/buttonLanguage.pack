@@ -1,0 +1,19 @@
+
+buttonLanguage.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+english
+  rotate: false
+  xy: 1, 1
+  size: 164, 81
+  orig: 164, 81
+  offset: 0, 0
+  index: -1
+german
+  rotate: false
+  xy: 167, 1
+  size: 164, 81
+  orig: 164, 81
+  offset: 0, 0
+  index: -1

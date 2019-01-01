@@ -3,7 +3,8 @@ package com.muss_and_toeberg.snake_that.technical;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.muss_and_toeberg.snake_that.screens.MainGame;
-
+import com.muss_and_toeberg.snake_that.screens.Settings;
+import static com.muss_and_toeberg.snake_that.screens.Settings.NUMBER_SETTINGS;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -13,55 +14,116 @@ import java.io.OutputStream;
 public class MemoryController {
     // constant values
     public final int NUMBER_PLAYERS = 5;
+    public final int NUMBER_STATS = 4;
+
     private final String SAVE_LOCATION_HIGHSCORE = "Android/data/com.muss_and_toeberg.snake_that/files/highscore.dat";
     private final String SAVE_LOCATION_STATS = "Android/data/com.muss_and_toeberg.snake_that/files/stats.dat";
+    private final String SAVE_LOCATION_SETTINGS = "Android/data/com.muss_and_toeberg.snake_that/files/settings.dat";
+
     private final String DELIMITER = ",";
 
-    //Highscore objects
-    private FileHandle highscore_file = Gdx.files.external(SAVE_LOCATION_HIGHSCORE);
-    private String[] currentHighscore;
+    // constant indexes for usage of stats
+    public final int INDEX_LENGTH = 0;
+    public final int INDEX_BARRELS = 1;
+    public final int INDEX_GAMES_NO = 2;
+    public final int INDEX_LONG_RUN = 3;
 
-    //Stats objects
-    private FileHandle stats_file = Gdx.files.external(SAVE_LOCATION_STATS);
-    private int length;
-    private int barrels_hit;
-    private int longest_run; //TODO make Time Work
+    // File Handler objects
+    private FileHandle highscoreFile = Gdx.files.external(SAVE_LOCATION_HIGHSCORE);
+    private FileHandle statsFile = Gdx.files.external(SAVE_LOCATION_STATS);
+    private FileHandle settingsFile = Gdx.files.external(SAVE_LOCATION_SETTINGS);
+
+    // other objects and variables
+    private String[] currentHighscore;
+    private int[] stats;
+    private long timeAtStart;
 
     /**
      * Constructor which gets called at the beginning
      */
     public MemoryController() {
         currentHighscore = readHighscoresFromFile();
-
-        length = Integer.parseInt(getStat(0));
-        barrels_hit = Integer.parseInt(getStat(1));
-        longest_run = Integer.parseInt(getStat(2));
+        stats = readStatsFromFile();
     }
 
     /**
-     * reads the Highscore from the File
-     * @return String-Array filled with the Highscores
+     * writes the given String in the corresponding file
+     * @param stringToWrite strings to write
+     * @param whichFile file to Write in
+     *                  0 for Highscore
+     *                  1 for Stats
+     *                  2 for Settings
      */
-    public String[] readHighscoresFromFile() {
-        if(!highscore_file.exists()) {
-            createEmptyHighscore();
+    private void writeStringIntoFile(String stringToWrite, int whichFile) {
+        OutputStream out = null;
+        switch(whichFile) {
+            case 0:
+                out = highscoreFile.write(false);
+                break;
+            case 1:
+                out = statsFile.write(false);
+                break;
+            case 2:
+                out = settingsFile.write(false);
+                break;
         }
-        return highscore_file.readString().split("\\r?\\n");
-    }
-
-    /**
-     * writes the current Highscore in the highscore_file
-     * @param concatedHighscore Highscore to write
-     */
-    private void writeHighscoreInFile(String concatedHighscore) {
-        OutputStream out = highscore_file.write(false);
-        byte[] bytes = concatedHighscore.getBytes();
+        byte[] bytes = stringToWrite.getBytes();
         try {
             out.write(bytes);
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * reads the Highscore from the File
+     * @return String-Array filled with the Highscores
+     */
+    private String[] readHighscoresFromFile() {
+        if(!highscoreFile.exists()) {
+            createEmptyHighscore();
+        }
+        return highscoreFile.readString().split("\\r?\\n");
+    }
+
+
+    /**
+     * reads the Stats from the File
+     * @return int-Array filled with the Stats
+     */
+    private int[] readStatsFromFile(){
+        if(!statsFile.exists()) {
+            createEmptyStats();
+        }
+
+        String[] statsAsStrings = portFileToCurrentState(statsFile.readString().split(DELIMITER), NUMBER_STATS, "0");
+        int[] tempToReturn = new int[NUMBER_STATS];
+        for(int count = 0; count < NUMBER_STATS; count++) {
+            tempToReturn[count] = Integer.parseInt(statsAsStrings[count]);
+        }
+        return tempToReturn;
+    }
+
+    /**
+     * reads the settings from the file
+     * @return array containing the settings
+     */
+    public boolean[] readSettingsFromFile() {
+        if(!settingsFile.exists()) {
+            createEmptySettings();
+        }
+
+        String[] settingsAsString = portFileToCurrentState(settingsFile.readString().split(DELIMITER), NUMBER_SETTINGS, "false");
+        boolean[] tempToReturn = new boolean[NUMBER_SETTINGS];
+        for(int count = 0; count < NUMBER_SETTINGS; count++) {
+            if(settingsAsString[count].contentEquals("false")) {
+                tempToReturn[count] = false;
+            } else {
+                tempToReturn[count] = true;
+            }
+        }
+        return tempToReturn;
     }
 
     /**
@@ -90,19 +152,7 @@ public class MemoryController {
         }
 
         currentHighscore[placement] = playerName + DELIMITER + playerScore;
-        writeHighscoreInFile(createStringToSave());
-    }
-
-    /**
-     * creates a string which can be saved in a highscore_file from the array
-     * @return string to save
-     */
-    private String createStringToSave() {
-        String highscoresToWrite = "";
-        for(int count = 0; count < NUMBER_PLAYERS; count++) {
-            highscoresToWrite += currentHighscore[count] + "\n";
-        }
-        return highscoresToWrite;
+        writeStringIntoFile(createHighscoreString(), 0);
     }
 
     /**
@@ -121,6 +171,13 @@ public class MemoryController {
     }
 
     /**
+     * saves the settings in the file
+     */
+    public void saveSettings() {
+        writeStringIntoFile(createStringToSave(false), 2);
+    }
+
+    /**
      * creates an empty highscore at the beginning of the game
      */
     public void createEmptyHighscore() {
@@ -128,84 +185,136 @@ public class MemoryController {
         for(int count = 0; count < NUMBER_PLAYERS; count++) {
             currentHighscore[count] = playerName + DELIMITER + 0;
         }
-        writeHighscoreInFile(createStringToSave());
+        writeStringIntoFile(createHighscoreString(), 0);
     }
 
     /**
-     * reads the Stats from the File
-     * @return String-Array filled with the Stats
-     */
-    public String[] readStatsFromFile(){
-        if(!stats_file.exists()) {
-            createEmptyStats();
-        }
-        return stats_file.readString().split(DELIMITER);
-    }
-
-    /**
-     * create an Empty Stat File
-     */
-    public void createEmptyStats(){
-        //TODO
-        writeStatsInFile("0,0,0");
-    }
-
-    /**
-     * Returns a single stat from the file
+     * Returns a single stat from the array
      * @param index which stat should be returned
      *              0 for total length
      *              1 for barrels hit
-     *              2 for longest run in seconds
+     *              2 for games played
+     *              3 for longest run in seconds
      * @return the choosen stat
      */
-    public String getStat(int index){
-        return readStatsFromFile()[index];
-    }
-
-    /**
-     * writes the current Stats in the stat_file
-     * @param statString Stat String to save
-     */
-    public void writeStatsInFile(String statString){
-        OutputStream out = stats_file.write(false);
-        byte[] bytes = statString.getBytes();
-        try {
-            out.write(bytes);
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public int getStat(int index){
+        return stats[index];
     }
 
     /**
      * increase barrel-hit counter
      */
-    public void addBarrel(){
-        barrels_hit++;
+    public void addBarrel() {
+        stats[INDEX_BARRELS]++;
+    }
+
+    /**
+     * increases the games counter
+     */
+    public void addPlayedGame() {
+        stats[INDEX_GAMES_NO]++;
     }
 
     /**
      * increase total length counter
      */
-    public void addLength(){
-        length++;
+    public void addLength(int lengthToAdd) {
+        stats[INDEX_LENGTH] += lengthToAdd;
+    }
+
+    /**
+     * starts the timer
+     */
+    public void startTimer() {
+        timeAtStart = System.currentTimeMillis();
+    }
+
+    /**
+     * stops the timer and saves the time when its more than before
+     */
+    public void stopTimer() {
+        int timeForGame = (int) (System.currentTimeMillis() - timeAtStart) / 1000;
+        if(timeForGame > stats[INDEX_LONG_RUN]) {
+            stats[INDEX_LONG_RUN] = timeForGame;
+        }
     }
 
     /**
      * saves all the Stats to the File
      */
     public void saveStats(){
-        writeStatsInFile(createStatString());
+        writeStringIntoFile(createStringToSave(true),  1);
     }
 
     /**
-     * creates a string which can be saved in a stats_file
+     * creates a string which can be saved in a highscoreFile from the array
      * @return string to save
      */
-    public String createStatString(){
-        String stringtosave =   String.valueOf(length)+DELIMITER+
-                                String.valueOf(barrels_hit)+DELIMITER+
-                                String.valueOf(longest_run)+DELIMITER;
-        return stringtosave;
+    private String createHighscoreString() {
+        String highscoresToWrite = "";
+        for(int count = 0; count < NUMBER_PLAYERS; count++) {
+            highscoresToWrite += currentHighscore[count] + "\n";
+        }
+        return highscoresToWrite;
+    }
+
+    /**
+     * create an Empty Stat File
+     */
+    private void createEmptyStats(){
+        for(int count = 0; count < NUMBER_STATS; count++) {
+            stats[count] = 0;
+        }
+        writeStringIntoFile(createStringToSave(true), 1);
+    }
+
+    /**
+     * creates a string which can be saved in a file
+     * @param shouldCreateStats true if a stats string should be created
+     * @return string to save
+     */
+    private String createStringToSave(boolean shouldCreateStats){
+        String tempToReturn = "";
+        int maxAmount = shouldCreateStats ? NUMBER_STATS : NUMBER_SETTINGS;
+        for(int count = 0; count < maxAmount; count++) {
+            if(shouldCreateStats) {
+                tempToReturn += stats[count] + DELIMITER;
+            } else {
+                tempToReturn += Settings.getSettings()[count] + DELIMITER;
+            }
+        }
+        return tempToReturn;
+    }
+
+    /**
+     * creates empty settings
+     */
+    private void createEmptySettings() {
+        for(int count = 0; count < NUMBER_SETTINGS; count++) {
+            Settings.getSettings()[count] = false;
+        }
+        writeStringIntoFile(createStringToSave(false), 2);
+    }
+
+    /**
+     * if the file on the current device has a lesser amount of stats or settings then the current gameVersion,
+     * the string array gets "updated" on the latest version
+     * @param arrayToPort array which could be updated
+     * @param maxNumber number of entries the array should have after this method
+     * @param strToFillWith string to fill the new places in the array with
+     * @return the updated array
+     */
+    private String[] portFileToCurrentState(String[] arrayToPort, int maxNumber, String strToFillWith) {
+        if(arrayToPort.length >= maxNumber) {
+            return arrayToPort;
+        }
+        String[] tempToReturn = new String[maxNumber];
+        for(int count = 0; count < arrayToPort.length; count++) {
+            tempToReturn[count] = arrayToPort[count];
+        }
+        for(int count = arrayToPort.length; count < maxNumber; count++) {
+            tempToReturn[count] = strToFillWith;
+        }
+        return tempToReturn;
     }
 }

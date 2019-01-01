@@ -108,6 +108,7 @@ public class Level01 implements Screen {
         hat = new Texture("textures/SantaHat.png");
 
         randomizeNewCoin();
+        game.memController.startTimer();
         gameHasStarted = true;
 
         Gdx.gl.glClearColor((float)0.7, (float)0.7, (float)0.7, 0);
@@ -164,7 +165,7 @@ public class Level01 implements Screen {
         if(!barrel.checkExploded()) {
             game.batch.draw(barrel.getTexture(), barrel.getXPosition(), barrel.getYPosition());
         }
-        if(Settings.christmasTheme) {
+        if(Settings.isChristmasThemeOn()) {
             game.batch.draw(hat, snake.getXValueHead(),snake.getYValueHead() + Snake.BODY_PART_SIZE);
         }
         game.fontHUD.draw(game.batch, MainGame.myLangBundle.format("points", score), 5, TEXT_BEGIN_Y);
@@ -291,7 +292,7 @@ public class Level01 implements Screen {
     private void checkCollisionWithCoin() {
         if (Intersector.overlaps(coin.getHitBox(), snake.getHeadAsRectangle())) {
             snake.addNewBodyPart();
-            game.memController.addLength();
+            game.memController.addLength(snake.ADD_WHEN_COLLECTED);
             score += coin_value;
             if(coin_value != coin.getNotRandomPoints()) {
                 gainALive();
@@ -384,6 +385,8 @@ public class Level01 implements Screen {
         hasHitWall = true;
         countInvincFrames = 0;
 
+        game.memController.addPlayedGame();
+        game.memController.stopTimer();
         game.memController.saveStats();
         int placement = game.memController.checkHighscorePlacement(score);
         if (placement < 0){

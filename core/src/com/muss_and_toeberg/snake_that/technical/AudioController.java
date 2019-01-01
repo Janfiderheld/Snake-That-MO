@@ -34,7 +34,7 @@ public class AudioController {
      * starts or resumes the background music
      */
     public void startBackgroundMusic() {
-        if(!Settings.musicTurnedOn) {
+        if(!Settings.isMusicTurnedOn()) {
             return;
         }
         backgroundMusic.play();
@@ -51,7 +51,7 @@ public class AudioController {
      * plays the point sound
      */
     public void playPointsSound() {
-        if(!Settings.soundTurnedOn) {
+        if(!Settings.isSoundTurnedOn()) {
             return;
         }
         pointsGet.play();
@@ -61,7 +61,7 @@ public class AudioController {
      * plays the explosion
      */
     public void playExplosionSound() {
-        if(!Settings.soundTurnedOn) {
+        if(!Settings.isSoundTurnedOn()) {
             return;
         }
         explosion.play();
@@ -71,7 +71,7 @@ public class AudioController {
      * plays the sound when the snake looses a live
      */
     public void playLiveLoosingSound() {
-        if(!Settings.soundTurnedOn) {
+        if(!Settings.isSoundTurnedOn()) {
             return;
         }
         loosingALive.play();
@@ -81,7 +81,7 @@ public class AudioController {
      * plays the sound when the snake gains a live
      */
     public void playLiveGainingSound() {
-        if(!Settings.soundTurnedOn) {
+        if(!Settings.isSoundTurnedOn()) {
             return;
         }
         gainingALive.play();

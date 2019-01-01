@@ -26,22 +26,27 @@ public class Settings implements Screen {
     private int ON_OFF_BUTTON_WIDTH = 200;
     private int COLOR_BUTTON_WIDTH = 128;
     private int COLOR_BUTTON_AMOUNT = 6;
-    private int RESET_BUTTON_WIDTH = 700;
+    private int LANG_BUTTON_WIDTH = 164;
+    public static final int NUMBER_SETTINGS = 4;
 
     // objects & graphical elements
     private MainGame game;
     private Stage stage;
     private TextButton.TextButtonStyle btnStyleSettingsOnOff;
+    private TextButton.TextButtonStyle btnStyleLanguage;
     private Array<TextButton> colorButtons = new Array<TextButton>(COLOR_BUTTON_AMOUNT);
 
     // static option fields
-    public static boolean musicTurnedOn = true;
-    public static boolean soundTurnedOn = true;
-    public static boolean christmasTheme = true;
+    private static boolean[] settings = new boolean[NUMBER_SETTINGS];
+    private static final int INDEX_MUSIC = 0;
+    private static final int INDEX_SOUND = 1;
+    private static final int INDEX_CHRISTMAS = 2;
+    private static final int INDEX_LANGUAGE = 3;
 
     // variables
     private float headerStartX;
     private float headerStartY;
+    private int resetButtonWidth = 700;
 
     /**
      * Constructor which is used to create all objects that only need to be created once
@@ -51,8 +56,12 @@ public class Settings implements Screen {
         this.game = game;
         MainGame.currentMenu = Menu.Settings;
 
-        headerStartX = game.CAMERA_WIDTH / 2 - 200;
+        // calculate the variables
+        headerStartX = game.CAMERA_WIDTH / 2 - 350;
         headerStartY = game.CAMERA_HEIGHT - 25;
+        if(Settings.isLanguageGerman()) {
+            resetButtonWidth = 915;
+        }
 
         // creates the Stage
         stage = new Stage();
@@ -67,30 +76,37 @@ public class Settings implements Screen {
         Label lblMusic = new Label(MainGame.myLangBundle.get("music"), lblStyle);
         Label lblSound = new Label(MainGame.myLangBundle.get("sound"), lblStyle);
         Label lblChristmas = new Label(MainGame.myLangBundle.get("christmas"), lblStyle);
+        Label lblLanguage = new Label(MainGame.myLangBundle.get("lang"), lblStyle);
         Label lblColor = new Label(MainGame.myLangBundle.get("color"), lblStyle);
 
         // create the Buttons
         createButtonStyleSettingsOnOff();
+        createButtonStyleLanguage();
         TextButton btnMusic = new TextButton(MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
         TextButton btnSound = new TextButton(MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
         TextButton btnChristmas = new TextButton(MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
+        TextButton btnLanguage = new TextButton("", btnStyleLanguage);
         TextButton btnReset = new TextButton(MainGame.myLangBundle.get("reset"), MainGame.btnStyleMainMenuFont);
         TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
 
         // check if the buttons should be checked
-        if(!Settings.musicTurnedOn) {
+        if(!Settings.isMusicTurnedOn()) {
             btnMusic.setChecked(true);
             btnMusic.setText(MainGame.myLangBundle.get("off"));
         }
 
-        if(!Settings.soundTurnedOn) {
+        if(!Settings.isSoundTurnedOn()) {
             btnSound.setChecked(true);
             btnSound.setText(MainGame.myLangBundle.get("off"));
         }
 
-        if(!Settings.christmasTheme) {
+        if(!Settings.isChristmasThemeOn()) {
             btnChristmas.setChecked(true);
             btnChristmas.setText(MainGame.myLangBundle.get("off"));
+        }
+
+        if(!Settings.isLanguageGerman()) {
+            btnLanguage.setChecked(true);
         }
 
         // create the color buttons
@@ -117,41 +133,58 @@ public class Settings implements Screen {
         btnMusic.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                if(Settings.musicTurnedOn) {
-                    Settings.musicTurnedOn = false;
+                if(Settings.isMusicTurnedOn()) {
+                    Settings.setMusic(false);
                     ((TextButton)actor).setText(MainGame.myLangBundle.get("off"));
                     game.soundControl.pauseBackgroundMusic();
                 } else {
-                    Settings.musicTurnedOn = true;
+                    Settings.setMusic(true);
                     ((TextButton)actor).setText(MainGame.myLangBundle.get("on"));
                     game.soundControl.startBackgroundMusic();
                 }
+                game.memController.saveSettings();
             }
         });
 
         btnSound.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                if(Settings.soundTurnedOn) {
-                    Settings.soundTurnedOn = false;
+                if(Settings.isSoundTurnedOn()) {
+                    Settings.setSound(false);
                     ((TextButton)actor).setText(MainGame.myLangBundle.get("off"));
                 } else {
-                    Settings.soundTurnedOn = true;
+                    Settings.setSound(true);
                     ((TextButton)actor).setText(MainGame.myLangBundle.get("on"));
                 }
+                game.memController.saveSettings();
             }
         });
 
         btnChristmas.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                if(Settings.christmasTheme) {
-                    Settings.christmasTheme = false;
+                if(Settings.isChristmasThemeOn()) {
+                    Settings.setChristmasTheme(false);
                     ((TextButton)actor).setText(MainGame.myLangBundle.get("off"));
                 } else {
-                    Settings.christmasTheme = true;
+                    Settings.setChristmasTheme(true);
                     ((TextButton)actor).setText(MainGame.myLangBundle.get("on"));
                 }
+                game.memController.saveSettings();
+            }
+        });
+
+        btnLanguage.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                if(Settings.isLanguageGerman()) {
+                    game.changeLocale(false);
+                } else {
+                    game.changeLocale(true);
+                }
+                game.memController.saveSettings();
+                game.setScreen(new Settings(game));
+                dispose();
             }
         });
 
@@ -180,7 +213,9 @@ public class Settings implements Screen {
         menuTable.add(lblSound).spaceLeft(300);
         menuTable.add(btnSound).space(10, 10, 10, 10).width(ON_OFF_BUTTON_WIDTH).row();
         menuTable.add(lblChristmas);
-        menuTable.add(btnChristmas).space(10, 10, 10, 10).width(ON_OFF_BUTTON_WIDTH).row();
+        menuTable.add(btnChristmas).space(10, 10, 10, 10).width(ON_OFF_BUTTON_WIDTH);
+        menuTable.add(lblLanguage).spaceLeft(300);
+        menuTable.add(btnLanguage).space(10, 10, 10, 10).width(LANG_BUTTON_WIDTH).row();
         menuTable.add(lblColor);
 
         // adds the color buttons into a Table
@@ -195,7 +230,7 @@ public class Settings implements Screen {
         Table btnTable = new Table();
         btnTable.bottom().left();
         btnTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
-        btnTable.add(btnReset).width(RESET_BUTTON_WIDTH).spaceLeft(game.CAMERA_WIDTH - RESET_BUTTON_WIDTH - MainMenu.BACK_MM_BUTTON_WIDTH);
+        btnTable.add(btnReset).width(resetButtonWidth).spaceLeft(game.CAMERA_WIDTH - resetButtonWidth - MainMenu.BACK_MM_BUTTON_WIDTH);
 
         //add the Tables to the Stage
         stage.addActor(menuTable);
@@ -217,6 +252,81 @@ public class Settings implements Screen {
         game.batch.end();
         stage.draw();
         game.camera.update();
+    }
+
+    /**
+     * @return true when the music is on
+     */
+    public static boolean isMusicTurnedOn() {
+        return settings[INDEX_MUSIC];
+    }
+
+    /**
+     * @return true when the sound is on
+     */
+    public static boolean isSoundTurnedOn() {
+        return settings[INDEX_SOUND];
+    }
+
+    /**
+     * @return true when the christams theme is on
+     */
+    public static boolean isChristmasThemeOn() {
+        return settings[INDEX_CHRISTMAS];
+    }
+
+    /**
+     * @return true when the language is german
+     */
+    public static boolean isLanguageGerman() {
+        return settings[INDEX_LANGUAGE];
+    }
+
+    /**
+     * sets the language to the given parameter
+     * @param toGerman value to set
+     */
+    public static void setLanguage(boolean toGerman) {
+        settings[INDEX_LANGUAGE] = toGerman;
+    }
+
+    /**
+     * sets the Music to the given value
+     * @param on true if music should be on
+     */
+    public static void setMusic(boolean on) {
+        settings[INDEX_MUSIC] = on;
+    }
+
+    /**
+     * sets the Sound to the given value
+     * @param on true if sound should be on
+     */
+    public static void setSound(boolean on) {
+        settings[INDEX_SOUND] = on;
+    }
+
+    /**
+     * sets the Christmas Theme to the given value
+     * @param on true if christmas should be on
+     */
+    public static void setChristmasTheme(boolean on) {
+        settings[INDEX_CHRISTMAS] = on;
+    }
+
+    /**
+     * @return settings-array (boolean values)
+     */
+    public static boolean[] getSettings() {
+        return settings;
+    }
+
+    /**
+     * sets the settings array to the given values
+     * @param newSettings new array to set
+     */
+    public static void setSettings(boolean[] newSettings) {
+        settings = newSettings;
     }
 
     /**
@@ -244,6 +354,20 @@ public class Settings implements Screen {
         btnStyleSettingsOnOff.font = game.fontMainMenu;
         btnStyleSettingsOnOff.up = skin.getDrawable("up-button");
         btnStyleSettingsOnOff.checked = skin.getDrawable("checked-button");
+    }
+
+    /**
+     * creates the style for the language button
+     */
+    private void createButtonStyleLanguage() {
+        Skin skin = new Skin();
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonLanguage.pack"));
+        skin.addRegions(buttonAtlas);
+
+        btnStyleLanguage = new TextButton.TextButtonStyle();
+        btnStyleLanguage.font = game.fontCredits;
+        btnStyleLanguage.up = skin.getDrawable("german");
+        btnStyleLanguage.checked = skin.getDrawable("english");
     }
 
     /**

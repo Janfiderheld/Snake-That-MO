@@ -60,17 +60,14 @@ public class MainGame extends Game {
         fontCredits = new BitmapFont(Gdx.files.internal("fonts/ComicSans_Credits.fnt"));
         fontDescription = new BitmapFont(Gdx.files.internal("fonts/ComicSans_Desc.fnt"));
 
-        languageFileHandler = Gdx.files.internal("i18n/strings");
-        myLangBundle = I18NBundle.createBundle(languageFileHandler);
-
-        // Uncomment to check the german strings
-        // Locale loc = new Locale("de");
-        // myLangBundle = I18NBundle.createBundle(languageFileHandler, loc);
-
-        createButtonStyleMainMenuFont();
-
         soundControl = new AudioController();
         memController = new MemoryController();
+
+        Settings.setSettings(memController.readSettingsFromFile());
+        languageFileHandler = Gdx.files.internal("i18n/strings");
+        changeLocale(Settings.isLanguageGerman());
+
+        createButtonStyleMainMenuFont();
         this.setScreen(new MainMenu(this));
     }
 
@@ -87,6 +84,19 @@ public class MainGame extends Game {
         btnStyleMainMenuFont.up = skin.getDrawable("up-button");
         btnStyleMainMenuFont.down = skin.getDrawable("down-button");
         btnStyleMainMenuFont.checked = skin.getDrawable("checked-button");
+    }
+
+    /**
+     * changes the displayed language
+     * @param changeToGerman true if the language should be changed to german
+     */
+    public void changeLocale(boolean changeToGerman) {
+        Settings.setLanguage(changeToGerman);
+        if(changeToGerman) {
+            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.GERMAN);
+        } else {
+            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.ENGLISH);
+        }
     }
 
     /**

@@ -49,6 +49,7 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [Explosion beim Berühren eines Fasses](http://soundimage.org/wp-content/uploads/2016/04/Explosion1.mp3) (abgerufen am: 30.12.)
 - [Lebensverlust](http://soundimage.org/wp-content/uploads/2016/04/Laser-Ricochet3.mp3) (abgerufen am: 30.12.)
 - [Leben dazu](http://soundimage.org/wp-content/uploads/2016/04/SynthChime6.mp3) (abgerufen am: 30.12.)
+- [Länderflaggen](https://www.free-country-flags.com/index.php) (abgerufen am: 01.01.)
 - Herz (gefüllt und ungefüllt): selbstgemacht
 - Coins (Leben & Punkte): selbstgemacht
 - Fass (explosiv): selbstgemacht

@@ -13,9 +13,8 @@ public class Snake {
     // Constant Values
     public static final int BODY_PART_SIZE = 50;
     private final int BODY_PART_START_AMOUNT = 30;
-    private final int ADD_WHEN_COLLECTED = 3;
+    public final int ADD_WHEN_COLLECTED = 3;
     private final int START_FOR_SUDOKU = 10;
-    private final int BODY_PART_MAX_AMOUNT = 120;
     private final float BODY_PART_DISTANCE = 10;
 
     // Snake HitBoxes

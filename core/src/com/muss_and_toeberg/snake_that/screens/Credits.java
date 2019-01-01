@@ -55,6 +55,7 @@ public class Credits implements Screen {
         Label lblProgramming = new Label(MainGame.myLangBundle.format("programming", "Niclas Muss", "Jan-Philipp Töberg"), lblStyleCredits);
         Label lblSoundAndMusic = new Label(MainGame.myLangBundle.format("sound&Music", "Eric Matyas (soundimage.org)"), lblStyleCredits);
         Label lblBackground = new Label(MainGame.myLangBundle.format("background", "Victoria Pontie"), lblStyleCredits);
+        Label lblFlags = new Label(MainGame.myLangBundle.format("flags", "Gang of the Coconuts (free-country-flags.com)"), lblStyleCredits);
         Label lblRestTextures = new Label(MainGame.myLangBundle.format("restTextures", "Niclas Muss", "Jan-Philipp Töberg"), lblStyleCredits);
 
         // creates the button
@@ -77,6 +78,7 @@ public class Credits implements Screen {
         menuTable.add(lblProgramming).space(10,10,10,10).align(Align.left).row();
         menuTable.add(lblSoundAndMusic).space(10,10,10,10).align(Align.left).row();
         menuTable.add(lblBackground).space(10,10,10,10).align(Align.left).row();
+        menuTable.add(lblFlags).space(10, 10, 10, 10).align(Align.left).row();
         menuTable.add(lblRestTextures).space(10,10,10,10).align(Align.left).row();
         menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
 

@@ -24,7 +24,6 @@ public class MainGame extends Game {
     public OrthographicCamera camera;
     public AudioController soundControl;
     public MemoryController memController;
-    public boolean backReleased = true;
 
     // Fonts
     public BitmapFont fontHUD;
@@ -67,8 +66,6 @@ public class MainGame extends Game {
         Settings.setSettings(memController.readSettingsFromFile());
         languageFileHandler = Gdx.files.internal("i18n/strings");
         changeLocale(Settings.isLanguageGerman());
-
-        Gdx.input.setCatchBackKey(true);
 
         createButtonStyleMainMenuFont();
         this.setScreen(new MainMenu(this));

@@ -1,6 +1,7 @@
 package com.muss_and_toeberg.snake_that.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -53,8 +54,7 @@ public class Highscores implements Screen {
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenu(game));
-                dispose();
+                game.backToMainMenu(Highscores.this);
             }
         });
 
@@ -93,6 +93,7 @@ public class Highscores implements Screen {
         game.batch.end();
         stage.draw();
         game.camera.update();
+        game.checkBackAndCloseScreen(this);
     }
 
 

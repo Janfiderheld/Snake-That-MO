@@ -2,6 +2,8 @@ package com.muss_and_toeberg.snake_that.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -40,8 +42,9 @@ public class MainGame extends Game {
     public static I18NBundle myLangBundle;
     public static TextButton.TextButtonStyle btnStyleMainMenuFont;
 
-    // objects
+    // objects & variables
     private FileHandle languageFileHandler;
+    private boolean backReleased = true;
 
     /**
      * gets called once when the game is created
@@ -66,6 +69,8 @@ public class MainGame extends Game {
         Settings.setSettings(memController.readSettingsFromFile());
         languageFileHandler = Gdx.files.internal("i18n/strings");
         changeLocale(Settings.isLanguageGerman());
+
+        Gdx.input.setCatchBackKey(true);
 
         createButtonStyleMainMenuFont();
         this.setScreen(new MainMenu(this));
@@ -92,11 +97,35 @@ public class MainGame extends Game {
      */
     public void changeLocale(boolean changeToGerman) {
         Settings.setLanguage(changeToGerman);
+        String encoding = "ISO-8859-1";
         if(changeToGerman) {
-            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.GERMAN);
+            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.GERMAN, encoding);
         } else {
-            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.ENGLISH);
+            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.ENGLISH, encoding);
         }
+    }
+
+    /**
+     * checks if the current screen should be disposed off
+     * @param toDispose Screen to dispose (eventually)
+     */
+    public void checkBackAndCloseScreen(Screen toDispose) {
+        if (backReleased && Gdx.input.isKeyPressed(Input.Keys.BACK))
+        {
+            backReleased = false;
+            backToMainMenu(toDispose);
+        } else {
+            backReleased = true;
+        }
+    }
+
+    /**
+     * return to the Main Menu Screen and dispose the other
+     * @param toDispose Screen to dispose
+     */
+    public void backToMainMenu(Screen toDispose){
+        setScreen(new MainMenu(this));
+        toDispose.dispose();
     }
 
     /**

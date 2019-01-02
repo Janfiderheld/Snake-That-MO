@@ -13,8 +13,8 @@ public class Snake {
     // Constant Values
     public static final int BODY_PART_SIZE = 50;
     private final int BODY_PART_START_AMOUNT = 30;
-    public final int ADD_WHEN_COLLECTED = 3;
-    private final int START_FOR_SUDOKU = 10;
+    public final int ADD_WHEN_COLLECTED = 10;
+    private final int NO_COLLISION_ZONE = 25;
     private final float BODY_PART_DISTANCE = 10;
 
     // Snake HitBoxes
@@ -227,8 +227,8 @@ public class Snake {
      * @return true if collision appears
      */
     public boolean checkSuicide() {
-        int currentBodyPart = (currentNeck + START_FOR_SUDOKU)  % countBodyParts;
-        int bodyPartsToCheck = countBodyParts - START_FOR_SUDOKU;
+        int currentBodyPart = (currentNeck + NO_COLLISION_ZONE)  % countBodyParts;
+        int bodyPartsToCheck = countBodyParts - NO_COLLISION_ZONE;
 
         for(int checkedBodyParts = 0; checkedBodyParts < bodyPartsToCheck; checkedBodyParts++) {
             bodyPartTemp = bodyParts.get(currentBodyPart);

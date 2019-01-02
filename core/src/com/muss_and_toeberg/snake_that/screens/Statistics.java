@@ -1,6 +1,7 @@
 package com.muss_and_toeberg.snake_that.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,6 +19,7 @@ public class Statistics implements Screen {
     // objects & graphical elements
     private MainGame game;
     private Stage stage;
+
 
     /**
      * Constructor which is used to create all objects that only need to be created once
@@ -41,8 +43,7 @@ public class Statistics implements Screen {
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenu(game));
-                dispose();
+                backtoMainMenu();
             }
         });
 
@@ -78,8 +79,25 @@ public class Statistics implements Screen {
         game.batch.end();
         stage.draw();
         game.camera.update();
+
+        if (game.backReleased && Gdx.input.isKeyPressed(Input.Keys.BACK))
+        {
+            game.backReleased = false;
+            backtoMainMenu();
+        }
+        else
+        {
+            game.backReleased = true;
+        }
     }
 
+    /**
+     * return to the Main Menu Screen
+     */
+    public void backtoMainMenu (){
+        game.setScreen(new MainMenu(game));
+        dispose();
+    }
 
     // currently not used implements of Screen
     @Override

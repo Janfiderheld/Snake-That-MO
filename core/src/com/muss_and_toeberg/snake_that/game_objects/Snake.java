@@ -88,7 +88,7 @@ public class Snake {
      * sets the color of the snake
      * @param col enum representative of the color
      */
-    public static void setColorByRGB(SnakeColor col) {
+    public static void setColorByEnum(SnakeColor col) {
         colorAsEnum = col;
         color = SnakeColor.createColor(col);
     }
@@ -119,6 +119,16 @@ public class Snake {
      */
     public float getMovementInY() {
         return movement.y;
+    }
+
+    /**
+     * sets the current position to the given values (used by the portal)
+     * @param xPos new position on the x-axis
+     * @param yPos new position in the y-axis
+     */
+    public void setMovement(float xPos, float yPos) {
+        movement.x = xPos;
+        movement.y = yPos;
     }
 
     /**

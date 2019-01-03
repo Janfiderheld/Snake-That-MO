@@ -14,6 +14,7 @@ import com.muss_and_toeberg.snake_that.game_objects.Coin;
 import com.muss_and_toeberg.snake_that.game_objects.Heart;
 import com.muss_and_toeberg.snake_that.game_objects.Snake;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.ExplodingBarrel;
+import com.muss_and_toeberg.snake_that.game_objects.obstacles.Portal;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.QuadraticBlockHitBox;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.screens.NewHighscore;
@@ -36,7 +37,7 @@ public class Level01 implements Screen {
     private final int BLOCK_X = (MainGame.CAMERA_WIDTH / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
     private final int BLOCK_Y = ((MainGame.CAMERA_HEIGHT - SIZE_OF_HUD) / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
     private final int BARREL_START_X = 1530;
-    private final int BARREL_START_Y = 124;
+    private final int BARREL_START_Y = 735;
 
     // Constant Values for the hearts
     private final int HEART_AMOUNT = 3;
@@ -55,6 +56,8 @@ public class Level01 implements Screen {
     private Heart[] hearts = new Heart[HEART_AMOUNT];
     private Texture background;
     private ExplodingBarrel barrel = new ExplodingBarrel(BARREL_START_X, BARREL_START_Y);
+    private Portal portalUpperLeft = new Portal(125, 680);
+    private Portal portalBottomRight = new Portal(1700, 120);
 
     // Obstacles and Player Character
     private static Snake snake = new Snake();
@@ -94,6 +97,8 @@ public class Level01 implements Screen {
 
         snakeRenderer = new ShapeRenderer();
         snake.createSnake(new Vector2(SLOW_SPEED,SLOW_SPEED), new Vector2(300, 300));
+        portalUpperLeft.setCorrespondingPortal(portalBottomRight);
+        portalBottomRight.setCorrespondingPortal(portalUpperLeft);
 
         for(int i = 0; i < HEART_AMOUNT; i++) {
             Heart tempHeart = new Heart();
@@ -124,12 +129,8 @@ public class Level01 implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         snakeRenderer.setProjectionMatrix(game.camera.combined);
 
-        // draw the background
-        game.batch.begin();
-        game.batch.draw(background, 0, 0);
-        game.batch.end();
-
         // renders & draws everything visible
+        drawBackground();
         snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         renderTheSnake();
         snakeRenderer.rect(0, HUD_BEGIN_Y, MainGame.CAMERA_WIDTH, SIZE_OF_HUD,
@@ -167,7 +168,8 @@ public class Level01 implements Screen {
             checkCollisionWithBlock();
             checkCollisionWithCoin();
             checkCollisionWithSnakeBody();
-            checkCollisionWithObstacle();
+            checkCollisionWithBarrel();
+            checkCollisionWithPortals();
 
             snake.increaseMovementVector();
         }
@@ -209,12 +211,23 @@ public class Level01 implements Screen {
     }
 
     /**
+     * draws the background image
+     */
+    private void drawBackground() {
+        game.batch.begin();
+        game.batch.draw(background, 0, 0);
+        game.batch.end();
+    }
+
+    /**
      * draws all textures on the screen (under certain, specific conditions)
      */
     private void drawTheTextures() {
         game.batch.begin();
 
         game.batch.draw(blockTexture, BLOCK_X, BLOCK_Y);
+        game.batch.draw(portalUpperLeft.getTexture(), portalUpperLeft.getXPosition(), portalUpperLeft.getYPosition());
+        game.batch.draw(portalBottomRight.getTexture(), portalBottomRight.getXPosition(), portalBottomRight.getYPosition());
         game.batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
 
         if(!barrel.checkExploded()) {
@@ -346,10 +359,15 @@ public class Level01 implements Screen {
         }
     }
 
+    private void checkCollisionWithPortals() {
+        portalBottomRight.doesSnakeHitPortal(snake);
+        portalUpperLeft.doesSnakeHitPortal(snake);
+    }
+
     /**
-     * checks if the snake collides with one of the Obstacles
+     * checks if the snake collides with the exploding barrel
      */
-    private void checkCollisionWithObstacle() {
+    private void checkCollisionWithBarrel() {
         if(barrel.checkIfCanExplode(snake.getHeadAsRectangle())) {
             game.soundControl.playExplosionSound();
             barrel.explode(score);
@@ -430,13 +448,14 @@ public class Level01 implements Screen {
      */
     private void randomizeCircleObject(int sizeOfCircle, boolean isCoin) {
         int radius = sizeOfCircle / 2;
-        int newX = rndGenerator.nextInt(game.CAMERA_WIDTH - (sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
+        int newX = rndGenerator.nextInt(MainGame.CAMERA_WIDTH - (sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
         if(newX > BLOCK_X - radius - 1) {
             newX += QuadraticBlockHitBox.HIT_BOX_SIZE + sizeOfCircle + 1;
         } else if (newX < radius) {
             newX += radius;
         }
-        int newY = rndGenerator.nextInt(game.CAMERA_HEIGHT - (sizeOfCircle + SIZE_OF_HUD + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
+
+        int newY = rndGenerator.nextInt(MainGame.CAMERA_HEIGHT - (SIZE_OF_HUD + sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
         if(newY > BLOCK_Y - radius - 1) {
             newY += QuadraticBlockHitBox.HIT_BOX_SIZE + sizeOfCircle + 1;
         } else if (newY < radius) {

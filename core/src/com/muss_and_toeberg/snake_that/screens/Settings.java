@@ -122,7 +122,7 @@ public class Settings implements Screen {
                 public void changed (ChangeEvent event, Actor actor) {
                     if(((TextButton)actor).isChecked()) {
                         SnakeColor tempColor = SnakeColor.makeIntToSnakeColor(finalCount);
-                        Snake.setColorByRGB(tempColor);
+                        Snake.setColorByEnum(tempColor);
                         uncheckAllColorButtons(tempColor);
                     }
                 }

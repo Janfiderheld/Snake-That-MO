@@ -1,4 +1,4 @@
-package com.muss_and_toeberg.snake_that.screens;
+package com.muss_and_toeberg.snake_that.technical;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -12,9 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.muss_and_toeberg.snake_that.technical.AudioController;
-import com.muss_and_toeberg.snake_that.technical.MemoryController;
-import com.muss_and_toeberg.snake_that.technical.Menu;
+import com.muss_and_toeberg.snake_that.screens.MainMenu;
+import com.muss_and_toeberg.snake_that.screens.Settings;
 import java.util.Locale;
 
 /**
@@ -34,8 +33,8 @@ public class MainGame extends Game {
     public BitmapFont fontDescription;
 
     // constant values
-    final int CAMERA_WIDTH = 1920;
-    final int CAMERA_HEIGHT = 1080;
+    public final int CAMERA_WIDTH = 1920;
+    public final int CAMERA_HEIGHT = 1080;
 
     // static objects
     public static Menu currentMenu;

@@ -15,8 +15,7 @@ import com.muss_and_toeberg.snake_that.game_objects.Heart;
 import com.muss_and_toeberg.snake_that.game_objects.Snake;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.ExplodingBarrel;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.QuadraticBlockHitBox;
-import com.muss_and_toeberg.snake_that.screens.Highscores;
-import com.muss_and_toeberg.snake_that.screens.MainGame;
+import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.screens.MainMenu;
 import com.muss_and_toeberg.snake_that.screens.NewHighscore;
 import com.muss_and_toeberg.snake_that.screens.Settings;
@@ -107,7 +106,7 @@ public class Level01 implements Screen {
         background = new Texture ("textures/backgroundPipes.png");
         hat = new Texture("textures/SantaHat.png");
 
-        randomizeNewCoin();
+        randomizeCircleObject(coin.getSize(), true);
         game.memController.startTimer();
         gameHasStarted = true;
 
@@ -299,7 +298,7 @@ public class Level01 implements Screen {
             } else {
                 game.soundControl.playPointsSound();
             }
-            randomizeNewCoin();
+            randomizeCircleObject(coin.getSize(), true);
         }
     }
 
@@ -338,7 +337,7 @@ public class Level01 implements Screen {
             return;
         }
         if(barrel.checkExploded() && score - barrel.getPointsLastExplosion() >= barrel.POINTS_NEW_BARREL) {
-            addNewBarrel();
+            randomizeCircleObject(barrel.getSize(), false);
         }
     }
 
@@ -398,52 +397,34 @@ public class Level01 implements Screen {
     }
 
     /**
-     * changes the position of the barrel
+     *
+     * @param sizeOfCircle
+     * @param isCoin
      */
-    private void addNewBarrel() {
-        int barrelX = rndGenerator.nextInt(CAMERA_WIDTH  - (barrel.getSize() + QuadraticBlockHitBox.HIT_BOX_SIZE + barrel.getRadius()));
-        if(barrelX > BLOCK_X - barrel.getRadius() - 1) {
-            barrelX += QuadraticBlockHitBox.HIT_BOX_SIZE + barrel.getSize() + 1;
-        } else if (barrelX < barrel.getRadius()) {
-            barrelX += barrel.getRadius();
+    private void randomizeCircleObject(int sizeOfCircle, boolean isCoin) {
+        int radius = sizeOfCircle / 2;
+        int newX = rndGenerator.nextInt(game.CAMERA_WIDTH - (sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
+        if(newX > BLOCK_X - radius - 1) {
+            newX += QuadraticBlockHitBox.HIT_BOX_SIZE + sizeOfCircle + 1;
+        } else if (newX < radius) {
+            newX += radius;
+        }
+        int newY = rndGenerator.nextInt(game.CAMERA_HEIGHT - (sizeOfCircle + SIZE_OF_HUD + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
+        if(newY > BLOCK_Y - radius - 1) {
+            newY += QuadraticBlockHitBox.HIT_BOX_SIZE + sizeOfCircle + 1;
+        } else if (newY < radius) {
+            newY += radius;
         }
 
-        int barrelY = rndGenerator.nextInt(CAMERA_HEIGHT - (barrel.getSize() + QuadraticBlockHitBox.HIT_BOX_SIZE + SIZE_OF_HUD + barrel.getRadius() + 1));
-        if(barrelY >= BLOCK_Y - barrel.getRadius() - 1) {
-            barrelY += QuadraticBlockHitBox.HIT_BOX_SIZE + barrel.getSize() + 1;
-        } else if (barrelY < barrel.getRadius()) {
-            barrelY += barrel.getRadius();
+        if(isCoin) {
+            coin.setPosition(newX, newY);
+            coin_value = coin.setRandomTexture(rndGenerator.nextInt(100) + 1);
+        } else {
+            barrel.setPosition(newX, newY);
+            barrel.setExplodedState(false);
         }
 
-        barrel.setPosition(barrelX, barrelY);
-        barrel.setExplodedState(false);
     }
-
-    /**
-     * changes the x and y coordinates of the coin at a random place
-     * (which is not inside the block or the HUD)
-     */
-    private void randomizeNewCoin() {
-        int coinX = rndGenerator.nextInt(CAMERA_WIDTH  - (coin.getSize() + QuadraticBlockHitBox.HIT_BOX_SIZE + coin.getRadius()));
-        if(coinX > BLOCK_X - coin.getRadius() - 1) {
-            coinX += QuadraticBlockHitBox.HIT_BOX_SIZE + coin.getSize() + 1;
-        } else if (coinX < coin.getRadius()) {
-            coinX += coin.getRadius();
-        }
-
-        int coinY = rndGenerator.nextInt(CAMERA_HEIGHT - (coin.getSize() + QuadraticBlockHitBox.HIT_BOX_SIZE + SIZE_OF_HUD + coin.getRadius() + 1));
-        if(coinY >= BLOCK_Y - coin.getRadius() - 1) {
-            coinY += QuadraticBlockHitBox.HIT_BOX_SIZE + coin.getSize() + 1;
-        } else if (coinY < coin.getRadius()) {
-            coinY += coin.getRadius();
-        }
-
-        coin.setXPosition(coinX);
-        coin.setYPosition(coinY);
-        coin_value = coin.setRandomTexture(rndGenerator.nextInt(100) + 1);
-    }
-
-
 
 
     // currently not used implements of Screen

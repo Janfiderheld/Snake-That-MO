@@ -22,8 +22,8 @@ public class Coin {
     private final int RANDOM_POINTS_MAX = 100;
 
     // the Position on the coordinate system
-    private int xPos = RADIUS;
-    private int yPos = RADIUS;
+    private float xPos = RADIUS;
+    private float yPos = RADIUS;
 
     // local variables
     private Random rndGenerator = new Random();
@@ -55,14 +55,14 @@ public class Coin {
     /**
      * @return position of the coin on the x-axis
      */
-    public int getXPosition() {
+    public float getXPosition() {
         return xPos - RADIUS;
     }
 
     /**
      * @return position of the coin on the y-axis
      */
-    public int getYPosition() {
+    public float getYPosition() {
         return yPos - RADIUS;
     }
 
@@ -70,7 +70,7 @@ public class Coin {
      * changes the x-Position and refreshes the HitBox
      * @param xPos - new Position on the x-axis
      */
-    public void setXPosition(int xPos) {
+    public void setXPosition(float xPos) {
         this.xPos = xPos;
         refreshHitBox();
     }
@@ -79,7 +79,18 @@ public class Coin {
      * changes the y-Position and refreshes the HitBox
      * @param yPos - new Position on the y-axis
      */
-    public void setYPosition(int yPos) {
+    public void setYPosition(float yPos) {
+        this.yPos = yPos;
+        refreshHitBox();
+    }
+
+    /**
+     * sets the current position to the given value and refreshes the hitBox
+     * @param xPos new position on the x-axis
+     * @param yPos new position on the y-axis
+     */
+    public void setPosition(float xPos, float yPos) {
+        this.xPos = xPos;
         this.yPos = yPos;
         refreshHitBox();
     }

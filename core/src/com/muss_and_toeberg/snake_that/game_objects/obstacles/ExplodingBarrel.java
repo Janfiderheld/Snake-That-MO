@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * represents the exploding barrel as a subclass of the obstacle
+ */
 public class ExplodingBarrel extends Obstacle<Circle> {
     // constant values
     public final int POINTS_NEW_BARREL = 250;
@@ -13,13 +16,6 @@ public class ExplodingBarrel extends Obstacle<Circle> {
     // variables
     private boolean isExploded = false;
     private int pointsWhenExplosion = 0;
-
-    /**
-     * default constructor, which should never (!) be used but needs to exist
-     */
-    public ExplodingBarrel() {
-        super(0,0, 128, new Texture(Gdx.files.internal("textures/Barrel.png")));
-    }
 
     /**
      * constructor which places a barrel at the given position

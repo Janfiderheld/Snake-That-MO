@@ -2,7 +2,6 @@ package com.muss_and_toeberg.snake_that.technical;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.muss_and_toeberg.snake_that.screens.MainGame;
 import com.muss_and_toeberg.snake_that.screens.Settings;
 import static com.muss_and_toeberg.snake_that.screens.Settings.NUMBER_SETTINGS;
 import java.io.IOException;

@@ -2,7 +2,6 @@ package com.muss_and_toeberg.snake_that.technical;
 
 import com.badlogic.gdx.InputProcessor;
 import com.muss_and_toeberg.snake_that.screens.levels.Level01;
-import com.muss_and_toeberg.snake_that.screens.MainGame;
 
 /**
  * Implementation of the InputProcessor

@@ -360,8 +360,9 @@ public class Level01 implements Screen {
     }
 
     private void checkCollisionWithPortals() {
-        portalBottomRight.doesSnakeHitPortal(snake);
-        portalUpperLeft.doesSnakeHitPortal(snake);
+        if(!portalBottomRight.doesSnakeHitPortal(snake)) {
+            portalUpperLeft.doesSnakeHitPortal(snake);
+        }
     }
 
     /**

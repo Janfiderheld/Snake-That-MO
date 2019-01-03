@@ -24,11 +24,11 @@ public class Portal extends Obstacle<Circle> {
     }
 
     /**
-     * TODO: Finish! Currently one portal works just fine but the other ports the player directly back
      * checks if the snake hits this portal
      * @param snake snake to check for
+     * @return true when this portal was hit by the head this render
      */
-    public void doesSnakeHitPortal(Snake snake) {
+    public boolean doesSnakeHitPortal(Snake snake) {
         boolean hasCollisionWithHead = Intersector.overlaps(this.getHitBox(), snake.getHeadAsRectangle());
 
         if(!this.ignoreCollision && hasCollisionWithHead) {
@@ -39,6 +39,8 @@ public class Portal extends Obstacle<Circle> {
         if(this.ignoreCollision && !hasCollisionWithHead) {
             this.ignoreTheCollision(false);
         }
+
+        return hasCollisionWithHead;
     }
 
     /**

@@ -48,7 +48,6 @@ public class Credits implements Screen {
         lblStyleDescription.fontColor = Color.WHITE;
 
         // creates the Labels
-        // TODO: Maybe make the links clickable?
         Label lblDescription = new Label(MainGame.myLangBundle.get("desc"), lblStyleDescription);
         Label lblLibGDX = new Label(MainGame.myLangBundle.format("libGDX", "(apache.org/licenses/LICENSE-2.0)"), lblStyleDescription);
         Label lblSupport = new Label(MainGame.myLangBundle.format("support", "M.Sc. Andreas Schmelter", "Prof. Dr. rer. nat. Stefan Heiss"), lblStyleCredits);

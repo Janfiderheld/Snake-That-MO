@@ -29,8 +29,6 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [libGDX: Beispiel-Spiel (Tutorial)](https://github.com/libgdx/libgdx/wiki/A-simple-game) (abgerufen am: 13.11.)
 - [Umsetzung (mit Erweiterung) des Beispiel-Spiels](https://drive.google.com/drive/folders/11WqeAeZgEVUvycyAEVo4V9yjTBE-AW-w) (abgerufen am: 13.11.)
 - [Artikel über die am häufig vorhandenen Bildschirmauflösungen von Android-Smartphones](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions) (abgerufen am: 13.11.)
-- [libGDX: Memory Management](https://github.com/libgdx/libgdx/wiki/Memory-management) (abgerufen am: 27.11.)
-- [Hiero (Bitmap Font Packaging Tool)](https://github.com/libgdx/libgdx/wiki/Hiero) (abgerufen am: 04.12.)
 - [Texte & Schriftarten in libGDX verwenden](https://www.gamefromscratch.com/post/2014/11/21/LibGDX-Video-Tutorial-Creating-and-Using-Fonts-and-Text.aspx) (abgerufen am: 04.12.)
 - [Zusammenfassung der Apache 2.0 Lizenz](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)) (abgerufen am: 06.12.)
 - [StackOverflow: Wechseln von Screens in LibGDX](https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx) (abgerufen am: 11.12.)

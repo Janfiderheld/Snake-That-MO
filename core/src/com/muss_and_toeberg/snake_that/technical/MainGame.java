@@ -33,8 +33,8 @@ public class MainGame extends Game {
     public BitmapFont fontDescription;
 
     // constant values
-    public final int CAMERA_WIDTH = 1920;
-    public final int CAMERA_HEIGHT = 1080;
+    public static final int CAMERA_WIDTH = 1920;
+    public static final int CAMERA_HEIGHT = 1080;
 
     // static objects
     public static Menu currentMenu;

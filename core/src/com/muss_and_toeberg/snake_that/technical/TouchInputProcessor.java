@@ -24,7 +24,9 @@ public class TouchInputProcessor implements InputProcessor {
             case LevelSelection:
                 break;
             case Level:
-                Level01.setDirectionVectorDown();
+                if(Level01.gameHasStarted) {
+                    Level01.setDirectionVectorDown();
+                }
                 break;
             case Settings:
                 break;
@@ -50,13 +52,15 @@ public class TouchInputProcessor implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         switch(MainGame.currentMenu) {
             case MainMenu:
-                checkMainMenuButtons(screenX, screenY);
                 break;
             case LevelSelection:
                 break;
             case Level:
-                Level01.setDirectionVectorUp();
-                Level01.hasHitWall = false;
+                if(Level01.gameHasStarted) {
+                    Level01.setDirectionVectorUp();
+                } else {
+                    Level01.shouldGoBack = true;
+                }
                 break;
             case Settings:
                 break;
@@ -68,13 +72,6 @@ public class TouchInputProcessor implements InputProcessor {
                 break;
         }
         return true;
-    }
-
-    /**
-     * checks which button of the mainMenu is used
-     */
-    private void checkMainMenuButtons(int screenPosX, int screenPosY) {
-        return;
     }
 
 

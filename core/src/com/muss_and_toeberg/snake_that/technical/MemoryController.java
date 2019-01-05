@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 /**
  * controls everything related to saving and loading
+ * @author Niclas Muss
  */
 public class MemoryController {
     // constant values

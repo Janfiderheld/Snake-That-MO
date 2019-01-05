@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -23,11 +24,11 @@ import com.muss_and_toeberg.snake_that.technical.HitDirection;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 import com.muss_and_toeberg.snake_that.technical.TouchInputProcessor;
 
-import java.util.Iterator;
 import java.util.Random;
 
 /**
  * First Level of the game
+ * @author Jan-Philipp Töberg
  */
 public class Level01 implements Screen {
     // Constant width & height values
@@ -36,8 +37,6 @@ public class Level01 implements Screen {
     private final int TEXT_BEGIN_Y = MainGame.CAMERA_HEIGHT - 15;
     private final int BLOCK_X = (MainGame.CAMERA_WIDTH / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
     private final int BLOCK_Y = ((MainGame.CAMERA_HEIGHT - SIZE_OF_HUD) / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
-    private final int BARREL_START_X = 1530;
-    private final int BARREL_START_Y = 735;
 
     // Constant Values for the hearts
     private final int HEART_AMOUNT = 3;
@@ -55,7 +54,7 @@ public class Level01 implements Screen {
     private MainGame game;
     private Heart[] hearts = new Heart[HEART_AMOUNT];
     private Texture background;
-    private ExplodingBarrel barrel = new ExplodingBarrel(BARREL_START_X, BARREL_START_Y);
+    private ExplodingBarrel barrel = new ExplodingBarrel(0, 0);
     private Portal portalUpperLeft = new Portal(125, 680);
     private Portal portalBottomRight = new Portal(1700, 120);
 
@@ -77,6 +76,7 @@ public class Level01 implements Screen {
     private int score = 0;
     private boolean invincibilityOn = true;
     private float countInvincFrames = 0;
+    private boolean shouldDrawLine = false;
 
     // class variables
     public static boolean hasHitWall = true;
@@ -109,10 +109,9 @@ public class Level01 implements Screen {
         background = new Texture ("textures/backgroundPipes.png");
         hat = new Texture("textures/SantaHat.png");
 
-        randomizeCircleObject(coin.getSize(), true);
+        randomizeCircleObject(true);
+        randomizeCircleObject(false);
         game.memController.startTimer();
-
-        Gdx.gl.glClearColor((float)0.7, (float)0.7, (float)0.7, 0);
     }
 
     /**
@@ -128,21 +127,15 @@ public class Level01 implements Screen {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         snakeRenderer.setProjectionMatrix(game.camera.combined);
-
-        // renders & draws everything visible
         drawBackground();
-        snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderTheSnake();
-        snakeRenderer.rect(0, HUD_BEGIN_Y, MainGame.CAMERA_WIDTH, SIZE_OF_HUD,
-                Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY);
-        snakeRenderer.end();
-        drawTheTextures();
 
         if(gameHasStarted) {
             startTouchVector.x = snake.getMovementInX() + (Snake.BODY_PART_SIZE / 2);
             startTouchVector.y = snake.getMovementInY() + (Snake.BODY_PART_SIZE / 2);
 
             snake.moveSnakeBody();
+            checkAllCollisions();
+            snake.increaseMovementVector();
 
             // checks if the screen is currently touched (= can the snake be directed?)
             if (Gdx.input.isTouched() && hasHitWall) {
@@ -156,23 +149,17 @@ public class Level01 implements Screen {
                 } else {
                     lineTouchVector = endTouchVector;
                 }
-
-                snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                snakeRenderer.setColor(Color.BLUE);
-                snakeRenderer.rectLine(startTouchVector, lineTouchVector, LINE_LENGTH);
-                snakeRenderer.end();
+                shouldDrawLine = true;
+            } else {
+                shouldDrawLine = false;
             }
-
-            // checks the different possible collisions
-            checkCollisionWithWall();
-            checkCollisionWithBlock();
-            checkCollisionWithCoin();
-            checkCollisionWithSnakeBody();
-            checkCollisionWithBarrel();
-            checkCollisionWithPortals();
-
-            snake.increaseMovementVector();
         }
+
+        // renders & draws everything visible
+        renderTheSnake();
+        renderTheHUD();
+        drawTheTextures();
+        renderTheLine();
 
         if (shouldGoBack) {
             changeTheScreen();
@@ -202,12 +189,38 @@ public class Level01 implements Screen {
      * renders the snakes head and body
      */
     private void renderTheSnake() {
+        snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         snakeRenderer.setColor(Snake.getColor());
         snakeRenderer.rect(snake.getXValueHead(), snake.getYValueHead(), Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
-        for (Iterator<Rectangle> iter = snake.getBody().iterator(); iter.hasNext(); ) {
-            Rectangle body = iter.next();
+        for (int count = 0; count < snake.getBody().size; count++) {
+            Rectangle body = snake.getBody().get(count);
             snakeRenderer.rect(body.x, body.y, Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
         }
+        snakeRenderer.end();
+    }
+
+    /**
+     * renders the HUD
+     */
+    private void renderTheHUD() {
+        snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        snakeRenderer.rect(0, HUD_BEGIN_Y, MainGame.CAMERA_WIDTH, SIZE_OF_HUD,
+                Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY);
+        snakeRenderer.end();
+    }
+
+    /**
+     * renders the Line to show the direction
+     */
+    private void renderTheLine() {
+        if(!shouldDrawLine) {
+            return;
+        }
+
+        snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        snakeRenderer.setColor(Color.BLUE);
+        snakeRenderer.rectLine(startTouchVector, lineTouchVector, LINE_LENGTH);
+        snakeRenderer.end();
     }
 
     /**
@@ -281,18 +294,32 @@ public class Level01 implements Screen {
     }
 
     /**
+     * checks for all possible collisions
+     */
+    private void checkAllCollisions() {
+        checkCollisionWithWall();
+        checkCollisionWithBlock();
+        checkCollisionWithCoin();
+        checkCollisionWithSnakeBody();
+        checkCollisionWithBarrel();
+        checkCollisionWithPortals();
+    }
+
+    /**
      * checks if the snake collides with the block in the middle (= Waluigi)
      */
     private void checkCollisionWithBlock() {
         HitDirection side = block.checkWhichCollisionSide(snake.getHeadAsRectangle());
 
         switch(side) {
-            case LeftSide:
-            case RightSide:
+            case NoHit:
+                return;
+            case Left:
+            case Right:
                 snake.invertXDirection();
                 break;
-            case Upwards:
-            case Downwards:
+            case Up:
+            case Down:
                 snake.invertYDirection();
                 break;
             case UpAndLeft:
@@ -332,7 +359,7 @@ public class Level01 implements Screen {
             } else {
                 game.soundControl.playPointsSound();
             }
-            randomizeCircleObject(coin.getSize(), true);
+            randomizeCircleObject(true);
         }
     }
 
@@ -359,6 +386,9 @@ public class Level01 implements Screen {
         }
     }
 
+    /**
+     * checks if the snake hits one of the portals
+     */
     private void checkCollisionWithPortals() {
         if(!portalBottomRight.doesSnakeHitPortal(snake)) {
             portalUpperLeft.doesSnakeHitPortal(snake);
@@ -377,7 +407,7 @@ public class Level01 implements Screen {
             return;
         }
         if(barrel.checkExploded() && score - barrel.getPointsLastExplosion() >= barrel.POINTS_NEW_BARREL) {
-            randomizeCircleObject(barrel.getSize(), false);
+            randomizeCircleObject(false);
         }
     }
 
@@ -443,11 +473,11 @@ public class Level01 implements Screen {
     }
 
     /**
-     * randomizes the position of either the coin or the barrel
-     * @param sizeOfCircle size of the circle to randomize
-     * @param isCoin true if a coin should be randomized
+     * creates new random values for the x and the y-axis
+     * @param sizeOfCircle size of the circle object
+     * @return array containing at index 0 the x and at index 1 the y-value
      */
-    private void randomizeCircleObject(int sizeOfCircle, boolean isCoin) {
+    private int[] createRandomValues(int sizeOfCircle) {
         int radius = sizeOfCircle / 2;
         int newX = rndGenerator.nextInt(MainGame.CAMERA_WIDTH - (sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
         if(newX > BLOCK_X - radius - 1) {
@@ -463,11 +493,38 @@ public class Level01 implements Screen {
             newY += radius;
         }
 
+        int[] arrayToReturn = {newX, newY};
+        return arrayToReturn;
+    }
+
+    /**
+     * randomizes a circle object (barrel or coin) until it is not inside one of the portals
+     * @param isCoin true if the object to randomized is a coin
+     */
+    private void randomizeCircleObject(boolean isCoin) {
+        boolean isFinished = false;
+        Circle tempHitBox;
+        int[] rndValues;
+
         if(isCoin) {
-            coin.setPosition(newX, newY);
+            tempHitBox = coin.getHitBox();
+        } else {
+            tempHitBox = barrel.getHitBox();
+        }
+
+        while(!isFinished) {
+            rndValues = createRandomValues(Math.round(tempHitBox.radius * 2));
+            tempHitBox.setPosition(rndValues[0], rndValues[1]);
+            if(!tempHitBox.overlaps(portalBottomRight.getHitBox()) && !tempHitBox.overlaps(portalUpperLeft.getHitBox())) {
+                isFinished = true;
+            }
+        }
+
+        if(isCoin) {
+            coin.setHitBox(tempHitBox);
             coin_value = coin.setRandomTexture(rndGenerator.nextInt(100) + 1);
         } else {
-            barrel.setPosition(newX, newY);
+            barrel.setHitBox(tempHitBox);
             barrel.setExplodedState(false);
         }
     }

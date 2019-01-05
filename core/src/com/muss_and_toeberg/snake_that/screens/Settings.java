@@ -20,7 +20,8 @@ import com.muss_and_toeberg.snake_that.technical.Menu;
 import com.muss_and_toeberg.snake_that.technical.SnakeColor;
 
 /**
- * the settings menu where the player can turn the music on and off and choose the snake color
+ * Screen which contains the Settings
+ * @author Niclas Muss
  */
 public class Settings implements Screen {
     // constant values

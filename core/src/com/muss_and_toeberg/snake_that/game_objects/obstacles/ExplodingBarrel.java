@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 /**
  * represents the exploding barrel as a subclass of the obstacle
+ * @author Jan-Philipp Töberg
  */
 public class ExplodingBarrel extends Obstacle<Circle> {
     // constant values

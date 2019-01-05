@@ -1,25 +1,25 @@
 package com.muss_and_toeberg.snake_that.game_objects.obstacles;
 
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.muss_and_toeberg.snake_that.technical.HitDirection;
 
 /**
  * describes the hitBox for the block as four small hitBoxes as his outlines
+ * @author Jan-Philipp Töberg
  */
 public class QuadraticBlockHitBox {
 	// constant values
 	public final static int HIT_BOX_SIZE = 256;
-	final int NO_OF_SIDES = 4;
+	private final int NO_OF_SIDES = 4;
+	private final int HIT_BOX_THICKNESS = 1;
 
-	// position of the waluigi
-	private int x;
-	private int y;
+	// indexes for the four sides
+	private final int INDEX_RIGHT = 0;
+	private final int INDEX_LEFT = 1;
+	private final int INDEX_UP = 2;
+	private final int INDEX_DOWN = 3;
 
 	// the four hitBoxes as an array
-	// 0 - right	1 - left
-	// 2 - up	3- down
 	private Rectangle[] fourSides = new Rectangle[NO_OF_SIDES];
 
 	/**
@@ -28,13 +28,10 @@ public class QuadraticBlockHitBox {
 	 * @param y y position of the bottom left point of the whole rectangle
 	 */
 	public QuadraticBlockHitBox(int x, int y) {
-		this.x = x;
-		this.y = y;
-
-		fourSides[0] = createRectangle(x + HIT_BOX_SIZE - 1, y, false);
-		fourSides[1] = createRectangle(x, y, false);
-		fourSides[2] = createRectangle(x, y + HIT_BOX_SIZE - 1, true);
-		fourSides[3] = createRectangle(x, y, true);
+		fourSides[INDEX_RIGHT] = createRectangle(x + HIT_BOX_SIZE - HIT_BOX_THICKNESS, y, false);
+		fourSides[INDEX_LEFT] = createRectangle(x, y, false);
+		fourSides[INDEX_UP] = createRectangle(x, y + HIT_BOX_SIZE - HIT_BOX_THICKNESS, true);
+		fourSides[INDEX_DOWN] = createRectangle(x, y, true);
 	}
 
 	/**
@@ -51,9 +48,9 @@ public class QuadraticBlockHitBox {
 		
 		if(isUpDown) {
 			rect.width = HIT_BOX_SIZE;
-			rect.height = 1;
+			rect.height = HIT_BOX_THICKNESS;
 		} else {
-			rect.width = 1;
+			rect.width = HIT_BOX_THICKNESS;
 			rect.height = HIT_BOX_SIZE;
 		}
 		
@@ -70,16 +67,16 @@ public class QuadraticBlockHitBox {
 		for(int i = 0; i < NO_OF_SIDES; i++) {
 			if(fourSides[i].overlaps(snake)) {
 				switch (i) {
-					case 0:
+					case INDEX_RIGHT:
 						sum = sum | 0x01;
 						break;
-					case 1:
+					case INDEX_LEFT:
 						sum = sum | 0x02;
 						break;
-					case 2:
+					case INDEX_UP:
 						sum = sum | 0x04;
 						break;
-					case 3:
+					case INDEX_DOWN:
 						sum = sum | 0x08;
 						break;
 				}
@@ -96,13 +93,13 @@ public class QuadraticBlockHitBox {
 	private HitDirection getHitDirectionForSide(int indexOfSide) {
 		switch (indexOfSide) {
 			case 0x01:
-				return HitDirection.RightSide;
+				return HitDirection.Right;
 			case 0x02:
-				return HitDirection.LeftSide;
+				return HitDirection.Left;
 			case 0x04:
-				return HitDirection.Upwards;
+				return HitDirection.Up;
 			case 0x08:
-				return HitDirection.Downwards;
+				return HitDirection.Down;
 			case 0x05:
 				return HitDirection.UpAndRight;
 			case 0x06:
@@ -111,7 +108,7 @@ public class QuadraticBlockHitBox {
 				return HitDirection.DownAndRight;
 			case 0x0A:
 				return HitDirection.DownAndLeft;
-			case 0:
+			case 0x00:
 			default:
 				return HitDirection.NoHit;
 		}

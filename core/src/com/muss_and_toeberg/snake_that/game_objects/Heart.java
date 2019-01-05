@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 /**
  * filled and unfilled hearts to represent the remaining lives
+ * @author Jan-Philipp Töberg
  */
 public class Heart {
 	// local Variables

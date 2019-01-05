@@ -8,6 +8,7 @@ import com.muss_and_toeberg.snake_that.technical.SnakeColor;
 
 /**
  * Represents the snake (= player character)
+ * @author Jan-Philipp Töberg
  */
 public class Snake {
     // Constant Values
@@ -46,7 +47,7 @@ public class Snake {
 		bodyParts = new Array<Rectangle>();
 		countBodyParts = BODY_PART_START_AMOUNT;
 		currentNeck = countBodyParts - 1;
-        head = createNewHitBox(movement.x, movement.y);
+        head = createNewHitBox(getMovementInX(), getMovementInY());
 
         for (int i = 0; i < countBodyParts; i++){
             float tempX = head.x - BODY_PART_DISTANCE * (i + 1);
@@ -166,8 +167,8 @@ public class Snake {
      * moves the head of the snake
      */
     private void moveHead() {
-        head.x = movement.x;
-        head.y = movement.y;
+        head.x = getMovementInX();
+        head.y = getMovementInY();
     }
 
     /**
@@ -224,8 +225,8 @@ public class Snake {
      */
     public void addNewBodyPart() {
         for (int i = 0; i < ADD_WHEN_COLLECTED; i++) {
-            float tempX = head.x - movement.x * (countBodyParts + 1);
-            float tempY = head.y - movement.y * (countBodyParts + 1);
+            float tempX = head.x - getMovementInX() * (countBodyParts + 1);
+            float tempY = head.y - getMovementInY() * (countBodyParts + 1);
 
             bodyParts.add(createNewHitBox(tempX, tempY));
             countBodyParts++;

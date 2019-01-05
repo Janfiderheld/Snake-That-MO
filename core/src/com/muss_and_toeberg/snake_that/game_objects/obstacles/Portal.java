@@ -8,6 +8,7 @@ import com.muss_and_toeberg.snake_that.game_objects.Snake;
 
 /**
  * Portal which come in pairs and set the player to the location of the other portal
+ * @author Jan-Philipp Töberg
  */
 public class Portal extends Obstacle<Circle> {
     // objects & variables

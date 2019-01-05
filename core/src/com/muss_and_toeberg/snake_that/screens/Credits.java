@@ -14,6 +14,10 @@ import com.badlogic.gdx.utils.Align;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
+/**
+ * Screen which contains the Credits
+ * @author Niclas Muss
+ */
 public class Credits implements Screen {
     // objects & graphical elements
     private MainGame game;

@@ -14,11 +14,14 @@ import com.badlogic.gdx.utils.Align;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
+/**
+ * Screen which contains the Stats
+ * @author Niclas Muss
+ */
 public class Statistics implements Screen {
     // objects & graphical elements
     private MainGame game;
     private Stage stage;
-
 
     /**
      * Constructor which is used to create all objects that only need to be created once

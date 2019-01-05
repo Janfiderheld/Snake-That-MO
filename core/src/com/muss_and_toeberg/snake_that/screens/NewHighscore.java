@@ -17,6 +17,10 @@ import com.badlogic.gdx.utils.Align;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
+/**
+ * Screen which is used to enter a new Highscore
+ * @author Niclas Muss
+ */
 public class NewHighscore implements Screen {
     // constant values
     private final int MAX_USERNAME_LENGTH = 12;

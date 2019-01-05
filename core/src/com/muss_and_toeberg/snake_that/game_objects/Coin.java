@@ -8,6 +8,7 @@ import java.util.Random;
 
 /**
  * Object which the player can collect to gain points or lives
+ * @author Jan-Philipp Töberg
  */
 public class Coin {
     // Texture for the image and the hitBox
@@ -67,21 +68,12 @@ public class Coin {
     }
 
     /**
-     * changes the x-Position and refreshes the HitBox
-     * @param xPos - new Position on the x-axis
+     * sets the hitBox to the given Circle-object
+     * @param newHitBox new HitBox as a Circle
      */
-    public void setXPosition(float xPos) {
-        this.xPos = xPos;
-        refreshHitBox();
-    }
-
-    /**
-     * changes the y-Position and refreshes the HitBox
-     * @param yPos - new Position on the y-axis
-     */
-    public void setYPosition(float yPos) {
-        this.yPos = yPos;
-        refreshHitBox();
+    public void setHitBox(Circle newHitBox) {
+        this.hitBox = newHitBox;
+        setPosition(newHitBox.x, newHitBox.y);
     }
 
     /**
@@ -92,7 +84,6 @@ public class Coin {
     public void setPosition(float xPos, float yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
-        refreshHitBox();
     }
 
     /**
@@ -100,13 +91,6 @@ public class Coin {
      */
     public int getNotRandomPoints() {
         return SCORE_PER_COIN;
-    }
-
-    /**
-     * @return radius of the coin
-     */
-    public int getRadius() {
-        return RADIUS;
     }
 
     /**

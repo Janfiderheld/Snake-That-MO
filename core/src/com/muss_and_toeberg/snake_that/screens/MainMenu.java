@@ -13,7 +13,8 @@ import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
 /**
- * Main menu of the game
+ * Screen which contains the Main menu
+ * @author Niclas Muss
  */
 public class MainMenu implements Screen {
     // constant values

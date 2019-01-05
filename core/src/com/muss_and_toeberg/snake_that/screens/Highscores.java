@@ -15,7 +15,8 @@ import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
 /**
- * Highscore Menu Screen
+ * Screen which contains the Highscores
+ * @author Niclas Muss
  */
 public class Highscores implements Screen {
     // objects & graphical elements

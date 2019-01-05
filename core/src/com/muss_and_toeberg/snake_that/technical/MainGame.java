@@ -17,7 +17,8 @@ import com.muss_and_toeberg.snake_that.screens.Settings;
 import java.util.Locale;
 
 /**
- * MainGame
+ * MainGame which controls screen changes and contains all "global" objects
+ * @author Niclas Muss
  */
 public class MainGame extends Game {
     // Objects which are used throughout the whole game

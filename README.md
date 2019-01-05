@@ -26,6 +26,7 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 ### Text- / Quellcode-Quellen 
 
 - [libGDX: Website](https://libgdx.badlogicgames.com/) (abgerufen am: 07.11.)
+- [libGDX: API Dokumentation](https://libgdx.badlogicgames.com/ci/nightlies/docs/api/) (abgerufen am: 07.11.)
 - [libGDX: Beispiel-Spiel (Tutorial)](https://github.com/libgdx/libgdx/wiki/A-simple-game) (abgerufen am: 13.11.)
 - [Umsetzung (mit Erweiterung) des Beispiel-Spiels](https://drive.google.com/drive/folders/11WqeAeZgEVUvycyAEVo4V9yjTBE-AW-w) (abgerufen am: 13.11.)
 - [Artikel über die am häufig vorhandenen Bildschirmauflösungen von Android-Smartphones](https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions) (abgerufen am: 13.11.)
@@ -37,6 +38,7 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [libGDX: multi-linguale Strings](https://github.com/libgdx/libgdx/wiki/Internationalization-and-Localization) (abgerufen am: 18.12.)
 - [libGDX: Umgang mit Tabellen](https://github.com/libgdx/libgdx/wiki/Table) (abgerufen am: 29.12.)
 - [Texturen mit libGDX packen](http://www.programmingmoney.com/libgdx-texturepacker-tutorial/) (abgerufen am: 29.12.)
+- [StackOverflow: Zeilenlänge in Android Studio setzen](https://stackoverflow.com/questions/30851617/how-to-set-max-line-length-in-android-studio-code-editor) (abgerufen am: 04.01.)
 
 ### Bild- & Audioquellen
 
@@ -48,6 +50,7 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [Lebensverlust](http://soundimage.org/wp-content/uploads/2016/04/Laser-Ricochet3.mp3) (abgerufen am: 30.12.)
 - [Leben dazu](http://soundimage.org/wp-content/uploads/2016/04/SynthChime6.mp3) (abgerufen am: 30.12.)
 - [Länderflaggen](https://www.free-country-flags.com/index.php) (abgerufen am: 01.01.)
+- [Portal](https://opengameart.org/content/golgotha-effects-textures-acid-frontjpg) (abgerufen am: 04.01.)
 - Herz (gefüllt und ungefüllt): selbstgemacht
 - Coins (Leben & Punkte): selbstgemacht
 - Fass (explosiv): selbstgemacht

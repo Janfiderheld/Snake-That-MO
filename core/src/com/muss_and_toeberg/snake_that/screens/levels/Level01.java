@@ -16,7 +16,8 @@ import com.muss_and_toeberg.snake_that.game_objects.Heart;
 import com.muss_and_toeberg.snake_that.game_objects.Snake;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.ExplodingBarrel;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.Portal;
-import com.muss_and_toeberg.snake_that.game_objects.obstacles.QuadraticBlockHitBox;
+import com.muss_and_toeberg.snake_that.game_objects.
+        obstacles.QuadraticBlockHitBox;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.screens.NewHighscore;
 import com.muss_and_toeberg.snake_that.screens.Settings;
@@ -33,15 +34,11 @@ import java.util.Random;
 public class Level01 implements Screen {
     // Constant width & height values
     private final int SIZE_OF_HUD = 150;
-    private final int HUD_BEGIN_Y = MainGame.CAMERA_HEIGHT - SIZE_OF_HUD;
-    private final int TEXT_BEGIN_Y = MainGame.CAMERA_HEIGHT - 15;
-    private final int BLOCK_X = (MainGame.CAMERA_WIDTH / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
-    private final int BLOCK_Y = ((MainGame.CAMERA_HEIGHT - SIZE_OF_HUD) / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
-
-    // Constant Values for the hearts
+    private final int BLOCK_X = (MainGame.CAMERA_WIDTH / 2) -
+            (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
+    private final int BLOCK_Y = ((MainGame.CAMERA_HEIGHT - SIZE_OF_HUD) / 2) -
+            (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
     private final int HEART_AMOUNT = 3;
-    private final int HEART_BEGIN_X = MainGame.CAMERA_WIDTH - 250;
-    private final int HEART_BEGIN_Y = MainGame.CAMERA_HEIGHT - 100;
 
     // Constant values for the vectors
     private final int MAX_VECTOR_LENGTH = 500;
@@ -63,19 +60,20 @@ public class Level01 implements Screen {
     private Coin coin = new Coin();
     private Texture blockTexture;
     private Texture hat;
-    private QuadraticBlockHitBox block = new QuadraticBlockHitBox(BLOCK_X, BLOCK_Y);
+    private QuadraticBlockHitBox block =
+            new QuadraticBlockHitBox(BLOCK_X, BLOCK_Y);
 
     // all Vectors (2D) which are used
-    static Vector2 startTouchVector = new Vector2(0, 0);
-    static Vector2 endTouchVector = new Vector2(0, 0);
-    static Vector2 lineTouchVector = new Vector2(0, 0);
+    private static Vector2 startTouchVector = new Vector2(0, 0);
+    private static Vector2 endTouchVector = new Vector2(0, 0);
+    private static Vector2 lineTouchVector = new Vector2(0, 0);
 
     // local variables & objects
     private Random rndGenerator = new Random();
     private int lives = HEART_AMOUNT;
     private int score = 0;
     private boolean invincibilityOn = true;
-    private float countInvincFrames = 0;
+    private float countInvincibilityFrames = 0;
     private boolean shouldDrawLine = false;
 
     // class variables
@@ -83,10 +81,11 @@ public class Level01 implements Screen {
     public static boolean shouldGoBack = false;
     public static boolean gameHasStarted = true;
     private static float speed = NORMAL_SPEED;
-    private static int coin_value = 0;
+    private static int coinValue = 0;
 
     /**
-     * Constructor which is used to create all objects that only need to be created once
+     * Constructor which is used to create all objects that only need
+     * to be created once
      * @param game game object which allows screen changing
      */
     public Level01(final MainGame game){
@@ -96,13 +95,13 @@ public class Level01 implements Screen {
         Gdx.input.setInputProcessor(inputProcessor);
 
         snakeRenderer = new ShapeRenderer();
-        snake.createSnake(new Vector2(SLOW_SPEED,SLOW_SPEED), new Vector2(300, 300));
+        snake.createSnake(new Vector2(SLOW_SPEED,SLOW_SPEED),
+                new Vector2(300, 300));
         portalUpperLeft.setCorrespondingPortal(portalBottomRight);
         portalBottomRight.setCorrespondingPortal(portalUpperLeft);
 
-        for(int i = 0; i < HEART_AMOUNT; i++) {
-            Heart tempHeart = new Heart();
-            hearts[i] = tempHeart;
+        for(int count = 0; count < HEART_AMOUNT; count++) {
+            hearts[count] = new Heart();
         }
 
         blockTexture = new Texture("textures/Brick.png");
@@ -130,22 +129,34 @@ public class Level01 implements Screen {
         drawBackground();
 
         if(gameHasStarted) {
-            startTouchVector.x = snake.getMovementInX() + (Snake.BODY_PART_SIZE / 2);
-            startTouchVector.y = snake.getMovementInY() + (Snake.BODY_PART_SIZE / 2);
+            startTouchVector.x = snake.getMovementInX() +
+                    (Snake.BODY_PART_SIZE / 2);
+            startTouchVector.y = snake.getMovementInY() +
+                    (Snake.BODY_PART_SIZE / 2);
 
             snake.moveSnakeBody();
             checkAllCollisions();
             snake.increaseMovementVector();
 
-            // checks if the screen is currently touched (= can the snake be directed?)
+            // checks if the screen is currently touched
+            // --> can the snake be directed?
             if (Gdx.input.isTouched() && hasHitWall) {
-                endTouchVector.x = MainGame.CAMERA_WIDTH * Gdx.input.getX() / Gdx.graphics.getWidth();
-                endTouchVector.y = MainGame.CAMERA_HEIGHT * (Gdx.graphics.getHeight() - Gdx.input.getY()) / Gdx.graphics.getHeight();
+                endTouchVector.x = MainGame.CAMERA_WIDTH * Gdx.input.getX()
+                        / Gdx.graphics.getWidth();
+                endTouchVector.y = MainGame.CAMERA_HEIGHT *
+                        (Gdx.graphics.getHeight() - Gdx.input.getY())
+                        / Gdx.graphics.getHeight();
 
                 if (startTouchVector.dst(endTouchVector) > MAX_VECTOR_LENGTH) {
-                    Vector2 connectionVect = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
-                    lineTouchVector.x = connectionVect.x * (MAX_VECTOR_LENGTH / connectionVect.len()) + startTouchVector.x;
-                    lineTouchVector.y = connectionVect.y * (MAX_VECTOR_LENGTH / connectionVect.len()) + startTouchVector.y;
+                    Vector2 connectionVector = new Vector2(endTouchVector.x
+                            - startTouchVector.x,
+                            endTouchVector.y - startTouchVector.y);
+                    lineTouchVector.x = connectionVector.x *
+                            (MAX_VECTOR_LENGTH / connectionVector.len())
+                            + startTouchVector.x;
+                    lineTouchVector.y = connectionVector.y *
+                            (MAX_VECTOR_LENGTH / connectionVector.len())
+                            + startTouchVector.y;
                 } else {
                     lineTouchVector = endTouchVector;
                 }
@@ -177,9 +188,8 @@ public class Level01 implements Screen {
         coin.disposeTexture();
         snakeRenderer.dispose();
         barrel.dispose();
-        for(int i = 0; i < HEART_AMOUNT; i++) {
-            Heart tempHeart = hearts[i];
-            tempHeart.getImage().dispose();
+        for(int count = 0; count < HEART_AMOUNT; count++) {
+            hearts[count].getImage().dispose();
         }
         shouldGoBack = false;
         gameHasStarted = true;
@@ -191,10 +201,12 @@ public class Level01 implements Screen {
     private void renderTheSnake() {
         snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         snakeRenderer.setColor(Snake.getColor());
-        snakeRenderer.rect(snake.getXValueHead(), snake.getYValueHead(), Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
+        snakeRenderer.rect(snake.getXValueHead(), snake.getYValueHead(),
+                Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
         for (int count = 0; count < snake.getBody().size; count++) {
             Rectangle body = snake.getBody().get(count);
-            snakeRenderer.rect(body.x, body.y, Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
+            snakeRenderer.rect(body.x, body.y, Snake.BODY_PART_SIZE,
+                    Snake.BODY_PART_SIZE);
         }
         snakeRenderer.end();
     }
@@ -204,8 +216,9 @@ public class Level01 implements Screen {
      */
     private void renderTheHUD() {
         snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        snakeRenderer.rect(0, HUD_BEGIN_Y, MainGame.CAMERA_WIDTH, SIZE_OF_HUD,
-                Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY);
+        snakeRenderer.rect(0, MainGame.CAMERA_HEIGHT - SIZE_OF_HUD,
+                MainGame.CAMERA_WIDTH, SIZE_OF_HUD, Color.DARK_GRAY,
+                Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY);
         snakeRenderer.end();
     }
 
@@ -239,36 +252,54 @@ public class Level01 implements Screen {
         game.batch.begin();
 
         game.batch.draw(blockTexture, BLOCK_X, BLOCK_Y);
-        game.batch.draw(portalUpperLeft.getTexture(), portalUpperLeft.getXPosition(), portalUpperLeft.getYPosition());
-        game.batch.draw(portalBottomRight.getTexture(), portalBottomRight.getXPosition(), portalBottomRight.getYPosition());
-        game.batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
+        game.batch.draw(portalUpperLeft.getTexture(),
+                portalUpperLeft.getXPosition(), portalUpperLeft.getYPosition());
+        game.batch.draw(portalBottomRight.getTexture(),
+                portalBottomRight.getXPosition(),
+                portalBottomRight.getYPosition());
+        game.batch.draw(coin.getTexture(), coin.getXPosition(),
+                coin.getYPosition());
 
         if(!barrel.checkExploded()) {
-            game.batch.draw(barrel.getTexture(), barrel.getXPosition(), barrel.getYPosition());
+            game.batch.draw(barrel.getTexture(), barrel.getXPosition(),
+                    barrel.getYPosition());
         }
 
-        if(Settings.isChristmasThemeOn()) {
-            game.batch.draw(hat, snake.getXValueHead(),snake.getYValueHead() + Snake.BODY_PART_SIZE);
+        if(Settings.checkForChristmas()) {
+            game.batch.draw(hat, snake.getXValueHead(),
+                    snake.getYValueHead() + Snake.BODY_PART_SIZE);
         }
 
+
+        int beginTextInY = MainGame.CAMERA_HEIGHT - 15;
         if(gameHasStarted) {
             // fill the HUD with everything needed for playing
-            game.fontHUD.draw(game.batch, MainGame.myLangBundle.format("points", score), 5, TEXT_BEGIN_Y);
-            game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("lives"), MainGame.CAMERA_WIDTH - 700, TEXT_BEGIN_Y);
-            for (int i = 0; i < HEART_AMOUNT; i++) {
-                Heart tempHeart = hearts[i];
-                game.batch.draw(tempHeart.getImage(), HEART_BEGIN_X + (i * 80), HEART_BEGIN_Y);
+            game.fontHUD.draw(game.batch,
+                    MainGame.myLangBundle.format("points", score),
+                    5, beginTextInY);
+            game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("lives"),
+                    MainGame.CAMERA_WIDTH - 700, beginTextInY);
+            int beginHeartInX = MainGame.CAMERA_WIDTH - 250;
+            for (int count = 0; count < HEART_AMOUNT; count++) {
+                game.batch.draw(hearts[count].getImage(),
+                        beginHeartInX + (count * 80),
+                        MainGame.CAMERA_HEIGHT - 100);
             }
         } else {
-            game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("gameOver"), 5, TEXT_BEGIN_Y);
-            game.fontDescription.draw(game.batch, MainGame.myLangBundle.get("touch"), (MainGame.CAMERA_WIDTH / 2) + 250, TEXT_BEGIN_Y - 50);
+            // fill the HUD with the messages when the game is lost
+            game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("gameOver"),
+                    5, beginTextInY);
+            game.fontDescription.draw(game.batch,
+                    MainGame.myLangBundle.get("touch"),
+                    (MainGame.CAMERA_WIDTH / 2) + 250, beginTextInY - 50);
         }
 
         game.batch.end();
     }
 
     /**
-     * changes the speed of the snake to reduced speed as soon as the screen is touched
+     * changes the speed of the snake to reduced speed
+     * as soon as the screen is touched
      */
     public static void setDirectionVectorDown(){
         if (!hasHitWall) {
@@ -280,7 +311,8 @@ public class Level01 implements Screen {
     }
 
     /**
-     * changes the speed of the snake to normal speed as soon as the touch is lifted
+     * changes the speed of the snake to normal speed
+     * as soon as the touch is lifted
      */
     public static void setDirectionVectorUp(){
         if (!hasHitWall) {
@@ -288,7 +320,8 @@ public class Level01 implements Screen {
         }
 
         speed = NORMAL_SPEED;
-        Vector2 connectionVector = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
+        Vector2 connectionVector = new Vector2(endTouchVector.x -
+                startTouchVector.x, endTouchVector.y - startTouchVector.y);
         snake.setDirectionToScaledVector(speed, connectionVector);
         hasHitWall = false;
     }
@@ -309,7 +342,8 @@ public class Level01 implements Screen {
      * checks if the snake collides with the block in the middle
      */
     private void checkCollisionWithBlock() {
-        HitDirection side = block.checkWhichCollisionSide(snake.getHeadAsRectangle());
+        HitDirection side =
+                block.checkWhichCollisionSide(snake.getHeadAsRectangle());
 
         switch(side) {
             case NoHit:
@@ -336,12 +370,15 @@ public class Level01 implements Screen {
      * checks if the snake collides with the outer walls
      */
     private void checkCollisionWithWall() {
-        if (snake.getMovementInX() + Snake.BODY_PART_SIZE >= MainGame.CAMERA_WIDTH || snake.getMovementInX() <= 0) {
+        if (snake.getMovementInX() + Snake.BODY_PART_SIZE >=
+                MainGame.CAMERA_WIDTH || snake.getMovementInX() <= 0) {
             snake.invertXDirection();
             hasHitWall = true;
         }
 
-        if (snake.getMovementInY() + Snake.BODY_PART_SIZE >= MainGame.CAMERA_HEIGHT - SIZE_OF_HUD || snake.getMovementInY() <= 0) {
+        if (snake.getMovementInY() + Snake.BODY_PART_SIZE >=
+                MainGame.CAMERA_HEIGHT - SIZE_OF_HUD
+                || snake.getMovementInY() <= 0) {
             snake.invertYDirection();
             hasHitWall = true;
         }
@@ -354,8 +391,8 @@ public class Level01 implements Screen {
         if (Intersector.overlaps(coin.getHitBox(), snake.getHeadAsRectangle())) {
             snake.addNewBodyPart();
             game.memController.addLength(snake.ADD_WHEN_COLLECTED);
-            score += coin_value;
-            if(coin_value != coin.getNotRandomPoints()) {
+            score += coinValue;
+            if(coinValue != coin.getMaxPoints()) {
                 gainALive();
             } else {
                 game.soundControl.playPointsSound();
@@ -365,17 +402,17 @@ public class Level01 implements Screen {
     }
 
     /**
-     * checks if the snake collides with itself
-     * HACK: checks the time to keep the invincibility until the snake is completely unfolded
+     * checks if the snake collides with itself by counting frames
+     * / amount of renders
      */
     private void checkCollisionWithSnakeBody() {
-        countInvincFrames++;
+        countInvincibilityFrames++;
         if(!snake.checkSuicide()) {
-            if(countInvincFrames > snake.BODY_PART_SIZE / SLOW_SPEED) {
+            if(countInvincibilityFrames > Snake.BODY_PART_SIZE / SLOW_SPEED) {
                 invincibilityOn = false;
             }
         } else {
-            countInvincFrames = 0;
+            countInvincibilityFrames = 0;
             if(Gdx.input.isTouched()) {
                 invincibilityOn = true;
             } else {
@@ -391,8 +428,8 @@ public class Level01 implements Screen {
      * checks if the snake hits one of the portals
      */
     private void checkCollisionWithPortals() {
-        if(!portalBottomRight.doesSnakeHitPortal(snake)) {
-            portalUpperLeft.doesSnakeHitPortal(snake);
+        if(!portalBottomRight.checkSnakeHitPortal(snake)) {
+            portalUpperLeft.checkSnakeHitPortal(snake);
         }
     }
 
@@ -400,14 +437,16 @@ public class Level01 implements Screen {
      * checks if the snake collides with the exploding barrel
      */
     private void checkCollisionWithBarrel() {
-        if(barrel.checkIfCanExplode(snake.getHeadAsRectangle())) {
+        if(barrel.checkCanExplode(snake.getHeadAsRectangle())) {
             game.soundControl.playExplosionSound();
             barrel.explode(score);
             game.memController.addBarrel();
             looseALive(false);
             return;
         }
-        if(barrel.checkExploded() && score - barrel.getPointsLastExplosion() >= barrel.POINTS_NEW_BARREL) {
+
+        if(barrel.checkExploded() && score - barrel.getPointsLastExplosion()
+                >= barrel.POINTS_NEW_BARREL) {
             randomizeCircleObject(false);
         }
     }
@@ -416,10 +455,9 @@ public class Level01 implements Screen {
      * player looses a live and one heart gets unfilled
      */
     private void looseALive(boolean shouldPlaySound) {
-        for(int i = 0; i < HEART_AMOUNT; i++) {
-            Heart tempHeart = hearts[i];
-            if(tempHeart.isFilled()) {
-                tempHeart.emptyTheHeart();
+        for(int count = 0; count < HEART_AMOUNT; count++) {
+            if(hearts[count].checkIfFilled()) {
+                hearts[count].emptyTheHeart();
                 if(shouldPlaySound) {
                     game.soundControl.playLiveLoosingSound();
                 }
@@ -435,10 +473,9 @@ public class Level01 implements Screen {
      * player gains a live and one heart gets filled
      */
     private void gainALive() {
-        for(int i = HEART_AMOUNT - 1; i >= 0; i--) {
-            Heart tempHeart = hearts[i];
-            if(!tempHeart.isFilled()) {
-                tempHeart.fillTheHeart();
+        for(int count = HEART_AMOUNT - 1; count >= 0; count--) {
+            if(!hearts[count].checkIfFilled()) {
+                hearts[count].fillTheHeart();
                 game.soundControl.playLiveGainingSound();
                 lives++;
                 return;
@@ -453,7 +490,7 @@ public class Level01 implements Screen {
     private void looseTheGame() {
         gameHasStarted = false;
         hasHitWall = true;
-        countInvincFrames = 0;
+        countInvincibilityFrames = 0;
 
         game.memController.addPlayedGame();
         game.memController.stopTimer();
@@ -463,10 +500,10 @@ public class Level01 implements Screen {
     /**
      * changes the screen when the games is over
      */
-    public void changeTheScreen() {
+    private void changeTheScreen() {
         int placement = game.memController.checkHighscorePlacement(score);
         if (placement < 0){
-            game.backToMainMenu(Level01.this);
+            game.goBackToMainMenu(Level01.this);
         } else {
             game.setScreen(new NewHighscore(game, placement, score));
             dispose();
@@ -480,26 +517,29 @@ public class Level01 implements Screen {
      */
     private int[] createRandomValues(int sizeOfCircle) {
         int radius = sizeOfCircle / 2;
-        int newX = rndGenerator.nextInt(MainGame.CAMERA_WIDTH - (sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
+        int newX = rndGenerator.nextInt(MainGame.CAMERA_WIDTH -
+                (sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
         if(newX > BLOCK_X - radius - 1) {
             newX += QuadraticBlockHitBox.HIT_BOX_SIZE + sizeOfCircle + 1;
         } else if (newX < radius) {
             newX += radius;
         }
 
-        int newY = rndGenerator.nextInt(MainGame.CAMERA_HEIGHT - (SIZE_OF_HUD + sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
+        int newY = rndGenerator.nextInt(MainGame.CAMERA_HEIGHT -
+                (SIZE_OF_HUD + sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE
+                        + radius));
         if(newY > BLOCK_Y - radius - 1) {
             newY += QuadraticBlockHitBox.HIT_BOX_SIZE + sizeOfCircle + 1;
         } else if (newY < radius) {
             newY += radius;
         }
 
-        int[] arrayToReturn = {newX, newY};
-        return arrayToReturn;
+        return new int[]{newX, newY};
     }
 
     /**
-     * randomizes a circle object (barrel or coin) until it is not inside one of the portals
+     * randomizes a circle object (barrel or coin) until it is not
+     * inside one of the portals
      * @param isCoin true if the object to randomized is a coin
      */
     private void randomizeCircleObject(boolean isCoin) {
@@ -516,45 +556,73 @@ public class Level01 implements Screen {
         while(!isFinished) {
             rndValues = createRandomValues(Math.round(tempHitBox.radius * 2));
             tempHitBox.setPosition(rndValues[0], rndValues[1]);
-            if(!tempHitBox.overlaps(portalBottomRight.getHitBox()) && !tempHitBox.overlaps(portalUpperLeft.getHitBox())) {
+            if(!tempHitBox.overlaps(portalBottomRight.getHitBox()) &&
+                    !tempHitBox.overlaps(portalUpperLeft.getHitBox())) {
                 isFinished = true;
             }
         }
 
         if(isCoin) {
             coin.setHitBox(tempHitBox);
-            coin_value = coin.setRandomTexture(rndGenerator.nextInt(100) + 1);
+            coinValue = coin.setRandomTexture(rndGenerator.nextInt(100) + 1);
         } else {
             barrel.setHitBox(tempHitBox);
             barrel.setExplodedState(false);
         }
     }
 
+    /**
+     * NOT USED.
+     * Called when this screen becomes the current screen for a Game.
+     * --> everything is done in the constructor.
+     * @see Screen#show() ()
+     */
+    @Override
+    public void show() {
 
-    // currently not used implements of Screen
+    }
+
+    /**
+     * NOT USED.
+     * would be called when the screen gets resized
+     * @param width new width of the screen
+     * @param height new height of the screen
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is paused, usually when it's not active
+     * or visible on screen.
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is resumed from a paused state,
+     * usually when it regains focus.
+     * @see Screen#resume() ()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when this screen is no longer the current screen for a Game.
+     * --> we dispose everything when its not used.
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
-
-    }
-
-
-    @Override
-    public void show() {
 
     }
 }

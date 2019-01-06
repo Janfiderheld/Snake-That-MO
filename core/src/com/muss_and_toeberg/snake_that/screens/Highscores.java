@@ -24,7 +24,8 @@ public class Highscores implements Screen {
     private Stage stage;
 
     /**
-     * Constructor which is used to create all objects that only need to be created once
+     * Constructor which is used to create all objects that only need to
+     * be created once
      * @param game game object which allows screen changing
      */
     public Highscores(final MainGame game){
@@ -43,19 +44,23 @@ public class Highscores implements Screen {
         // create the Labels
         Label[] lblNames = new Label[game.memController.NUMBER_PLAYERS];
         Label[] lblScores = new Label[game.memController.NUMBER_PLAYERS];
-        String[] names = game.memController.getHighscoreNamesOrPoints(0);
-        String[] points = game.memController.getHighscoreNamesOrPoints(1);
-        for (int i = 0; i < game.memController.NUMBER_PLAYERS; i++) {
-            lblNames[i] = new Label(names[i], scoretableStyle);
-            lblScores[i] = new Label(points[i], scoretableStyle);
+        String[] names =
+                game.memController.getHighscoreNamesOrPoints(0);
+        String[] points =
+                game.memController.getHighscoreNamesOrPoints(1);
+        for (int count = 0; count < game.memController.NUMBER_PLAYERS; count++) {
+            lblNames[count] = new Label(names[count], scoretableStyle);
+            lblScores[count] = new Label(points[count], scoretableStyle);
         }
 
         // create the Button
-        TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
+        TextButton btnBackMainMenu = new TextButton(
+                MainGame.myLangBundle.get("backToMM"),
+                MainGame.btnStyleMainMenuFont);
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.backToMainMenu(Highscores.this);
+                game.goBackToMainMenu(Highscores.this);
             }
         });
 
@@ -63,18 +68,20 @@ public class Highscores implements Screen {
         Table leaderboard = new Table();
         leaderboard.bottom().left();
         leaderboard.pad(0,400,200,0);
-        for (int i = 0; i < game.memController.NUMBER_PLAYERS; i++){
-            leaderboard.add(new Label(String.valueOf(i + 1) + ". ", scoretableStyle));
-            leaderboard.add(lblNames[i]);
+        for (int count = 0; count < game.memController.NUMBER_PLAYERS; count++){
+            leaderboard.add(new Label(String.valueOf(count + 1) + ". ",
+                    scoretableStyle));
+            leaderboard.add(lblNames[count]);
             leaderboard.add(new Label(" - ", scoretableStyle));
-            leaderboard.add(lblScores[i]);
+            leaderboard.add(lblScores[count]);
             leaderboard.row();
         }
 
         // creates the MenuTable
         Table menuTable = new Table();
         menuTable.bottom().left();
-        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
+        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).
+                align(Align.bottomLeft);
 
         //add the Tables to the Stage
         stage.addActor(leaderboard);
@@ -97,34 +104,66 @@ public class Highscores implements Screen {
         game.checkBackAndCloseScreen(this);
     }
 
-
-    // currently not used implements of Screen
+    /**
+     * disposes all used resources
+     */
     @Override
-    public void show() {
+    public void dispose() {
+        stage.dispose();
     }
 
+    /**
+     * NOT USED.
+     * Called when this screen becomes the current screen for a Game.
+     * --> everything is done in the constructor.
+     * @see Screen#show() ()
+     */
+    @Override
+    public void show() {
+
+    }
+
+    /**
+     * NOT USED.
+     * would be called when the screen gets resized
+     * @param width new width of the screen
+     * @param height new height of the screen
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is paused, usually when it's not active
+     * or visible on screen.
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is resumed from a paused state,
+     * usually when it regains focus.
+     * @see Screen#resume() ()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when this screen is no longer the current screen for a Game.
+     * --> we dispose everything when its not used.
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
 
     }
 }

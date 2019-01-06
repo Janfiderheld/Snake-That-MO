@@ -1,6 +1,6 @@
 /**
  * Contains all Screens
  *
- * @author Niclas Muss & Jan-Philipp Töberg
+ * @author Niclas Muss
  */
 package com.muss_and_toeberg.snake_that.screens;

@@ -21,21 +21,26 @@ public class AudioController {
      * Constructor which creates the music and sound objects
      */
     public AudioController() {
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/background.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(
+                Gdx.files.internal("audio/background.mp3"));
         backgroundMusic.setLooping(true);
         startBackgroundMusic();
 
-        pointsGet = Gdx.audio.newSound(Gdx.files.internal("audio/pointCoin.mp3"));
-        explosion = Gdx.audio.newSound(Gdx.files.internal("audio/explosion.mp3"));
-        loosingALive = Gdx.audio.newSound(Gdx.files.internal("audio/looseALive.mp3"));
-        gainingALive = Gdx.audio.newSound(Gdx.files.internal("audio/gainALive.mp3"));
+        pointsGet = Gdx.audio.newSound(
+                Gdx.files.internal("audio/pointCoin.mp3"));
+        explosion = Gdx.audio.newSound(
+                Gdx.files.internal("audio/explosion.mp3"));
+        loosingALive = Gdx.audio.newSound(
+                Gdx.files.internal("audio/looseALive.mp3"));
+        gainingALive = Gdx.audio.newSound(
+                Gdx.files.internal("audio/gainALive.mp3"));
     }
 
     /**
      * starts or resumes the background music
      */
     public void startBackgroundMusic() {
-        if(!Settings.isMusicTurnedOn()) {
+        if(!Settings.checkMusicTurnedOn()) {
             return;
         }
         backgroundMusic.play();
@@ -52,7 +57,7 @@ public class AudioController {
      * plays the point sound
      */
     public void playPointsSound() {
-        if(!Settings.isSoundTurnedOn()) {
+        if(!Settings.checkSoundsTurnedOn()) {
             return;
         }
         pointsGet.play();
@@ -62,7 +67,7 @@ public class AudioController {
      * plays the explosion
      */
     public void playExplosionSound() {
-        if(!Settings.isSoundTurnedOn()) {
+        if(!Settings.checkSoundsTurnedOn()) {
             return;
         }
         explosion.play();
@@ -72,7 +77,7 @@ public class AudioController {
      * plays the sound when the snake looses a live
      */
     public void playLiveLoosingSound() {
-        if(!Settings.isSoundTurnedOn()) {
+        if(!Settings.checkSoundsTurnedOn()) {
             return;
         }
         loosingALive.play();
@@ -82,7 +87,7 @@ public class AudioController {
      * plays the sound when the snake gains a live
      */
     public void playLiveGainingSound() {
-        if(!Settings.isSoundTurnedOn()) {
+        if(!Settings.checkSoundsTurnedOn()) {
             return;
         }
         gainingALive.play();

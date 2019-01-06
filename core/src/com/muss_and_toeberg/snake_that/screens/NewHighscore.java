@@ -28,15 +28,17 @@ public class NewHighscore implements Screen {
     // objects & graphical elements
     private MainGame game;
     private Stage stage;
-    private  TextField.TextFieldStyle txtStyleNameInput;
+    private TextField.TextFieldStyle txtStyleNameInput;
 
     /**
-     * Constructor which is used to create all objects that only need to be created once
+     * Constructor which is used to create all objects that only need to
+     * be created once
      * @param game game object which allows screen changing
      * @param placement placement of the player
      * @param score points the player earned
      */
-    public NewHighscore(final MainGame game, final int placement, final int score){
+    public NewHighscore(final MainGame game, final int placement,
+                        final int score){
         this.game = game;
         MainGame.currentMenu = Menu.Highscore;
 
@@ -50,25 +52,32 @@ public class NewHighscore implements Screen {
         scoretableStyle.fontColor = Color.WHITE;
 
         // create the Label
-        Label lblHeading = new Label(MainGame.myLangBundle.format("headerNewHS", placement + 1), scoretableStyle);
-        lblHeading.setPosition((game.CAMERA_WIDTH / 2) - 400,(game.CAMERA_HEIGHT / 2) + 200);
+        Label lblHeading = new Label(
+                MainGame.myLangBundle.format("headerNewHS",
+                        placement + 1), scoretableStyle);
+        lblHeading.setPosition((MainGame.CAMERA_WIDTH / 2) - 400,
+                (MainGame.CAMERA_HEIGHT / 2) + 200);
 
         // create the textfield to enter the name
         createTextfieldStyle();
         final TextField txtUserName = new TextField("", txtStyleNameInput);
         txtUserName.setMessageText(MainGame.myLangBundle.get("player"));
         txtUserName.setMaxLength(MAX_USERNAME_LENGTH);
-        txtUserName.setPosition((game.CAMERA_WIDTH / 2) - 425,(game.CAMERA_HEIGHT / 2) - 100);
+        txtUserName.setPosition((MainGame.CAMERA_WIDTH / 2) - 425,
+                (MainGame.CAMERA_HEIGHT / 2) - 100);
         txtUserName.setSize(1000,200);
         txtUserName.setAlignment(Align.center);
 
         // create the button
-        TextButton btnSubmit = new TextButton(MainGame.myLangBundle.get("submit"), MainGame.btnStyleMainMenuFont);
+        TextButton btnSubmit = new TextButton(
+                MainGame.myLangBundle.get("submit"),
+                MainGame.btnStyleMainMenuFont);
         btnSubmit.setPosition((game.CAMERA_WIDTH / 2) - 100,200);
         btnSubmit.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.memController.addScoreToHighscore(txtUserName.getText(), score, placement);
+                game.memController.addScoreToHighscore(txtUserName.getText(),
+                        score, placement);
                 game.setScreen(new Highscores(game));
                 dispose();
             }
@@ -98,45 +107,77 @@ public class NewHighscore implements Screen {
      */
     private void createTextfieldStyle() {
         Skin skin = new Skin();
-        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsColors.pack"));
+        TextureAtlas buttonAtlas = new TextureAtlas(
+                Gdx.files.internal("buttons/buttonsColors.pack"));
         skin.addRegions(buttonAtlas);
 
         txtStyleNameInput = new TextField.TextFieldStyle();
-        txtStyleNameInput.font = new BitmapFont(Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
+        txtStyleNameInput.font = new BitmapFont(
+                Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
         txtStyleNameInput.fontColor = Color.BLACK;
         txtStyleNameInput.background = skin.getDrawable("Down");
     }
 
+    /**
+     * disposes all used resources
+     */
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
 
-
-    // currently not used implements of Screen
+    /**
+     * NOT USED.
+     * Called when this screen becomes the current screen for a Game.
+     * --> everything is done in the constructor.
+     * @see Screen#show() ()
+     */
     @Override
     public void show() {
 
     }
 
+    /**
+     * NOT USED.
+     * would be called when the screen gets resized
+     * @param width new width of the screen
+     * @param height new height of the screen
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is paused, usually when it's not active
+     * or visible on screen.
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is resumed from a paused state,
+     * usually when it regains focus.
+     * @see Screen#resume() ()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when this screen is no longer the current screen for a Game.
+     * --> we dispose everything when its not used.
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
 
     }
 }

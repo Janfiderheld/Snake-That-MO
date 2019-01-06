@@ -39,6 +39,7 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [libGDX: Umgang mit Tabellen](https://github.com/libgdx/libgdx/wiki/Table) (abgerufen am: 29.12.)
 - [Texturen mit libGDX packen](http://www.programmingmoney.com/libgdx-texturepacker-tutorial/) (abgerufen am: 29.12.)
 - [StackOverflow: Zeilenlänge in Android Studio setzen](https://stackoverflow.com/questions/30851617/how-to-set-max-line-length-in-android-studio-code-editor) (abgerufen am: 04.01.)
+- [StackOverflow: Verwendung von @see in JavaDocs](https://stackoverflow.com/questions/5011291/usage-of-see-in-javadoc) (abgerufen am: 06.01.)
 
 ### Bild- & Audioquellen
 
@@ -60,7 +61,7 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 ### Programmier-Konventionen
 
 Die Einhaltung der folgenden Konventionen wird von der Java-Sprachsyntax nicht zwingend vorgeschrieben. Ihre Einhaltung erhöht die Lesbarkeit der Programmquellen allerdings ungemein. Nur durch die Beachtung von einheitlichen Programmierkonventionen kann umfangreicherer Quellcode mit vertretbaren Aufwand gereviewed, gepflegt und ergänzt werden. Die Einhaltung folgender Konventionen wird empfohlen (vgl. auch mit SUNs Empfehlungen Code Conventions for the Java Programming Language):
-- Schreibweisen (s.a.Code Conventions for the Java Programming Language, Kap. 9):
+- Schreibweisen (s.a. Code Conventions for the Java Programming Language, Kap. 9):
   - Klassen- und Interfacenamen beginnen mit einem Großbuchstaben und sollten ein Substantiv sein
   - Methodennamen beginnen mit einem Kleinbuchstaben und sollten ein Verb sein
   - Variablen beginnen mit einem Kleinbuchstaben

@@ -58,17 +58,21 @@ public class MainGame extends Game {
         camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
         batch.setProjectionMatrix(camera.combined);
 
-        fontHUD = new BitmapFont(Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
-        fontMainMenu = new BitmapFont(Gdx.files.internal("fonts/ComicSans_MainMenu.fnt"));
-        fontCredits = new BitmapFont(Gdx.files.internal("fonts/ComicSans_Credits.fnt"));
-        fontDescription = new BitmapFont(Gdx.files.internal("fonts/ComicSans_Desc.fnt"));
+        fontHUD = new BitmapFont(Gdx.files.internal(
+                "fonts/ComicSans_HUD.fnt"));
+        fontMainMenu = new BitmapFont(Gdx.files.internal(
+                "fonts/ComicSans_MainMenu.fnt"));
+        fontCredits = new BitmapFont(Gdx.files.internal(
+                "fonts/ComicSans_Credits.fnt"));
+        fontDescription = new BitmapFont(Gdx.files.internal(
+                "fonts/ComicSans_Desc.fnt"));
 
         soundControl = new AudioController();
         memController = new MemoryController();
 
         Settings.setSettings(memController.readSettingsFromFile());
         languageFileHandler = Gdx.files.internal("i18n/strings");
-        changeLocale(Settings.isLanguageGerman());
+        changeLocale(Settings.checkForGermanLanguage());
 
         Gdx.input.setCatchBackKey(true);
 
@@ -81,7 +85,8 @@ public class MainGame extends Game {
      */
     private void createButtonStyleMainMenuFont() {
         Skin skin = new Skin();
-        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsControl.pack"));
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal(
+                "buttons/buttonsControl.pack"));
         skin.addRegions(buttonAtlas);
 
         btnStyleMainMenuFont = new TextButton.TextButtonStyle();
@@ -99,9 +104,11 @@ public class MainGame extends Game {
         Settings.setLanguage(changeToGerman);
         String encoding = "ISO-8859-1";
         if(changeToGerman) {
-            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.GERMAN, encoding);
+            myLangBundle = I18NBundle.createBundle(languageFileHandler,
+                    Locale.GERMAN, encoding);
         } else {
-            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.ENGLISH, encoding);
+            myLangBundle = I18NBundle.createBundle(languageFileHandler,
+                    Locale.ENGLISH, encoding);
         }
     }
 
@@ -113,7 +120,7 @@ public class MainGame extends Game {
         if (backReleased && Gdx.input.isKeyPressed(Input.Keys.BACK))
         {
             backReleased = false;
-            backToMainMenu(toDispose);
+            goBackToMainMenu(toDispose);
         } else {
             backReleased = true;
         }
@@ -123,7 +130,7 @@ public class MainGame extends Game {
      * return to the Main Menu Screen and dispose the other
      * @param toDispose Screen to dispose
      */
-    public void backToMainMenu(Screen toDispose){
+    public void goBackToMainMenu(Screen toDispose){
         setScreen(new MainMenu(this));
         toDispose.dispose();
     }
@@ -132,7 +139,7 @@ public class MainGame extends Game {
      * renders the game in a constant loop
      */
     @Override
-    public void render(){
+    public void render() {
         super.render();
     }
 

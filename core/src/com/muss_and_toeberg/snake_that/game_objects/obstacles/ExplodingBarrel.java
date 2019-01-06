@@ -24,7 +24,8 @@ public class ExplodingBarrel extends Obstacle<Circle> {
      * @param yPos position on the y-axis
      */
     public ExplodingBarrel(int xPos, int yPos) {
-        super(xPos, yPos, 128, new Texture(Gdx.files.internal("textures/Barrel.png")));
+        super(xPos, yPos, 128,
+                new Texture(Gdx.files.internal("textures/Barrel.png")));
     }
 
     /**
@@ -63,7 +64,7 @@ public class ExplodingBarrel extends Obstacle<Circle> {
      * @param snakeHead hitBox of the snake head
      * @return true if the barrel can safely explode
      */
-    public boolean checkIfCanExplode(Rectangle snakeHead) {
+    public boolean checkCanExplode(Rectangle snakeHead) {
         if(Intersector.overlaps(getHitBox(), snakeHead) && !isExploded) {
             return true;
         } else {

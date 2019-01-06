@@ -15,6 +15,7 @@ public abstract class Obstacle<THitBoxType> {
     private float yPos;
     private int size;
     private int radius;
+
 	// hitbox and texture
 	private THitBoxType hitBox;
 	private Texture image;
@@ -61,7 +62,7 @@ public abstract class Obstacle<THitBoxType> {
      * @return position on the x-axis
      */
     public float getXPosition() {
-        if(hasRectangleHitBox) {
+        if(checkHitBoxForRectangle()) {
             return xPos;
         } else {
             return xPos - radius;
@@ -72,7 +73,7 @@ public abstract class Obstacle<THitBoxType> {
      * @return position on the y-axis
      */
     public float getYPosition() {
-        if(hasRectangleHitBox) {
+        if(checkHitBoxForRectangle()) {
             return yPos;
         } else {
             return yPos - radius;
@@ -87,13 +88,13 @@ public abstract class Obstacle<THitBoxType> {
     }
 
     /**
-     * @return radius of the obstacle or 0 if it is no circle
+     * @return radius of the obstacle or -1 if it is no circle
      */
     public int getRadius() {
-        if(!hasRectangleHitBox) {
+        if(!checkHitBoxForRectangle()) {
             return radius;
         } else {
-            return 0;
+            return -1;
         }
 
     }
@@ -156,7 +157,7 @@ public abstract class Obstacle<THitBoxType> {
      */
     public void changeSize(int size) {
         this.size = size;
-        if(!hasRectangleHitBox) {
+        if(!checkHitBoxForRectangle()) {
             radius = size / 2;
         }
         refreshHitBox();
@@ -165,7 +166,7 @@ public abstract class Obstacle<THitBoxType> {
     /**
      * @return true if the hitBox is an object of the rectangle-class
      */
-    public boolean isHitBoxARectangle() {
+    public boolean checkHitBoxForRectangle() {
         if(hasRectangleHitBox) {
             return true;
         } else {
@@ -177,7 +178,7 @@ public abstract class Obstacle<THitBoxType> {
      * refreshes all aspects of the HitBox
      */
     private void refreshHitBox() {
-        if (hasRectangleHitBox) {
+        if (checkHitBoxForRectangle()) {
             ((Rectangle) hitBox).set(xPos, yPos, size, size);
         } else {
             ((Circle) hitBox).set(xPos, yPos, radius);

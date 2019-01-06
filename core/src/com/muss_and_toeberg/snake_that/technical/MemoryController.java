@@ -16,9 +16,12 @@ public class MemoryController {
     public final int NUMBER_PLAYERS = 5;
     public final int NUMBER_STATS = 4;
 
-    private final String SAVE_LOCATION_HIGHSCORE = "Android/data/com.muss_and_toeberg.snake_that/files/highscore.dat";
-    private final String SAVE_LOCATION_STATS = "Android/data/com.muss_and_toeberg.snake_that/files/stats.dat";
-    private final String SAVE_LOCATION_SETTINGS = "Android/data/com.muss_and_toeberg.snake_that/files/settings.dat";
+    private final String SAVE_LOCATION_HIGHSCORE =
+            "Android/data/com.muss_and_toeberg.snake_that/files/highscore.dat";
+    private final String SAVE_LOCATION_STATS =
+            "Android/data/com.muss_and_toeberg.snake_that/files/stats.dat";
+    private final String SAVE_LOCATION_SETTINGS =
+            "Android/data/com.muss_and_toeberg.snake_that/files/settings.dat";
 
     private final String DELIMITER = ",";
 
@@ -29,9 +32,12 @@ public class MemoryController {
     public final int INDEX_LONG_RUN = 3;
 
     // File Handler objects
-    private FileHandle highscoreFile = Gdx.files.external(SAVE_LOCATION_HIGHSCORE);
-    private FileHandle statsFile = Gdx.files.external(SAVE_LOCATION_STATS);
-    private FileHandle settingsFile = Gdx.files.external(SAVE_LOCATION_SETTINGS);
+    private FileHandle highscoreFile =
+            Gdx.files.external(SAVE_LOCATION_HIGHSCORE);
+    private FileHandle statsFile =
+            Gdx.files.external(SAVE_LOCATION_STATS);
+    private FileHandle settingsFile =
+            Gdx.files.external(SAVE_LOCATION_SETTINGS);
 
     // other objects and variables
     private String[] currentHighscore;
@@ -67,9 +73,8 @@ public class MemoryController {
                 out = settingsFile.write(false);
                 break;
         }
-        byte[] bytes = stringToWrite.getBytes();
         try {
-            out.write(bytes);
+            out.write(stringToWrite.getBytes());
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,7 +102,9 @@ public class MemoryController {
             createEmptyStats();
         }
 
-        String[] statsAsStrings = portFileToCurrentState(statsFile.readString().split(DELIMITER), NUMBER_STATS, "0");
+        String[] statsAsStrings = portFileToCurrentState(
+                statsFile.readString().split(DELIMITER), NUMBER_STATS,
+                "0");
         int[] tempToReturn = new int[NUMBER_STATS];
         for(int count = 0; count < NUMBER_STATS; count++) {
             tempToReturn[count] = Integer.parseInt(statsAsStrings[count]);
@@ -114,7 +121,9 @@ public class MemoryController {
             createEmptySettings();
         }
 
-        String[] settingsAsString = portFileToCurrentState(settingsFile.readString().split(DELIMITER), NUMBER_SETTINGS, "false");
+        String[] settingsAsString = portFileToCurrentState(
+                settingsFile.readString().split(DELIMITER), NUMBER_SETTINGS,
+                "false");
         boolean[] tempToReturn = new boolean[NUMBER_SETTINGS];
         for(int count = 0; count < NUMBER_SETTINGS; count++) {
             if(settingsAsString[count].contentEquals("false")) {
@@ -134,7 +143,8 @@ public class MemoryController {
     public String[] getHighscoreNamesOrPoints(int getPoints) {
         String[] tempToReturn = new String[NUMBER_PLAYERS];
         for(int count = 0; count < NUMBER_PLAYERS; count++) {
-            tempToReturn[count] = currentHighscore[count].split(DELIMITER)[getPoints];
+            tempToReturn[count] = currentHighscore[count].
+                    split(DELIMITER)[getPoints];
         }
         return tempToReturn;
     }
@@ -145,10 +155,11 @@ public class MemoryController {
      * @param playerScore score to be added
      * @param placement position at which it should be added
      */
-    public void addScoreToHighscore(String playerName, int playerScore, int placement) {
+    public void addScoreToHighscore(String playerName, int playerScore,
+                                    int placement) {
         // restructures the older placements
-        for (int i = NUMBER_PLAYERS - 1; i > placement; i--){
-            currentHighscore[i] = currentHighscore[i - 1];
+        for (int count = NUMBER_PLAYERS - 1; count > placement; count--){
+            currentHighscore[count] = currentHighscore[count - 1];
         }
 
         currentHighscore[placement] = playerName + DELIMITER + playerScore;
@@ -162,7 +173,8 @@ public class MemoryController {
      */
     public int checkHighscorePlacement(int score) {
         for(int count = 0; count < NUMBER_PLAYERS; count++) {
-            int points = Integer.parseInt(currentHighscore[count].split(DELIMITER)[1]);
+            int points = Integer.parseInt(currentHighscore[count].
+                    split(DELIMITER)[1]);
             if(score > points) {
                 return count;
             }
@@ -174,7 +186,8 @@ public class MemoryController {
      * saves the settings in the file
      */
     public void saveSettings() {
-        writeStringIntoFile(createStringToSave(false), 2);
+        writeStringIntoFile(createStringToSave(false),
+                2);
     }
 
     /**
@@ -233,7 +246,8 @@ public class MemoryController {
      * stops the timer and saves the time when its more than before
      */
     public void stopTimer() {
-        int timeForGame = (int) (System.currentTimeMillis() - timeAtStart) / 1000;
+        int timeForGame = (int) (System.currentTimeMillis() - timeAtStart) /
+                1000;
         if(timeForGame > stats[INDEX_LONG_RUN]) {
             stats[INDEX_LONG_RUN] = timeForGame;
         }
@@ -243,7 +257,8 @@ public class MemoryController {
      * saves all the Stats to the File
      */
     public void saveStats(){
-        writeStringIntoFile(createStringToSave(true),  1);
+        writeStringIntoFile(createStringToSave(true),
+                1);
     }
 
     /**
@@ -265,7 +280,8 @@ public class MemoryController {
         for(int count = 0; count < NUMBER_STATS; count++) {
             stats[count] = 0;
         }
-        writeStringIntoFile(createStringToSave(true), 1);
+        writeStringIntoFile(createStringToSave(true),
+                1);
     }
 
     /**
@@ -293,18 +309,21 @@ public class MemoryController {
         for(int count = 0; count < NUMBER_SETTINGS; count++) {
             Settings.getSettings()[count] = false;
         }
-        writeStringIntoFile(createStringToSave(false), 2);
+        writeStringIntoFile(createStringToSave(false),
+                2);
     }
 
     /**
-     * if the file on the current device has a lesser amount of stats or settings then the current gameVersion,
+     * if the file on the current device has a lesser amount of stats or
+     * settings then the current gameVersion,
      * the string array gets "updated" on the latest version
      * @param arrayToPort array which could be updated
-     * @param maxNumber number of entries the array should have after this method
+     * @param maxNumber number of entries the array should have after this
      * @param strToFillWith string to fill the new places in the array with
      * @return the updated array
      */
-    private String[] portFileToCurrentState(String[] arrayToPort, int maxNumber, String strToFillWith) {
+    private String[] portFileToCurrentState(String[] arrayToPort, int maxNumber,
+                                            String strToFillWith) {
         if(arrayToPort.length >= maxNumber) {
             return arrayToPort;
         }

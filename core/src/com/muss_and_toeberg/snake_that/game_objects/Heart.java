@@ -13,8 +13,10 @@ public class Heart {
 	private Texture currentImg; 
 
 	// textures for the hearts
-	private Texture filledImg = new Texture(Gdx.files.internal("textures/HeartFilled.png"));
-    private Texture unfilledImg = new Texture(Gdx.files.internal("textures/HeartUnfilled.png"));
+	private Texture filledImg =
+			new Texture(Gdx.files.internal("textures/HeartFilled.png"));
+    private Texture unfilledImg =
+			new Texture(Gdx.files.internal("textures/HeartUnfilled.png"));
 
     /**
      * fills the heart during its creation
@@ -26,7 +28,7 @@ public class Heart {
     /**
      * @return true if heart is filled
      */
-	public boolean isFilled() {
+	public boolean checkIfFilled() {
 		return isFilled;
 	}
 

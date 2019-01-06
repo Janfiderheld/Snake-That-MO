@@ -26,25 +26,38 @@ public class MainMenu implements Screen {
     private Stage stage;
 
     /**
-     * Constructor which is used to create all objects that only need to be created once
+     * Constructor which is used to create all objects that only need to
+     * be created once
      * @param game game object which allows screen changing
      */
     public MainMenu (final MainGame game){
         this.game = game;
         MainGame.currentMenu = Menu.MainMenu;
-        float buttonWidth = game.CAMERA_WIDTH / BUTTONS_PER_ROW;
+        float buttonWidth = MainGame.CAMERA_WIDTH / BUTTONS_PER_ROW;
 
         // creates the Stage
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
         // create the Buttons
-        TextButton btnStartGame = new TextButton(MainGame.myLangBundle.get("startGame"), MainGame.btnStyleMainMenuFont);
-        TextButton btnHighscore = new TextButton(MainGame.myLangBundle.get("score"), MainGame.btnStyleMainMenuFont);
-        TextButton btnStatistics = new TextButton(MainGame.myLangBundle.get("stats"), MainGame.btnStyleMainMenuFont);
-        TextButton btnSettings = new TextButton(MainGame.myLangBundle.get("settings"), MainGame.btnStyleMainMenuFont);
-        TextButton btnCredits = new TextButton(MainGame.myLangBundle.get("credits"), MainGame.btnStyleMainMenuFont);
-        TextButton btnQuitGame = new TextButton(MainGame.myLangBundle.get("quit"), MainGame.btnStyleMainMenuFont);
+        TextButton btnStartGame = new TextButton(
+                MainGame.myLangBundle.get("startGame"),
+                MainGame.btnStyleMainMenuFont);
+        TextButton btnHighscore = new TextButton(
+                MainGame.myLangBundle.get("score"),
+                MainGame.btnStyleMainMenuFont);
+        TextButton btnStatistics = new TextButton(
+                MainGame.myLangBundle.get("stats"),
+                MainGame.btnStyleMainMenuFont);
+        TextButton btnSettings = new TextButton(
+                MainGame.myLangBundle.get("settings"),
+                MainGame.btnStyleMainMenuFont);
+        TextButton btnCredits = new TextButton(
+                MainGame.myLangBundle.get("credits"),
+                MainGame.btnStyleMainMenuFont);
+        TextButton btnQuitGame = new TextButton(
+                MainGame.myLangBundle.get("quit"),
+                MainGame.btnStyleMainMenuFont);
 
         // add the action listeners to the Buttons
         btnStartGame.addListener(new ChangeListener() {
@@ -119,39 +132,73 @@ public class MainMenu implements Screen {
         game.batch.begin();
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("headerMM"), 100, 800);
+        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("headerMM"),
+                100, 800);
         game.batch.end();
         stage.draw();
         game.camera.update();
     }
 
-    // currently not used implements of Screen
+    /**
+     * disposes all used resources
+     */
     @Override
-    public void show() {
+    public void dispose() {
+        stage.dispose();
     }
 
+    /**
+     * NOT USED.
+     * Called when this screen becomes the current screen for a Game.
+     * --> everything is done in the constructor.
+     * @see Screen#show() ()
+     */
+    @Override
+    public void show() {
+
+    }
+
+    /**
+     * NOT USED.
+     * would be called when the screen gets resized
+     * @param width new width of the screen
+     * @param height new height of the screen
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is paused, usually when it's not active
+     * or visible on screen.
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is resumed from a paused state,
+     * usually when it regains focus.
+     * @see Screen#resume() ()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when this screen is no longer the current screen for a Game.
+     * --> we dispose everything when its not used.
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
 
     }
 }

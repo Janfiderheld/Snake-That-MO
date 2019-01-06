@@ -24,7 +24,8 @@ public class Statistics implements Screen {
     private Stage stage;
 
     /**
-     * Constructor which is used to create all objects that only need to be created once
+     * Constructor which is used to create all objects that only need to
+     * be created once
      * @param game game object which allows screen changing
      */
     public Statistics(final MainGame game) {
@@ -36,16 +37,18 @@ public class Statistics implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         // creates the Label-Style for the Statstable
-        Label.LabelStyle statstableStyle = new Label.LabelStyle();
-        statstableStyle.font = game.fontHUD;
-        statstableStyle.fontColor = Color.WHITE;
+        Label.LabelStyle statsTableStyle = new Label.LabelStyle();
+        statsTableStyle.font = game.fontHUD;
+        statsTableStyle.fontColor = Color.WHITE;
 
         // create the Button
-        TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
+        TextButton btnBackMainMenu = new TextButton(
+                MainGame.myLangBundle.get("backToMM"),
+                MainGame.btnStyleMainMenuFont);
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.backToMainMenu(Statistics.this);
+                game.goBackToMainMenu(Statistics.this);
             }
         });
 
@@ -53,15 +56,24 @@ public class Statistics implements Screen {
         Table statsTable = new Table();
         statsTable.bottom().left();
         statsTable.pad(0,400,200,0);
-        statsTable.add(new Label(MainGame.myLangBundle.format("length", game.memController.getStat(game.memController.INDEX_LENGTH)), statstableStyle)).row();
-        statsTable.add(new Label(MainGame.myLangBundle.format("barrels", game.memController.getStat(game.memController.INDEX_BARRELS)), statstableStyle)).row();
-        statsTable.add(new Label(MainGame.myLangBundle.format("games", game.memController.getStat(game.memController.INDEX_GAMES_NO)), statstableStyle)).row();
-        statsTable.add(new Label(MainGame.myLangBundle.format("time", game.memController.getStat(game.memController.INDEX_LONG_RUN)), statstableStyle));
+        statsTable.add(new Label(MainGame.myLangBundle.format("length",
+                game.memController.getStat(game.memController.INDEX_LENGTH)),
+                statsTableStyle)).row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("barrels",
+                game.memController.getStat(game.memController.INDEX_BARRELS)),
+                statsTableStyle)).row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("games",
+                game.memController.getStat(game.memController.INDEX_GAMES_NO)),
+                statsTableStyle)).row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("time",
+                game.memController.getStat(game.memController.INDEX_LONG_RUN)),
+                statsTableStyle));
 
         // add the button into a Table
         Table menuTable = new Table();
         menuTable.bottom().left();
-        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
+        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).
+                align(Align.bottomLeft);
 
         //add the Table to the Stage
         stage.addActor(menuTable);
@@ -84,36 +96,66 @@ public class Statistics implements Screen {
         game.checkBackAndCloseScreen(this);
     }
 
+    /**
+     * disposes all used resources
+     */
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
 
-
-    // currently not used implements of Screen
+    /**
+     * NOT USED.
+     * Called when this screen becomes the current screen for a Game.
+     * --> everything is done in the constructor.
+     * @see Screen#show() ()
+     */
     @Override
     public void show() {
 
     }
 
+    /**
+     * NOT USED.
+     * would be called when the screen gets resized
+     * @param width new width of the screen
+     * @param height new height of the screen
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is paused, usually when it's not active
+     * or visible on screen.
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when the Application is resumed from a paused state,
+     * usually when it regains focus.
+     * @see Screen#resume() ()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * NOT USED.
+     * Called when this screen is no longer the current screen for a Game.
+     * --> we dispose everything when its not used.
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
 
     }
 }

@@ -7,7 +7,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.muss_and_toeberg.snake_that.game_objects.Snake;
 
 /**
- * Portal which come in pairs and set the player to the location of the other portal
+ * Portal which come in pairs and set the player to the
+ * location of the other portal
  * @author Jan-Philipp Töberg
  */
 public class Portal extends Obstacle<Circle> {
@@ -21,7 +22,8 @@ public class Portal extends Obstacle<Circle> {
      * @param yPos position on the y-axis
      */
     public Portal(int xPos, int yPos) {
-        super(xPos, yPos, 90, new Texture(Gdx.files.internal("textures/Portal.png")));
+        super(xPos, yPos, 90,
+				new Texture(Gdx.files.internal("textures/Portal.png")));
     }
 
     /**
@@ -29,12 +31,14 @@ public class Portal extends Obstacle<Circle> {
      * @param snake snake to check for
      * @return true when this portal was hit by the head this render
      */
-    public boolean doesSnakeHitPortal(Snake snake) {
-        boolean hasCollisionWithHead = Intersector.overlaps(this.getHitBox(), snake.getHeadAsRectangle());
+    public boolean checkSnakeHitPortal(Snake snake) {
+        boolean hasCollisionWithHead = Intersector.overlaps(this.getHitBox(),
+                snake.getHeadAsRectangle());
 
         if(!this.ignoreCollision && hasCollisionWithHead) {
             this.otherPortal.ignoreTheCollision(true);
-            snake.setMovement(this.otherPortal.getXPosition(), this.otherPortal.getYPosition());
+            snake.setMovement(this.otherPortal.getXPosition(),
+                    this.otherPortal.getYPosition());
         }
 
         if(this.ignoreCollision && !hasCollisionWithHead) {

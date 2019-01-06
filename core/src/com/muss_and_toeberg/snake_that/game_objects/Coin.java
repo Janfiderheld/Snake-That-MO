@@ -17,20 +17,19 @@ public class Coin {
 
     // Constant Values
     private final int RADIUS = 32;
-    private final int SIZE = RADIUS * 2;
     private final int POINT_PROBABILITY = 75;
     private final int SCORE_PER_COIN_MAX = 50;
 
     // the Position on the coordinate system
-    private float xPos = RADIUS;
-    private float yPos = RADIUS;
+    private float xPos;
+    private float yPos;
 
-    // local variables
+    // local variable
     private Random rndGenerator = new Random();
-    private int randomCoinValue;
 
     /**
-     * sets a random Texture, sets the coin-radius and refreshes the hitBox-Position
+     * sets a random Texture, sets the coin-radius and refreshes
+     * the hitBox-Position
      */
     public Coin() {
         setRandomTexture(POINT_PROBABILITY);
@@ -53,6 +52,7 @@ public class Coin {
     }
 
     /**
+     * returns the bottom-left point (like the coin is a square)
      * @return position of the coin on the x-axis
      */
     public float getXPosition() {
@@ -60,6 +60,7 @@ public class Coin {
     }
 
     /**
+     * returns the bottom-left point (like the coin is a square)
      * @return position of the coin on the y-axis
      */
     public float getYPosition() {
@@ -88,7 +89,7 @@ public class Coin {
     /**
      * @return constant point-value the player gets for a NFC coin
      */
-    public int getNotRandomPoints() {
+    public int getMaxPoints() {
         return SCORE_PER_COIN_MAX;
     }
 
@@ -96,13 +97,15 @@ public class Coin {
      * @return size (= 2 * radius) of the coin
      */
     public int getSize() {
-        return SIZE;
+        return RADIUS * 2;
     }
 
     /**
-     * Sets the texture to either the one for points or for lives at random (points = 75%)
+     * Sets the texture to either the one for points or for lives
+     * at random (points = 75%)
      * @param rndValue random Value between 1 and 100
-     * @return points the coin gives (constant for points and random between 1 and 100 for lives)
+     * @return points the coin gives (constant for points and random
+     *         between 1 and 100 for lives)
      */
     public int setRandomTexture(int rndValue) {
         if(rndValue < POINT_PROBABILITY) {
@@ -110,8 +113,7 @@ public class Coin {
             return SCORE_PER_COIN_MAX;
         } else {
             setTextureForLives();
-            randomCoinValue = rndGenerator.nextInt(SCORE_PER_COIN_MAX - 1) + 1;
-            return randomCoinValue;
+            return rndGenerator.nextInt(SCORE_PER_COIN_MAX - 1) + 1;
         }
     }
 

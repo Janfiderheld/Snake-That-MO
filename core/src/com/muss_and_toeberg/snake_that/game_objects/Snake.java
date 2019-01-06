@@ -15,8 +15,6 @@ public class Snake {
     public static final int BODY_PART_SIZE = 50;
     private final int BODY_PART_START_AMOUNT = 30;
     public final int ADD_WHEN_COLLECTED = 10;
-    private final int NO_COLLISION_ZONE = 25;
-    private final float BODY_PART_DISTANCE = 10;
 
     // Snake HitBoxes
     private Array<Rectangle> bodyParts;
@@ -37,21 +35,22 @@ public class Snake {
 
     /**
      * creates all the hitBoxes for the snake & sets the Vectors
-     * @param startingDirection new starting direction
-     * @param startingPosition new starting position
+     * @param startDirection new starting direction
+     * @param startPosition new starting position
      */
-    public void createSnake(Vector2 startingDirection, Vector2 startingPosition) {
-        direction = startingDirection.cpy();
-        movement = startingPosition.cpy();
+    public void createSnake(Vector2 startDirection, Vector2 startPosition) {
+        direction = startDirection.cpy();
+        movement = startPosition.cpy();
 		
 		bodyParts = new Array<Rectangle>();
 		countBodyParts = BODY_PART_START_AMOUNT;
 		currentNeck = countBodyParts - 1;
         head = createNewHitBox(getMovementInX(), getMovementInY());
 
-        for (int i = 0; i < countBodyParts; i++){
-            float tempX = head.x - BODY_PART_DISTANCE * (i + 1);
-            float tempY = head.y - BODY_PART_DISTANCE * (i + 1);
+        int distanceToNextPart = 10;
+        for (int count = 0; count < countBodyParts; count++){
+            float tempX = head.x - distanceToNextPart * (count + 1);
+            float tempY = head.y - distanceToNextPart * (count + 1);
 
             bodyParts.add(createNewHitBox(tempX, tempY));
         }
@@ -149,7 +148,8 @@ public class Snake {
 
     /**
      * moves snake body forward in the direction of the head
-     * always changes the position of the last rectangle to the one position of the head
+     * always changes the position of the last rectangle to
+     * the one position of the head
      */
     public void moveSnakeBody() {
         bodyPartTemp = bodyParts.get(currentNeck--);
@@ -204,6 +204,7 @@ public class Snake {
 
     /**
      * sets the direction to the given vector scaled by the given factor
+     * and rotates it since the vector points in the opposite direction
      * @param factor scaling factor
      * @param newDirection vector to scale
      */
@@ -238,10 +239,12 @@ public class Snake {
      * @return true if collision appears
      */
     public boolean checkSuicide() {
-        int currentBodyPart = (currentNeck + NO_COLLISION_ZONE)  % countBodyParts;
-        int bodyPartsToCheck = countBodyParts - NO_COLLISION_ZONE;
+        int noCollisionZone = 25;
+        int currentBodyPart = (currentNeck + noCollisionZone)  % countBodyParts;
+        int bodyPartsToCheck = countBodyParts - noCollisionZone;
 
-        for(int checkedBodyParts = 0; checkedBodyParts < bodyPartsToCheck; checkedBodyParts++) {
+        for(int checkedBodyParts = 0; checkedBodyParts < bodyPartsToCheck;
+            checkedBodyParts++) {
             bodyPartTemp = bodyParts.get(currentBodyPart);
             currentBodyPart = (currentBodyPart + 1) % countBodyParts;
             if(bodyPartTemp.overlaps(head)) {

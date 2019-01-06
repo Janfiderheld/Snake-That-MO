@@ -306,7 +306,7 @@ public class Level01 implements Screen {
     }
 
     /**
-     * checks if the snake collides with the block in the middle (= Waluigi)
+     * checks if the snake collides with the block in the middle
      */
     private void checkCollisionWithBlock() {
         HitDirection side = block.checkWhichCollisionSide(snake.getHeadAsRectangle());
@@ -329,6 +329,7 @@ public class Level01 implements Screen {
                 snake.invertBothDirections();
                 break;
         }
+         hasHitWall = true;
     }
 
     /**

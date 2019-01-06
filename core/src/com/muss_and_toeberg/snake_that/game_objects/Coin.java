@@ -19,8 +19,7 @@ public class Coin {
     private final int RADIUS = 32;
     private final int SIZE = RADIUS * 2;
     private final int POINT_PROBABILITY = 75;
-    private final int SCORE_PER_COIN = 50;
-    private final int RANDOM_POINTS_MAX = 100;
+    private final int SCORE_PER_COIN_MAX = 50;
 
     // the Position on the coordinate system
     private float xPos = RADIUS;
@@ -90,7 +89,7 @@ public class Coin {
      * @return constant point-value the player gets for a NFC coin
      */
     public int getNotRandomPoints() {
-        return SCORE_PER_COIN;
+        return SCORE_PER_COIN_MAX;
     }
 
     /**
@@ -108,10 +107,10 @@ public class Coin {
     public int setRandomTexture(int rndValue) {
         if(rndValue < POINT_PROBABILITY) {
             setTextureForPoints();
-            return SCORE_PER_COIN;
+            return SCORE_PER_COIN_MAX;
         } else {
             setTextureForLives();
-            randomCoinValue = rndGenerator.nextInt(RANDOM_POINTS_MAX - 1) + 1;
+            randomCoinValue = rndGenerator.nextInt(SCORE_PER_COIN_MAX - 1) + 1;
             return randomCoinValue;
         }
     }

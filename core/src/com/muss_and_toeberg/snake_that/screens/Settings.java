@@ -53,6 +53,9 @@ public class Settings implements Screen {
     /**
      * Constructor which is used to create all objects that only need to
      * be created once
+     * method head based on the top answer
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
+     *     here</a>
      * @param game game object which allows screen changing
      */
     public Settings(final MainGame game) {
@@ -393,6 +396,8 @@ public class Settings implements Screen {
 
     /**
      * creates the style for the language button
+     * the flags were made by the Gang of the Coconuts:
+     * https://www.free-country-flags.com/index.php
      */
     private void createButtonStyleLanguage() {
         Skin skin = new Skin();

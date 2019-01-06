@@ -27,14 +27,23 @@ public class MainGame extends Game {
     public AudioController soundControl;
     public MemoryController memController;
 
-    // Fonts
+    /* Fonts
+     * packed and exported via Hiero
+     * Explanation from this article:
+     * https://www.gamefromscratch.com/post/2014/11/21/
+     * LibGDX-Video-Tutorial-Creating-and-Using-Fonts-and-Text.aspx
+     */
     public BitmapFont fontHUD;
     public BitmapFont fontMainMenu;
     public BitmapFont fontCredits;
     public BitmapFont fontDescription;
 
-    // constant values
-    public static final int CAMERA_WIDTH = 1920;
+	/* constant values
+	 * describe the resolution of the game through the camera object
+	 * choice based on this article
+	 * https://deviceatlas.com/blog/most-used-smartphone-screen-resolutions
+	 */
+	public static final int CAMERA_WIDTH = 1920;
     public static final int CAMERA_HEIGHT = 1080;
 
     // static objects
@@ -98,6 +107,9 @@ public class MainGame extends Game {
 
     /**
      * changes the displayed language
+	 * loosely based on
+     * <a href="https://github.com/libgdx/libgdx/wiki/Internationalization-and-Localization">
+     *     this</a> wiki-page
      * @param changeToGerman true if the language should be changed to german
      */
     public void changeLocale(boolean changeToGerman) {

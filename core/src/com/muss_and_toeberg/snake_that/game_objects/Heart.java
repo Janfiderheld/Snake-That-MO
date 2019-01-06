@@ -13,6 +13,7 @@ public class Heart {
 	private Texture currentImg; 
 
 	// textures for the hearts
+	// both are selfmade
 	private Texture filledImg =
 			new Texture(Gdx.files.internal("textures/HeartFilled.png"));
     private Texture unfilledImg =

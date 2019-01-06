@@ -33,6 +33,9 @@ public class NewHighscore implements Screen {
     /**
      * Constructor which is used to create all objects that only need to
      * be created once
+     * method head based on the top answer
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
+     *     here</a>
      * @param game game object which allows screen changing
      * @param placement placement of the player
      * @param score points the player earned

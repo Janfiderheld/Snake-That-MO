@@ -118,14 +118,16 @@ public class Coin {
     }
 
     /**
-     * sets the local Texture to the lives-Texture
+     * sets the local Texture to the lives-Texture.
+     * This texture is selfmade
      */
     private void setTextureForLives() {
         image = new Texture(Gdx.files.internal("textures/CoinLive.png"));
     }
 
     /**
-     * sets the local Texture to the points-Texture
+     * sets the local Texture to the points-Texture.
+     * This texture is selfmade
      */
     private void setTextureForPoints() {
         image = new Texture(Gdx.files.internal("textures/CoinPoint.png"));

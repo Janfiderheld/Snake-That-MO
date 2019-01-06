@@ -86,6 +86,9 @@ public class Level01 implements Screen {
     /**
      * Constructor which is used to create all objects that only need
      * to be created once
+     * method head based on the top answer
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
+     *     here</a>
      * @param game game object which allows screen changing
      */
     public Level01(final MainGame game){
@@ -104,6 +107,12 @@ public class Level01 implements Screen {
             hearts[count] = new Heart();
         }
 
+        /* sources for the textures:
+         * brick: Made by Eric Matyas (https://soundimage.org/txr-brick-cartoon)
+         * background: Based on https://www.toptal.com/designers/subtlepatterns/pipes-pattern/
+         *             by Victoria Pontie
+         * santa hat: selfmade
+         */
         blockTexture = new Texture("textures/Brick.png");
         background = new Texture ("textures/backgroundPipes.png");
         hat = new Texture("textures/SantaHat.png");

@@ -34,7 +34,6 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [Zusammenfassung der Apache 2.0 Lizenz](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)) (abgerufen am: 06.12.)
 - [StackOverflow: Wechseln von Screens in LibGDX](https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx) (abgerufen am: 11.12.)
 - [libGDX: Erweiterung des Beispiel-Spiels um Menüs](https://github.com/libgdx/libgdx/wiki/Extending-the-simple-game) (abgerufen am: 11.12.)
-- [StackOverflow: Datentyp eines generischen Objekts rausfinden](https://stackoverflow.com/questions/11798951/generic-type-of-local-variable-at-runtime) (abgerufen am: 16.12.)
 - [libGDX: multi-linguale Strings](https://github.com/libgdx/libgdx/wiki/Internationalization-and-Localization) (abgerufen am: 18.12.)
 - [libGDX: Umgang mit Tabellen](https://github.com/libgdx/libgdx/wiki/Table) (abgerufen am: 29.12.)
 - [Texturen mit libGDX packen](http://www.programmingmoney.com/libgdx-texturepacker-tutorial/) (abgerufen am: 29.12.)

@@ -19,7 +19,8 @@ public class ExplodingBarrel extends Obstacle<Circle> {
     private int pointsWhenExplosion = 0;
 
     /**
-     * constructor which places a barrel at the given position
+     * Constructor which places a barrel at the given position.
+     * This texture is selfmade
      * @param xPos position on the x-axis
      * @param yPos position on the y-axis
      */

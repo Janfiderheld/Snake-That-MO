@@ -16,6 +16,7 @@ import com.muss_and_toeberg.snake_that.technical.Menu;
 
 /**
  * Screen which contains the Credits
+ * <a href="https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)">Apache 2.0-License</a>
  * @author Niclas Muss
  */
 public class Credits implements Screen {
@@ -30,6 +31,9 @@ public class Credits implements Screen {
     /**
      * Constructor which is used to create all objects that only need to be
      * created once
+     * method head based on the top answer
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
+     *     here</a>
      * @param game game object which allows screen changing
      */
     public Credits(final MainGame game) {

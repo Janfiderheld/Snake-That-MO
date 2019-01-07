@@ -44,7 +44,7 @@ public class Credits implements Screen {
         headerStartY = MainGame.CAMERA_HEIGHT - 25;
 
         // creates the Stage
-        stage = new Stage();
+        stage = new Stage(game.viewport);
         Gdx.input.setInputProcessor(stage);
 
         // creates the label-Styles

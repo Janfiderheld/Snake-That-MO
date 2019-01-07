@@ -195,6 +195,7 @@ public class MemoryController {
      */
     public void createEmptyHighscore() {
         String playerName = MainGame.myLangBundle.get("playName");
+        currentHighscore = new String[NUMBER_PLAYERS];
         for(int count = 0; count < NUMBER_PLAYERS; count++) {
             currentHighscore[count] = playerName + DELIMITER + 0;
         }
@@ -277,6 +278,7 @@ public class MemoryController {
      * create an Empty Stat File
      */
     private void createEmptyStats(){
+        stats = new int[NUMBER_STATS];
         for(int count = 0; count < NUMBER_STATS; count++) {
             stats[count] = 0;
         }

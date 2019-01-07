@@ -36,7 +36,7 @@ public class Statistics implements Screen {
         MainGame.currentMenu = Menu.Statistics;
 
         // creates the Stage
-        stage = new Stage();
+        stage = new Stage(game.viewport);
         Gdx.input.setInputProcessor(stage);
 
         // creates the Label-Style for the Statstable

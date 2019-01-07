@@ -70,7 +70,7 @@ public class Settings implements Screen {
         }
 
         // creates the Stage
-        stage = new Stage();
+        stage = new Stage(game.viewport);
         Gdx.input.setInputProcessor(stage);
 
         // creates the LabelStyle

@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.muss_and_toeberg.snake_that.screens.MainMenu;
 import com.muss_and_toeberg.snake_that.screens.Settings;
 import java.util.Locale;
@@ -24,6 +26,7 @@ public class MainGame extends Game {
     // Objects which are used throughout the whole game
     public SpriteBatch batch;
     public OrthographicCamera camera;
+    public Viewport viewport;
     public AudioController soundControl;
     public MemoryController memController;
 
@@ -64,6 +67,8 @@ public class MainGame extends Game {
         currentMenu = Menu.None;
 
         camera = new OrthographicCamera();
+        viewport = new FitViewport(CAMERA_WIDTH,CAMERA_HEIGHT,camera);
+        viewport.apply();
         camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
         batch.setProjectionMatrix(camera.combined);
 
@@ -76,11 +81,14 @@ public class MainGame extends Game {
         fontDescription = new BitmapFont(Gdx.files.internal(
                 "fonts/ComicSans_Desc.fnt"));
 
+        languageFileHandler = Gdx.files.internal("i18n/strings");
+        myLangBundle = I18NBundle.createBundle(languageFileHandler,
+                Locale.getDefault(), "ISO-8859-1");
+
         soundControl = new AudioController();
         memController = new MemoryController();
 
         Settings.setSettings(memController.readSettingsFromFile());
-        languageFileHandler = Gdx.files.internal("i18n/strings");
         changeLocale(Settings.checkForGermanLanguage());
 
         Gdx.input.setCatchBackKey(true);

@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.muss_and_toeberg.snake_that.screens.levels.Level01;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.technical.Menu;
@@ -38,8 +40,9 @@ public class MainMenu implements Screen {
         MainGame.currentMenu = Menu.MainMenu;
         float buttonWidth = MainGame.CAMERA_WIDTH / BUTTONS_PER_ROW;
 
+        //game.viewport.apply();
         // creates the Stage
-        stage = new Stage();
+        stage = new Stage(game.viewport);
         Gdx.input.setInputProcessor(stage);
 
         // create the Buttons

@@ -11,7 +11,9 @@ Zwischenstand: 11.12.2018
 
 Abgabe: 08.01.2019
 
-Präsentation: 08.01., 15.01. oder 22.01.2019
+Präsentation: 08.01.2019
+
+Der offizielle Teil der Projektarbeit ist damit abgeschlossen! Alles weitere (wie die Veröffentlichung im PlayStore) liegt jetzt an uns
 
 ## Projektbeschreibung:
 

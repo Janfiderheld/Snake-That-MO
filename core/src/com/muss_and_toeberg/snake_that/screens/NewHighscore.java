@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
+import com.muss_and_toeberg.snake_that.technical.MemoryController;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
 /**
@@ -31,17 +32,14 @@ public class NewHighscore implements Screen {
     private TextField.TextFieldStyle txtStyleNameInput;
 
     /**
-     * Constructor which is used to create all objects that only need to
-     * be created once
+     * Constructor which is used to create all objects that only need to be created once
      * method head based on the top answer
-     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
-     *     here</a>
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">here</a>
      * @param game game object which allows screen changing
      * @param placement placement of the player
      * @param score points the player earned
      */
-    public NewHighscore(final MainGame game, final int placement,
-                        final int score){
+    public NewHighscore(final MainGame game, final int placement, final int score){
         this.game = game;
         MainGame.currentMenu = Menu.Highscore;
 
@@ -55,34 +53,32 @@ public class NewHighscore implements Screen {
         scoretableStyle.fontColor = Color.WHITE;
 
         // create the Label
-        Label lblHeading = new Label(
-                MainGame.myLangBundle.format("headerNewHS",
-                        placement + 1), scoretableStyle);
-        lblHeading.setPosition((MainGame.CAMERA_WIDTH / 2) - 400,
-                (MainGame.CAMERA_HEIGHT / 2) + 200);
+        Label lblHeading = new Label(MainGame.myLangBundle.format("headerNewHS", placement + 1), scoretableStyle);
+        lblHeading.setPosition((MainGame.CAMERA_WIDTH / 2) - 400, (MainGame.CAMERA_HEIGHT / 2) + 200);
 
         // create the textfield to enter the name
         createTextfieldStyle();
         final TextField txtUserName = new TextField("", txtStyleNameInput);
         txtUserName.setMessageText(MainGame.myLangBundle.get("player"));
         txtUserName.setMaxLength(MAX_USERNAME_LENGTH);
-        txtUserName.setPosition((MainGame.CAMERA_WIDTH / 2) - 425,
-                (MainGame.CAMERA_HEIGHT / 2) - 100);
+        txtUserName.setPosition((MainGame.CAMERA_WIDTH / 2) - 425, (MainGame.CAMERA_HEIGHT / 2) - 100);
         txtUserName.setSize(1000,200);
         txtUserName.setAlignment(Align.center);
 
         // create the button
-        TextButton btnSubmit = new TextButton(
-                MainGame.myLangBundle.get("submit"),
-                MainGame.btnStyleMainMenuFont);
+        TextButton btnSubmit = new TextButton(MainGame.myLangBundle.get("submit"), MainGame.btnStyleMainMenuFont);
         btnSubmit.setPosition((game.CAMERA_WIDTH / 2) - 100,200);
         btnSubmit.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                game.memController.addScoreToHighscore(txtUserName.getText(),
-                        score, placement);
-                game.setScreen(new Highscores(game));
-                dispose();
+                String nameToControl = txtUserName.getText();
+                if(nameToControl.contains(MemoryController.getDelimiter())) {
+                    // TODO: Give hint to player about delimiter
+                } else {
+                    game.memController.addScoreToHighscore(nameToControl, score, placement);
+                    game.setScreen(new Highscores(game));
+                    dispose();
+                }
             }
         });
 
@@ -110,13 +106,11 @@ public class NewHighscore implements Screen {
      */
     private void createTextfieldStyle() {
         Skin skin = new Skin();
-        TextureAtlas buttonAtlas = new TextureAtlas(
-                Gdx.files.internal("buttons/buttonsColors.pack"));
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsColors.pack"));
         skin.addRegions(buttonAtlas);
 
         txtStyleNameInput = new TextField.TextFieldStyle();
-        txtStyleNameInput.font = new BitmapFont(
-                Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
+        txtStyleNameInput.font = new BitmapFont(Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
         txtStyleNameInput.fontColor = Color.BLACK;
         txtStyleNameInput.background = skin.getDrawable("Down");
     }

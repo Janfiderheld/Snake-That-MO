@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -52,28 +53,26 @@ public class NewHighscore implements Screen {
         scoretableStyle.font = game.fontHUD;
         scoretableStyle.fontColor = Color.WHITE;
 
-        // create the Label
+        // create the Heading
         Label lblHeading = new Label(MainGame.myLangBundle.format("headerNewHS", placement + 1), scoretableStyle);
-        lblHeading.setPosition((MainGame.CAMERA_WIDTH / 2) - 400, (MainGame.CAMERA_HEIGHT / 2) + 200);
 
         // create the textfield to enter the name
         createTextfieldStyle();
         final TextField txtUserName = new TextField("", txtStyleNameInput);
         txtUserName.setMessageText(MainGame.myLangBundle.get("player"));
         txtUserName.setMaxLength(MAX_USERNAME_LENGTH);
-        txtUserName.setPosition((MainGame.CAMERA_WIDTH / 2) - 425, (MainGame.CAMERA_HEIGHT / 2) - 100);
         txtUserName.setSize(1000,200);
         txtUserName.setAlignment(Align.center);
 
         // create the button
-        TextButton btnSubmit = new TextButton(MainGame.myLangBundle.get("submit"), MainGame.btnStyleMainMenuFont);
-        btnSubmit.setPosition((game.CAMERA_WIDTH / 2) - 100,200);
+        final TextButton btnSubmit = new TextButton(MainGame.myLangBundle.get("submit"), MainGame.btnStyleMainMenuFont);
         btnSubmit.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 String nameToControl = txtUserName.getText();
                 if(nameToControl.contains(MemoryController.getDelimiter())) {
-                    // TODO: Give hint to player about delimiter
+                    game.androidFunctions.createAndShowToast(MainGame.myLangBundle.format("delEntered", MemoryController.getDelimiter()), true);
+                    btnSubmit.setChecked(false);
                 } else {
                     game.memController.addScoreToHighscore(nameToControl, score, placement);
                     game.setScreen(new Highscores(game));
@@ -82,10 +81,16 @@ public class NewHighscore implements Screen {
             }
         });
 
-        //add actors to stage
-        stage.addActor(txtUserName);
-        stage.addActor(lblHeading);
-        stage.addActor(btnSubmit);
+        // adds all buttons and labels into a Table
+        Table menuTable = new Table();
+        menuTable.bottom().left();
+        menuTable.pad(0,500,300,0);
+        menuTable.add(lblHeading).space(25, 25, 50, 50).row();
+        menuTable.add(txtUserName).space(50,0,50,0).width(1000).row();
+        menuTable.add(btnSubmit).space(50, 125, 25, 125).width(450);
+
+        //adds table to stage
+        stage.addActor(menuTable);
     }
 
     /**

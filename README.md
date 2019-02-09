@@ -41,6 +41,7 @@ Im Folgenden werden alle Links (und ähnliches) aufgelistet, welche uns bei der 
 - [Texturen mit libGDX packen](http://www.programmingmoney.com/libgdx-texturepacker-tutorial/) (abgerufen am: 29.12.)
 - [StackOverflow: Zeilenlänge in Android Studio setzen](https://stackoverflow.com/questions/30851617/how-to-set-max-line-length-in-android-studio-code-editor) (abgerufen am: 04.01.)
 - [StackOverflow: Verwendung von @see in JavaDocs](https://stackoverflow.com/questions/5011291/usage-of-see-in-javadoc) (abgerufen am: 06.01.)
+- [StackOverflow: Nutzung von Toasts mit libGDX](https://stackoverflow.com/questions/29142360/libgdx-toast-message) (abgerufen am: 09.02.)
 
 ### Bild- & Audioquellen
 

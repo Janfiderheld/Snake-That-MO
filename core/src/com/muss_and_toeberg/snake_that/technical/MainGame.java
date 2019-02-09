@@ -29,12 +29,12 @@ public class MainGame extends Game {
     public Viewport viewport;
     public AudioController soundControl;
     public MemoryController memController;
+    public IAndroidFunctions androidFunctions;
 
     /* Fonts
      * packed and exported via Hiero
      * Explanation from this article:
-     * https://www.gamefromscratch.com/post/2014/11/21/
-     * LibGDX-Video-Tutorial-Creating-and-Using-Fonts-and-Text.aspx
+     * https://www.gamefromscratch.com/post/2014/11/21/LibGDX-Video-Tutorial-Creating-and-Using-Fonts-and-Text.aspx
      */
     public BitmapFont fontHUD;
     public BitmapFont fontMainMenu;
@@ -59,6 +59,14 @@ public class MainGame extends Game {
     private boolean backReleased = true;
 
     /**
+     * Constructor which sets the Android Functions
+     * @param droidFunc functions object to set
+     */
+    public MainGame(IAndroidFunctions droidFunc) {
+        androidFunctions = droidFunc;
+    }
+
+    /**
      * gets called once when the game is created
      */
     @Override
@@ -72,18 +80,13 @@ public class MainGame extends Game {
         camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
         batch.setProjectionMatrix(camera.combined);
 
-        fontHUD = new BitmapFont(Gdx.files.internal(
-                "fonts/ComicSans_HUD.fnt"));
-        fontMainMenu = new BitmapFont(Gdx.files.internal(
-                "fonts/ComicSans_MainMenu.fnt"));
-        fontCredits = new BitmapFont(Gdx.files.internal(
-                "fonts/ComicSans_Credits.fnt"));
-        fontDescription = new BitmapFont(Gdx.files.internal(
-                "fonts/ComicSans_Desc.fnt"));
+        fontHUD = new BitmapFont(Gdx.files.internal("fonts/ComicSans_HUD.fnt"));
+        fontMainMenu = new BitmapFont(Gdx.files.internal("fonts/ComicSans_MainMenu.fnt"));
+        fontCredits = new BitmapFont(Gdx.files.internal("fonts/ComicSans_Credits.fnt"));
+        fontDescription = new BitmapFont(Gdx.files.internal("fonts/ComicSans_Desc.fnt"));
 
         languageFileHandler = Gdx.files.internal("i18n/strings");
-        myLangBundle = I18NBundle.createBundle(languageFileHandler,
-                Locale.getDefault(), "ISO-8859-1");
+        myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.getDefault(), "ISO-8859-1");
 
         soundControl = new AudioController();
         memController = new MemoryController();
@@ -102,8 +105,7 @@ public class MainGame extends Game {
      */
     private void createButtonStyleMainMenuFont() {
         Skin skin = new Skin();
-        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal(
-                "buttons/buttonsControl.pack"));
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsControl.pack"));
         skin.addRegions(buttonAtlas);
 
         btnStyleMainMenuFont = new TextButton.TextButtonStyle();
@@ -124,11 +126,9 @@ public class MainGame extends Game {
         Settings.setLanguage(changeToGerman);
         String encoding = "ISO-8859-1";
         if(changeToGerman) {
-            myLangBundle = I18NBundle.createBundle(languageFileHandler,
-                    Locale.GERMAN, encoding);
+            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.GERMAN, encoding);
         } else {
-            myLangBundle = I18NBundle.createBundle(languageFileHandler,
-                    Locale.ENGLISH, encoding);
+            myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.ENGLISH, encoding);
         }
     }
 

@@ -79,32 +79,21 @@ public class Settings implements Screen {
         lblStyle.fontColor = Color.WHITE;
 
         // create the Labels
-        Label lblMusic = new Label(MainGame.myLangBundle.get("music"),
-                lblStyle);
-        Label lblSound = new Label(MainGame.myLangBundle.get("sound"),
-                lblStyle);
-        Label lblChristmas = new Label(MainGame.myLangBundle.get("christmas"),
-                lblStyle);
-        Label lblLanguage = new Label(MainGame.myLangBundle.get("lang"),
-                lblStyle);
-        Label lblColor = new Label(MainGame.myLangBundle.get("color"),
-                lblStyle);
+        Label lblMusic = new Label(MainGame.myLangBundle.get("music"), lblStyle);
+        Label lblSound = new Label(MainGame.myLangBundle.get("sound"), lblStyle);
+        Label lblChristmas = new Label(MainGame.myLangBundle.get("christmas"), lblStyle);
+        Label lblLanguage = new Label(MainGame.myLangBundle.get("lang"), lblStyle);
+        Label lblColor = new Label(MainGame.myLangBundle.get("color"), lblStyle);
 
         // create the Buttons
         createButtonStyleSettingsOnOff();
         createButtonStyleLanguage();
-        TextButton btnMusic = new TextButton(MainGame.myLangBundle.get("on"),
-                btnStyleSettingsOnOff);
-        TextButton btnSound = new TextButton(MainGame.myLangBundle.get("on"),
-                btnStyleSettingsOnOff);
-        TextButton btnChristmas = new TextButton(
-                MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
+        TextButton btnMusic = new TextButton(MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
+        TextButton btnSound = new TextButton(MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
+        TextButton btnChristmas = new TextButton(MainGame.myLangBundle.get("on"), btnStyleSettingsOnOff);
         TextButton btnLanguage = new TextButton("", btnStyleLanguage);
-        TextButton btnReset = new TextButton(MainGame.myLangBundle.get("reset"),
-                MainGame.btnStyleMainMenuFont);
-        TextButton btnBackMainMenu = new TextButton(
-                MainGame.myLangBundle.get("backToMM"),
-                MainGame.btnStyleMainMenuFont);
+        TextButton btnReset = new TextButton(MainGame.myLangBundle.get("reset"), MainGame.btnStyleMainMenuFont);
+        TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
 
         // check if the buttons should be checked
         if(!Settings.checkMusicTurnedOn()) {
@@ -128,8 +117,7 @@ public class Settings implements Screen {
 
         // create the color buttons
         for(int count = 0; count < COLOR_BUTTON_AMOUNT; count++) {
-            TextButton tempButton = new TextButton("",
-                    createButtonStyleColors(count));
+            TextButton tempButton = new TextButton("", createButtonStyleColors(count));
             if(Snake.getColorAsEnum() == SnakeColor.makeIntToSnakeColor(count)) {
                 tempButton.setChecked(true);
             }
@@ -138,8 +126,7 @@ public class Settings implements Screen {
                 @Override
                 public void changed (ChangeEvent event, Actor actor) {
                     if(((TextButton)actor).isChecked()) {
-                        SnakeColor tempColor =
-                                SnakeColor.makeIntToSnakeColor(finalCount);
+                        SnakeColor tempColor = SnakeColor.makeIntToSnakeColor(finalCount);
                         Snake.setColorByEnum(tempColor);
                         uncheckAllColorButtons(tempColor);
                     }
@@ -154,13 +141,11 @@ public class Settings implements Screen {
             public void changed (ChangeEvent event, Actor actor) {
                 if(Settings.checkMusicTurnedOn()) {
                     Settings.setMusic(false);
-                    ((TextButton)actor).setText(
-                            MainGame.myLangBundle.get("off"));
+                    ((TextButton)actor).setText(MainGame.myLangBundle.get("off"));
                     game.soundControl.pauseBackgroundMusic();
                 } else {
                     Settings.setMusic(true);
-                    ((TextButton)actor).setText(
-                            MainGame.myLangBundle.get("on"));
+                    ((TextButton)actor).setText(MainGame.myLangBundle.get("on"));
                     game.soundControl.startBackgroundMusic();
                 }
                 game.memController.saveSettings();
@@ -172,12 +157,10 @@ public class Settings implements Screen {
             public void changed (ChangeEvent event, Actor actor) {
                 if(Settings.checkSoundsTurnedOn()) {
                     Settings.setSound(false);
-                    ((TextButton)actor).setText(
-                            MainGame.myLangBundle.get("off"));
+                    ((TextButton)actor).setText(MainGame.myLangBundle.get("off"));
                 } else {
                     Settings.setSound(true);
-                    ((TextButton)actor).setText(
-                            MainGame.myLangBundle.get("on"));
+                    ((TextButton)actor).setText(MainGame.myLangBundle.get("on"));
                 }
                 game.memController.saveSettings();
             }
@@ -188,12 +171,10 @@ public class Settings implements Screen {
             public void changed (ChangeEvent event, Actor actor) {
                 if(Settings.checkForChristmas()) {
                     Settings.setChristmasTheme(false);
-                    ((TextButton)actor).setText(
-                            MainGame.myLangBundle.get("off"));
+                    ((TextButton)actor).setText(MainGame.myLangBundle.get("off"));
                 } else {
                     Settings.setChristmasTheme(true);
-                    ((TextButton)actor).setText(
-                            MainGame.myLangBundle.get("on"));
+                    ((TextButton)actor).setText(MainGame.myLangBundle.get("on"));
                 }
                 game.memController.saveSettings();
             }
@@ -218,6 +199,7 @@ public class Settings implements Screen {
             public void changed (ChangeEvent event, Actor actor) {
                 game.memController.createEmptyHighscore();
                 ((TextButton)actor).setChecked(false);
+                game.androidFunctions.createAndShowToast(MainGame.myLangBundle.get("resetSucc"), true);
             }
         });
 
@@ -233,19 +215,13 @@ public class Settings implements Screen {
         menuTable.bottom().left();
         menuTable.pad(0,25,400,0);
         menuTable.add(lblMusic);
-        menuTable.add(btnMusic).space(10, 10, 10, 10).
-                width(ON_OFF_BUTTON_WIDTH);
+        menuTable.add(btnMusic).space(10, 10, 10, 10).width(ON_OFF_BUTTON_WIDTH);
         menuTable.add(lblSound).spaceLeft(300);
-        menuTable.add(btnSound).space(10, 10, 10, 10).
-                width(ON_OFF_BUTTON_WIDTH).row();
+        menuTable.add(btnSound).space(10, 10, 10, 10).width(ON_OFF_BUTTON_WIDTH).row();
         menuTable.add(lblChristmas);
-        menuTable.add(btnChristmas).
-                space(10, 10, 10, 10).
-                width(ON_OFF_BUTTON_WIDTH);
+        menuTable.add(btnChristmas).space(10, 10, 10, 10).width(ON_OFF_BUTTON_WIDTH);
         menuTable.add(lblLanguage).spaceLeft(300);
-        menuTable.add(btnLanguage).
-                space(10, 10, 10, 10).
-                width(LANG_BUTTON_WIDTH).row();
+        menuTable.add(btnLanguage).space(10, 10, 10, 10).width(LANG_BUTTON_WIDTH).row();
         menuTable.add(lblColor);
 
         // adds the color buttons into a Table
@@ -253,19 +229,14 @@ public class Settings implements Screen {
         colorTable.bottom().left();
         colorTable.pad(0,25,250,0);
         for(int count = 0; count < COLOR_BUTTON_AMOUNT; count++) {
-            colorTable.add(colorButtons.get(count)).
-                    space(10, 200, 100, 10).
-                    width(COLOR_BUTTON_WIDTH);
+            colorTable.add(colorButtons.get(count)).space(10, 200, 100, 10).width(COLOR_BUTTON_WIDTH);
         }
 
         // adds the buttons to a Table
         Table btnTable = new Table();
         btnTable.bottom().left();
-        btnTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).
-                align(Align.bottomLeft);
-        btnTable.add(btnReset).width(resetButtonWidth).
-                spaceLeft(MainGame.CAMERA_WIDTH - resetButtonWidth -
-                        MainMenu.BACK_MM_BUTTON_WIDTH);
+        btnTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
+        btnTable.add(btnReset).width(resetButtonWidth).spaceLeft(MainGame.CAMERA_WIDTH - resetButtonWidth - MainMenu.BACK_MM_BUTTON_WIDTH);
 
         //add the Tables to the Stage
         stage.addActor(menuTable);
@@ -283,8 +254,7 @@ public class Settings implements Screen {
         game.batch.begin();
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("settings"),
-                headerStartX, headerStartY);
+        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("settings"), headerStartX, headerStartY);
         game.batch.end();
         stage.draw();
         game.camera.update();
@@ -384,8 +354,7 @@ public class Settings implements Screen {
      */
     private void createButtonStyleSettingsOnOff() {
         Skin skin = new Skin();
-        TextureAtlas buttonAtlas = new TextureAtlas(
-                Gdx.files.internal("buttons/buttonsSettings.pack"));
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsSettings.pack"));
         skin.addRegions(buttonAtlas);
 
         btnStyleSettingsOnOff = new TextButton.TextButtonStyle();
@@ -401,8 +370,7 @@ public class Settings implements Screen {
      */
     private void createButtonStyleLanguage() {
         Skin skin = new Skin();
-        TextureAtlas buttonAtlas = new TextureAtlas(
-                Gdx.files.internal("buttons/buttonLanguage.pack"));
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonLanguage.pack"));
         skin.addRegions(buttonAtlas);
 
         btnStyleLanguage = new TextButton.TextButtonStyle();
@@ -418,12 +386,10 @@ public class Settings implements Screen {
      */
     private TextButton.TextButtonStyle createButtonStyleColors(int chosenColor) {
         Skin skin = new Skin();
-        TextureAtlas buttonAtlas = new TextureAtlas(
-                Gdx.files.internal("buttons/buttonsColors.pack"));
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsColors.pack"));
         skin.addRegions(buttonAtlas);
 
-        TextButton.TextButtonStyle tempButtonStyle =
-                new TextButton.TextButtonStyle();
+        TextButton.TextButtonStyle tempButtonStyle = new TextButton.TextButtonStyle();
         tempButtonStyle.font = game.fontMainMenu;
 
         switch (chosenColor) {

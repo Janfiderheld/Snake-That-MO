@@ -32,8 +32,7 @@ public class Credits implements Screen {
      * Constructor which is used to create all objects that only need to be
      * created once
      * method head based on the top answer
-     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
-     *     here</a>
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">here</a>
      * @param game game object which allows screen changing
      */
     public Credits(final MainGame game) {
@@ -57,37 +56,19 @@ public class Credits implements Screen {
         lblStyleDescription.fontColor = Color.WHITE;
 
         // creates the Labels
-        Label lblDescription = new Label(MainGame.myLangBundle.get("desc"),
-                lblStyleDescription);
-        Label lblLibGDX = new Label(MainGame.myLangBundle.format("libGDX",
-                "(apache.org/licenses/LICENSE-2.0)"),
-                lblStyleDescription);
-        Label lblSupport = new Label(
-                MainGame.myLangBundle.format("support",
-                "M.Sc. Andreas Schmelter",
-                "Prof. Dr. rer. nat. Stefan Heiss"), lblStyleCredits);
-        Label lblIdea = new Label(MainGame.myLangBundle.format("idea",
-                "Jan-Philipp Töberg"), lblStyleCredits);
-        Label lblProgramming = new Label(
-                MainGame.myLangBundle.format("programming",
-                "Niclas Muss", "Jan-Philipp Töberg"), lblStyleCredits);
-        Label lblSoundAndMusic = new Label(
-                MainGame.myLangBundle.format("sound&Music",
-                "Eric Matyas (soundimage.org)"), lblStyleCredits);
-        Label lblBackground = new Label(
-                MainGame.myLangBundle.format("background",
-                "Victoria Pontie"), lblStyleCredits);
-        Label lblFlags = new Label(MainGame.myLangBundle.format("flags",
-                "Gang of the Coconuts (free-country-flags.com)"),
-                lblStyleCredits);
-        Label lblRestTextures = new Label(
-                MainGame.myLangBundle.format("restTextures",
-                "Niclas Muss", "Jan-Philipp Töberg"), lblStyleCredits);
+        Label lblDescription = new Label(MainGame.myLangBundle.get("desc"), lblStyleDescription);
+        Label lblLibGDX = new Label(MainGame.myLangBundle.format("libGDX", "(apache.org/licenses/LICENSE-2.0)"), lblStyleDescription);
+        Label lblSupport = new Label(MainGame.myLangBundle.format("support","M.Sc. Andreas Schmelter", "Prof. Dr. rer. nat. Stefan Heiss"), lblStyleCredits);
+        Label lblIdea = new Label(MainGame.myLangBundle.format("idea","Jan-Philipp Töberg"), lblStyleCredits);
+        Label lblProgramming = new Label(MainGame.myLangBundle.format("programming","Niclas Muss", "Jan-Philipp Töberg"), lblStyleCredits);
+        Label lblSoundAndMusic = new Label(MainGame.myLangBundle.format("sound&Music", "Eric Matyas (soundimage.org)"), lblStyleCredits);
+        Label lblBackground = new Label(MainGame.myLangBundle.format("background", "Victoria Pontie"), lblStyleCredits);
+        Label lblFlags = new Label(MainGame.myLangBundle.format("flags", "Gang of the Coconuts (free-country-flags.com)"), lblStyleCredits);
+        Label lblRestTextures = new Label(MainGame.myLangBundle.format("restTextures", "Niclas Muss", "Jan-Philipp Töberg"), lblStyleCredits);
+        Label lblVersion = new Label(MainGame.myLangBundle.get("version"), lblStyleCredits);
 
         // creates the button
-        TextButton btnBackMainMenu = new TextButton(
-                MainGame.myLangBundle.get("backToMM"),
-                MainGame.btnStyleMainMenuFont);
+        TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -98,30 +79,17 @@ public class Credits implements Screen {
         // adds all the elements into a Table
         Table menuTable = new Table();
         menuTable.bottom().left();
-        menuTable.add(lblDescription).
-                space(10,10,10,10).
-                align(Align.left).row();
-        menuTable.add(lblLibGDX).space(10,10,50,10).
-                align(Align.left).row();
-        menuTable.add(lblSupport).space(10,10,10,10).
-                align(Align.left).row();
-        menuTable.add(lblIdea).space(10,10,10,10).
-                align(Align.left).row();
-        menuTable.add(lblProgramming).
-                space(10,10,10,10).
-                align(Align.left).row();
-        menuTable.add(lblSoundAndMusic).
-                space(10,10,10,10).
-                align(Align.left).row();
-        menuTable.add(lblBackground).space(10,10,10,10).
-                align(Align.left).row();
-        menuTable.add(lblFlags).space(10, 10, 10, 10).
-                align(Align.left).row();
-        menuTable.add(lblRestTextures).
-                space(10,10,10,10).
-                align(Align.left).row();
-        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).
-                align(Align.bottomLeft);
+        menuTable.add(lblDescription).space(10,10,10,10).align(Align.left).row();
+        menuTable.add(lblLibGDX).space(10,10,50,10).align(Align.left).row();
+        menuTable.add(lblSupport).space(10,10,10,10).align(Align.left).row();
+        menuTable.add(lblIdea).space(10,10,10,10).align(Align.left).row();
+        menuTable.add(lblProgramming).space(10,10,10,10).align(Align.left).row();
+        menuTable.add(lblSoundAndMusic).space(10,10,10,10).align(Align.left).row();
+        menuTable.add(lblBackground).space(10,10,10,10).align(Align.left).row();
+        menuTable.add(lblFlags).space(10, 10, 10, 10).align(Align.left).row();
+        menuTable.add(lblRestTextures).space(10,10,10,10).align(Align.left).row();
+        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
+        menuTable.add(lblVersion).align(Align.bottomRight);
 
         //add the Table to the Stage
         stage.addActor(menuTable);
@@ -137,8 +105,7 @@ public class Credits implements Screen {
         game.batch.begin();
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("credits"),
-                headerStartX, headerStartY);
+        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("credits"), headerStartX, headerStartY);
         game.batch.end();
         stage.draw();
         game.camera.update();

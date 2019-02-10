@@ -11,4 +11,22 @@ public interface IAndroidFunctions {
 	 * @param shortToast should that be a short or a long toast
 	 */
 	void createAndShowToast(final String messageToShow, final boolean shortToast);
+
+	/**
+	 * ask the player for write permission on the device
+	 * (needed for saving highscores & settings)
+	 */
+	void askForWritePermission();
+
+	/**
+	 * check if the user already gave his permission
+	 * @return true if permission was given
+	 */
+	boolean checkWritePermission();
+
+	/**
+	 * opens a given url via a browser intent
+	 * @param urlToOpen self-explanatory
+	 */
+	void openUrlViaIntent(String urlToOpen);
 }

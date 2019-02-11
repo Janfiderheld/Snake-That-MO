@@ -29,15 +29,12 @@ import java.util.Random;
 
 /**
  * First Level of the game
- * @author Jan-Philipp Töberg
  */
 public class Level01 implements Screen {
     // Constant width & height values
     private final int SIZE_OF_HUD = 150;
-    private final int BLOCK_X = (MainGame.CAMERA_WIDTH / 2) -
-            (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
-    private final int BLOCK_Y = ((MainGame.CAMERA_HEIGHT - SIZE_OF_HUD) / 2) -
-            (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
+    private final int BLOCK_X = (MainGame.CAMERA_WIDTH / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
+    private final int BLOCK_Y = ((MainGame.CAMERA_HEIGHT - SIZE_OF_HUD) / 2) - (QuadraticBlockHitBox.HIT_BOX_SIZE / 2);
     private final int HEART_AMOUNT = 3;
 
     // Constant values for the vectors
@@ -60,8 +57,7 @@ public class Level01 implements Screen {
     private Coin coin = new Coin();
     private Texture blockTexture;
     private Texture hat;
-    private QuadraticBlockHitBox block =
-            new QuadraticBlockHitBox(BLOCK_X, BLOCK_Y);
+    private QuadraticBlockHitBox block = new QuadraticBlockHitBox(BLOCK_X, BLOCK_Y);
 
     // all Vectors (2D) which are used
     private static Vector2 startTouchVector = new Vector2(0, 0);
@@ -84,11 +80,9 @@ public class Level01 implements Screen {
     private static int coinValue = 0;
 
     /**
-     * Constructor which is used to create all objects that only need
-     * to be created once
+     * Constructor which is used to create all objects that only need to be created once
      * method head based on the top answer
-     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
-     *     here</a>
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">here</a>
      * @param game game object which allows screen changing
      */
     public Level01(final MainGame game){
@@ -98,8 +92,7 @@ public class Level01 implements Screen {
         Gdx.input.setInputProcessor(inputProcessor);
 
         snakeRenderer = new ShapeRenderer();
-        snake.createSnake(new Vector2(SLOW_SPEED,SLOW_SPEED),
-                new Vector2(300, 300));
+        snake.createSnake(new Vector2(SLOW_SPEED,SLOW_SPEED), new Vector2(300, 300));
         portalUpperLeft.setCorrespondingPortal(portalBottomRight);
         portalBottomRight.setCorrespondingPortal(portalUpperLeft);
 

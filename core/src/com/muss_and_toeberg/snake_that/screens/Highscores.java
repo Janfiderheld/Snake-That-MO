@@ -16,19 +16,19 @@ import com.muss_and_toeberg.snake_that.technical.Menu;
 
 /**
  * Screen which contains the Highscores
- * @author Niclas Muss
  */
 public class Highscores implements Screen {
     // objects & graphical elements
     private MainGame game;
     private Stage stage;
+    private boolean shouldBeRefreshed = false;
+    private final TextButton btnWritePermission = new TextButton(MainGame.myLangBundle.get("writePerm"), MainGame.btnStyleMainMenuFont);
 
     /**
      * Constructor which is used to create all objects that only need to
      * be created once
      * method head based on the top answer
-     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
-     *  here</a>
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">here</a>
      * @param game game object which allows screen changing
      */
     public Highscores(final MainGame game){
@@ -38,7 +38,13 @@ public class Highscores implements Screen {
         // creates the Stage
         stage = new Stage(game.viewport);
         Gdx.input.setInputProcessor(stage);
+        fillTheStage();
+    }
 
+    /**
+     * fills the stage with everything
+     */
+    private void fillTheStage() {
         // creates the Label-Style for the Scoretable
         Label.LabelStyle scoretableStyle = new Label.LabelStyle();
         scoretableStyle.font = game.fontHUD;
@@ -47,19 +53,15 @@ public class Highscores implements Screen {
         // create the Labels
         Label[] lblNames = new Label[game.memController.NUMBER_PLAYERS];
         Label[] lblScores = new Label[game.memController.NUMBER_PLAYERS];
-        String[] names =
-                game.memController.getHighscoreNamesOrPoints(0);
-        String[] points =
-                game.memController.getHighscoreNamesOrPoints(1);
+        String[] names = game.memController.getHighscoreNamesOrPoints(0);
+        String[] points = game.memController.getHighscoreNamesOrPoints(1);
         for (int count = 0; count < game.memController.NUMBER_PLAYERS; count++) {
             lblNames[count] = new Label(names[count], scoretableStyle);
             lblScores[count] = new Label(points[count], scoretableStyle);
         }
 
         // create the Button
-        TextButton btnBackMainMenu = new TextButton(
-                MainGame.myLangBundle.get("backToMM"),
-                MainGame.btnStyleMainMenuFont);
+        TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -72,8 +74,7 @@ public class Highscores implements Screen {
         leaderboard.bottom().left();
         leaderboard.pad(0,400,200,0);
         for (int count = 0; count < game.memController.NUMBER_PLAYERS; count++){
-            leaderboard.add(new Label(String.valueOf(count + 1) + ". ",
-                    scoretableStyle));
+            leaderboard.add(new Label(String.valueOf(count + 1) + ". ", scoretableStyle));
             leaderboard.add(lblNames[count]);
             leaderboard.add(new Label(" - ", scoretableStyle));
             leaderboard.add(lblScores[count]);
@@ -83,10 +84,24 @@ public class Highscores implements Screen {
         // creates the MenuTable
         Table menuTable = new Table();
         menuTable.bottom().left();
-        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).
-                align(Align.bottomLeft);
+        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
 
-        //add the Tables to the Stage
+        // adds everything related to the writing permission
+        btnWritePermission.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.androidFunctions.askForWritePermission();
+                btnWritePermission.setChecked(false);
+                shouldBeRefreshed = true;
+            }
+        });
+
+        // adds the permission button only if the permission has not been given
+        if(!game.androidFunctions.checkWritePermission()) {
+            menuTable.add(btnWritePermission).width(600).spaceLeft(775).align(Align.bottomRight);
+        }
+
+        // add the Tables to the Stage
         stage.addActor(leaderboard);
         stage.addActor(menuTable);
     }
@@ -105,6 +120,16 @@ public class Highscores implements Screen {
         stage.draw();
         game.camera.update();
         game.checkBackAndCloseScreen(this);
+
+        if(shouldBeRefreshed) {
+            stage.clear();
+            fillTheStage();
+            shouldBeRefreshed = false;
+
+            if(!game.androidFunctions.checkWritePermission()) {
+                btnWritePermission.remove();
+            }
+        }
     }
 
     /**

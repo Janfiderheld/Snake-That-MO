@@ -30,11 +30,8 @@ public class AndroidLauncher extends AndroidApplication implements IAndroidFunct
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			if (this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-				this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                //TODO: denying Access on first launch Crashes the App
-			}
+		if(!checkWritePermission()) {
+			askForWritePermission();
 		}
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
@@ -65,7 +62,9 @@ public class AndroidLauncher extends AndroidApplication implements IAndroidFunct
 	 */
 	@Override
 	public void askForWritePermission() {
-		// TODO: Ask User for Writing Permission
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+		}
 	}
 
 	/**
@@ -74,8 +73,11 @@ public class AndroidLauncher extends AndroidApplication implements IAndroidFunct
 	 */
 	@Override
 	public boolean checkWritePermission() {
-		// TODO: Check if user has given permission
-		return true;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			return this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+		} else {
+			return false;
+		}
 	}
 
 	/**

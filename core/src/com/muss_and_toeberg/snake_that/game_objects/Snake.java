@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.muss_and_toeberg.snake_that.screens.Settings;
 import com.muss_and_toeberg.snake_that.technical.SnakeColor;
 
 /**
  * Represents the snake (= player character)
- * @author Jan-Philipp Töberg
  */
 public class Snake {
     // Constant Values
@@ -22,7 +22,7 @@ public class Snake {
     private Rectangle head;
 
     // Color as a class object
-    private static SnakeColor colorAsEnum = SnakeColor.Cyan;
+    private static SnakeColor colorAsEnum = SnakeColor.makeIntToSnakeColor(Settings.checkForColor());
     private static Color color = SnakeColor.createColor(colorAsEnum);
 
     // 2D-Vectors

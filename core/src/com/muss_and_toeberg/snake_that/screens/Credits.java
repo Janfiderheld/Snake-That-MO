@@ -17,7 +17,6 @@ import com.muss_and_toeberg.snake_that.technical.Menu;
 /**
  * Screen which contains the Credits
  * <a href="https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)">Apache 2.0-License</a>
- * @author Niclas Muss
  */
 public class Credits implements Screen {
     // objects & graphical elements

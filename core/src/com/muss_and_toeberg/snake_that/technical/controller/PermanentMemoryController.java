@@ -1,17 +1,18 @@
-package com.muss_and_toeberg.snake_that.technical;
+package com.muss_and_toeberg.snake_that.technical.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.muss_and_toeberg.snake_that.screens.Settings;
+import com.muss_and_toeberg.snake_that.technical.MainGame;
+
 import static com.muss_and_toeberg.snake_that.screens.Settings.NUMBER_SETTINGS;
 import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * controls everything related to saving and loading
- * @author Niclas Muss
+ * controls everything related to saving and loading when writing was permitted
  */
-public class MemoryController {
+public class PermanentMemoryController implements IMemoryController {
     // constant values
     public final int NUMBER_PLAYERS = 5;
     public final int NUMBER_STATS = 4;
@@ -41,7 +42,7 @@ public class MemoryController {
     /**
      * Constructor which gets called at the beginning
      */
-    public MemoryController() {
+    public PermanentMemoryController() {
         currentHighscore = readHighscoresFromFile();
         stats = readStatsFromFile();
     }
@@ -108,19 +109,15 @@ public class MemoryController {
      * reads the settings from the file
      * @return array containing the settings
      */
-    public boolean[] readSettingsFromFile() {
+    public int[] readSettingsFromFile() {
         if(!settingsFile.exists()) {
             createEmptySettings();
         }
 
         String[] settingsAsString = portFileToCurrentState(settingsFile.readString().split(DELIMITER), NUMBER_SETTINGS, "false");
-        boolean[] tempToReturn = new boolean[NUMBER_SETTINGS];
+        int[] tempToReturn = new int[NUMBER_SETTINGS];
         for(int count = 0; count < NUMBER_SETTINGS; count++) {
-            if(settingsAsString[count].contentEquals("false")) {
-                tempToReturn[count] = false;
-            } else {
-                tempToReturn[count] = true;
-            }
+			tempToReturn[count] = Integer.parseInt(settingsAsString[count]);
         }
         return tempToReturn;
     }
@@ -218,7 +215,7 @@ public class MemoryController {
     /**
      * @return current char used for delimiting
      */
-    public static String getDelimiter() {
+    public String getDelimiter() {
         return DELIMITER;
     }
 
@@ -299,7 +296,7 @@ public class MemoryController {
      */
     private void createEmptySettings() {
         for(int count = 0; count < NUMBER_SETTINGS; count++) {
-            Settings.getSettings()[count] = false;
+            Settings.getSettings()[count] = 0;
         }
         writeStringIntoFile(createStringToSave(false), 2);
     }

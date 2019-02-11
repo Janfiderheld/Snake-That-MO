@@ -16,11 +16,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.muss_and_toeberg.snake_that.screens.MainMenu;
 import com.muss_and_toeberg.snake_that.screens.Settings;
+import com.muss_and_toeberg.snake_that.technical.controller.AudioController;
+import com.muss_and_toeberg.snake_that.technical.controller.IMemoryController;
+import com.muss_and_toeberg.snake_that.technical.controller.PermanentMemoryController;
+import com.muss_and_toeberg.snake_that.technical.controller.TemporaryMemoryController;
+
 import java.util.Locale;
 
 /**
  * MainGame which controls screen changes and contains all "global" objects
- * @author Niclas Muss
  */
 public class MainGame extends Game {
     // Objects which are used throughout the whole game
@@ -28,7 +32,7 @@ public class MainGame extends Game {
     public OrthographicCamera camera;
     public Viewport viewport;
     public AudioController soundControl;
-    public MemoryController memController;
+    public IMemoryController memController;
     public IAndroidFunctions androidFunctions;
 
     /* Fonts
@@ -89,7 +93,7 @@ public class MainGame extends Game {
         myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.getDefault(), "ISO-8859-1");
 
         soundControl = new AudioController();
-        memController = new MemoryController();
+        changeMemoryController(androidFunctions.checkWritePermission());
 
         Settings.setSettings(memController.readSettingsFromFile());
         changeLocale(Settings.checkForGermanLanguage());
@@ -129,6 +133,18 @@ public class MainGame extends Game {
             myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.GERMAN, encoding);
         } else {
             myLangBundle = I18NBundle.createBundle(languageFileHandler, Locale.ENGLISH, encoding);
+        }
+    }
+
+    /**
+     * changes the used memory controller depending on the given permissions
+     * @param permissionGiven is the permission given
+     */
+    public void changeMemoryController(boolean permissionGiven) {
+        if(permissionGiven) {
+            memController = new PermanentMemoryController();
+        } else {
+            memController = new TemporaryMemoryController();
         }
     }
 

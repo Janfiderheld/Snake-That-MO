@@ -1,4 +1,4 @@
-package com.muss_and_toeberg.snake_that.technical;
+package com.muss_and_toeberg.snake_that.technical.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;

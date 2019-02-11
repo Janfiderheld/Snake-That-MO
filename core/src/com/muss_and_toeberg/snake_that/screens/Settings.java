@@ -21,7 +21,6 @@ import com.muss_and_toeberg.snake_that.technical.SnakeColor;
 
 /**
  * Screen which contains the Settings
- * @author Niclas Muss
  */
 public class Settings implements Screen {
     // constant values
@@ -29,7 +28,7 @@ public class Settings implements Screen {
     private int COLOR_BUTTON_WIDTH = 128;
     private int COLOR_BUTTON_AMOUNT = 6;
     private int LANG_BUTTON_WIDTH = 164;
-    public static final int NUMBER_SETTINGS = 4;
+    public static final int NUMBER_SETTINGS = 5;
 
     // objects & graphical elements
     private MainGame game;
@@ -39,11 +38,12 @@ public class Settings implements Screen {
     private Array<TextButton> colorButtons = new Array<TextButton>(COLOR_BUTTON_AMOUNT);
 
     // static option fields
-    private static boolean[] settings = new boolean[NUMBER_SETTINGS];
+    private static int[] settings = new int[NUMBER_SETTINGS];
     private static final int INDEX_MUSIC = 0;
     private static final int INDEX_SOUND = 1;
     private static final int INDEX_CHRISTMAS = 2;
     private static final int INDEX_LANGUAGE = 3;
+    private static final int INDEX_COLOR = 4;
 
     // variables
     private float headerStartX;
@@ -118,7 +118,7 @@ public class Settings implements Screen {
         // create the color buttons
         for(int count = 0; count < COLOR_BUTTON_AMOUNT; count++) {
             TextButton tempButton = new TextButton("", createButtonStyleColors(count));
-            if(Snake.getColorAsEnum() == SnakeColor.makeIntToSnakeColor(count)) {
+            if(checkForColor() == count) {
                 tempButton.setChecked(true);
             }
             final int finalCount = count;
@@ -127,8 +127,9 @@ public class Settings implements Screen {
                 public void changed (ChangeEvent event, Actor actor) {
                     if(((TextButton)actor).isChecked()) {
                         SnakeColor tempColor = SnakeColor.makeIntToSnakeColor(finalCount);
-                        Snake.setColorByEnum(tempColor);
+						setColor(tempColor);
                         uncheckAllColorButtons(tempColor);
+                        game.memController.saveSettings();
                     }
                 }
             });
@@ -265,36 +266,68 @@ public class Settings implements Screen {
      * @return true when the music is on
      */
     public static boolean checkMusicTurnedOn() {
-        return settings[INDEX_MUSIC];
+    	if (settings[INDEX_MUSIC] == 1) {
+    		return true;
+		} else {
+    		return false;
+		}
     }
 
     /**
      * @return true when the sound is on
      */
     public static boolean checkSoundsTurnedOn() {
-        return settings[INDEX_SOUND];
+		if (settings[INDEX_SOUND] == 1) {
+			return true;
+		} else {
+			return false;
+		}
     }
 
     /**
      * @return true when the christams theme is on
      */
     public static boolean checkForChristmas() {
-        return settings[INDEX_CHRISTMAS];
+		if (settings[INDEX_CHRISTMAS] == 1) {
+			return true;
+		} else {
+			return false;
+		}
     }
 
     /**
      * @return true when the language is german
      */
     public static boolean checkForGermanLanguage() {
-        return settings[INDEX_LANGUAGE];
+		if (settings[INDEX_LANGUAGE] == 1) {
+			return true;
+		} else {
+			return false;
+		}
     }
+
+	/**
+	 * @return saved color of the snake as an int value
+	 */
+	public static int checkForColor() {
+    	return settings[INDEX_COLOR];
+	}
+
+	/**
+	 * sets the color to the given value
+	 * @param colorToSet snake color to set
+	 */
+	public static void setColor(SnakeColor colorToSet) {
+		settings[INDEX_COLOR] = SnakeColor.makeSnakeColorToInt(colorToSet);
+		Snake.setColorByEnum(colorToSet);
+	}
 
     /**
      * sets the language to the given parameter
      * @param toGerman value to set
      */
     public static void setLanguage(boolean toGerman) {
-        settings[INDEX_LANGUAGE] = toGerman;
+        settings[INDEX_LANGUAGE] = toGerman ? 1 : 0;
     }
 
     /**
@@ -302,7 +335,7 @@ public class Settings implements Screen {
      * @param on true if music should be on
      */
     public static void setMusic(boolean on) {
-        settings[INDEX_MUSIC] = on;
+        settings[INDEX_MUSIC] = on ? 1 : 0;
     }
 
     /**
@@ -310,7 +343,7 @@ public class Settings implements Screen {
      * @param on true if sound should be on
      */
     public static void setSound(boolean on) {
-        settings[INDEX_SOUND] = on;
+        settings[INDEX_SOUND] = on ? 1 : 0;
     }
 
     /**
@@ -318,13 +351,13 @@ public class Settings implements Screen {
      * @param on true if christmas should be on
      */
     public static void setChristmasTheme(boolean on) {
-        settings[INDEX_CHRISTMAS] = on;
+        settings[INDEX_CHRISTMAS] = on ? 1 : 0;
     }
 
     /**
      * @return settings-array (boolean values)
      */
-    public static boolean[] getSettings() {
+    public static int[] getSettings() {
         return settings;
     }
 
@@ -332,7 +365,7 @@ public class Settings implements Screen {
      * sets the settings array to the given values
      * @param newSettings new array to set
      */
-    public static void setSettings(boolean[] newSettings) {
+    public static void setSettings(int[] newSettings) {
         settings = newSettings;
     }
 

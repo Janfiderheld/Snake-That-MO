@@ -16,12 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
-import com.muss_and_toeberg.snake_that.technical.MemoryController;
+import com.muss_and_toeberg.snake_that.technical.controller.IMemoryController;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
 /**
  * Screen which is used to enter a new Highscore
- * @author Niclas Muss
  */
 public class NewHighscore implements Screen {
     // constant values
@@ -70,8 +69,8 @@ public class NewHighscore implements Screen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 String nameToControl = txtUserName.getText();
-                if(nameToControl.contains(MemoryController.getDelimiter())) {
-                    game.androidFunctions.createAndShowToast(MainGame.myLangBundle.format("delEntered", MemoryController.getDelimiter()), true);
+                if(nameToControl.contains(game.memController.getDelimiter())) {
+                    game.androidFunctions.createAndShowToast(MainGame.myLangBundle.format("delEntered", game.memController.getDelimiter()), true);
                     btnSubmit.setChecked(false);
                 } else {
                     game.memController.addScoreToHighscore(nameToControl, score, placement);

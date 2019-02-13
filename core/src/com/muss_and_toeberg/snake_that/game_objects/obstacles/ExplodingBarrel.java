@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 /**
  * represents the exploding barrel as a subclass of the obstacle
- * @author Jan-Philipp Töberg
  */
 public class ExplodingBarrel extends Obstacle<Circle> {
     // constant values
@@ -25,8 +24,7 @@ public class ExplodingBarrel extends Obstacle<Circle> {
      * @param yPos position on the y-axis
      */
     public ExplodingBarrel(int xPos, int yPos) {
-        super(xPos, yPos, 128,
-                new Texture(Gdx.files.internal("textures/Barrel.png")));
+        super(xPos, yPos, 128, new Texture(Gdx.files.internal("textures/Barrel.png")));
     }
 
     /**

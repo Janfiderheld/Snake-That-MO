@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 /**
  * Parent-Class for the different obstacles
  * @param <THitBoxType> specifies the type of HitBox (if Rectangle or Circle)
- * @author Jan-Philipp Töberg
  */
 public abstract class Obstacle<THitBoxType> {
 	// coordinates & sizes

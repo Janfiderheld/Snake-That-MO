@@ -3,12 +3,10 @@ package com.muss_and_toeberg.snake_that.game_objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Circle;
-
 import java.util.Random;
 
 /**
  * Object which the player can collect to gain points or lives
- * @author Jan-Philipp Töberg
  */
 public class Coin {
     // Texture for the image and the hitBox

@@ -6,7 +6,6 @@ import com.muss_and_toeberg.snake_that.screens.levels.Level01;
 /**
  * Implementation of the InputProcessor
  * makes it possible to react to the touching of the display
- * @author Jan-Philipp Töberg
  */
 public class TouchInputProcessor implements InputProcessor {
     /**

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 
 /**
  * represents the color of the snake
- * @author Niclas Muss
  */
 public enum SnakeColor {
     Red,

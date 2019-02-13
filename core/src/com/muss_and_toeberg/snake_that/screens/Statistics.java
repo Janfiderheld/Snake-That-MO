@@ -16,7 +16,6 @@ import com.muss_and_toeberg.snake_that.technical.Menu;
 
 /**
  * Screen which contains the Stats
- * @author Niclas Muss
  */
 public class Statistics implements Screen {
     // objects & graphical elements
@@ -24,11 +23,9 @@ public class Statistics implements Screen {
     private Stage stage;
 
     /**
-     * Constructor which is used to create all objects that only need to
-     * be created once
+     * Constructor which is used to create all objects that only need to be created once
      * method head based on the top answer
-     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
-     *     here</a>
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">here</a>
      * @param game game object which allows screen changing
      */
     public Statistics(final MainGame game) {
@@ -45,9 +42,7 @@ public class Statistics implements Screen {
         statsTableStyle.fontColor = Color.WHITE;
 
         // create the Button
-        TextButton btnBackMainMenu = new TextButton(
-                MainGame.myLangBundle.get("backToMM"),
-                MainGame.btnStyleMainMenuFont);
+        TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -59,24 +54,15 @@ public class Statistics implements Screen {
         Table statsTable = new Table();
         statsTable.bottom().left();
         statsTable.pad(0,400,200,0);
-        statsTable.add(new Label(MainGame.myLangBundle.format("length",
-                game.memController.getStat(game.memController.INDEX_LENGTH)),
-                statsTableStyle)).row();
-        statsTable.add(new Label(MainGame.myLangBundle.format("barrels",
-                game.memController.getStat(game.memController.INDEX_BARRELS)),
-                statsTableStyle)).row();
-        statsTable.add(new Label(MainGame.myLangBundle.format("games",
-                game.memController.getStat(game.memController.INDEX_GAMES_NO)),
-                statsTableStyle)).row();
-        statsTable.add(new Label(MainGame.myLangBundle.format("time",
-                game.memController.getStat(game.memController.INDEX_LONG_RUN)),
-                statsTableStyle));
+        statsTable.add(new Label(MainGame.myLangBundle.format("length", game.memController.getStat(game.memController.INDEX_LENGTH)), statsTableStyle)).row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("barrels", game.memController.getStat(game.memController.INDEX_BARRELS)), statsTableStyle)).row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("games", game.memController.getStat(game.memController.INDEX_GAMES_NO)), statsTableStyle)).row();
+        statsTable.add(new Label(MainGame.myLangBundle.format("time", game.memController.getStat(game.memController.INDEX_LONG_RUN)), statsTableStyle));
 
         // add the button into a Table
         Table menuTable = new Table();
         menuTable.bottom().left();
-        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).
-                align(Align.bottomLeft);
+        menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
 
         //add the Table to the Stage
         stage.addActor(menuTable);

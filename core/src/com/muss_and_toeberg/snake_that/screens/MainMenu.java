@@ -8,15 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.muss_and_toeberg.snake_that.screens.levels.Level01;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.technical.Menu;
 
 /**
  * Screen which contains the Main menu
- * @author Niclas Muss
  */
 public class MainMenu implements Screen {
     // constant values
@@ -28,11 +25,9 @@ public class MainMenu implements Screen {
     private Stage stage;
 
     /**
-     * Constructor which is used to create all objects that only need to
-     * be created once
+     * Constructor which is used to create all objects that only need to be created once
      * method head based on the top answer
-     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">
-     *     here</a>
+     * <a href="https://stackoverflow.com/questions/25837013/switching-between-screens-libgdx">here</a>
      * @param game game object which allows screen changing
      */
     public MainMenu (final MainGame game){
@@ -46,24 +41,12 @@ public class MainMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         // create the Buttons
-        TextButton btnStartGame = new TextButton(
-                MainGame.myLangBundle.get("startGame"),
-                MainGame.btnStyleMainMenuFont);
-        TextButton btnHighscore = new TextButton(
-                MainGame.myLangBundle.get("score"),
-                MainGame.btnStyleMainMenuFont);
-        TextButton btnStatistics = new TextButton(
-                MainGame.myLangBundle.get("stats"),
-                MainGame.btnStyleMainMenuFont);
-        TextButton btnSettings = new TextButton(
-                MainGame.myLangBundle.get("settings"),
-                MainGame.btnStyleMainMenuFont);
-        TextButton btnCredits = new TextButton(
-                MainGame.myLangBundle.get("credits"),
-                MainGame.btnStyleMainMenuFont);
-        TextButton btnQuitGame = new TextButton(
-                MainGame.myLangBundle.get("quit"),
-                MainGame.btnStyleMainMenuFont);
+        TextButton btnStartGame = new TextButton(MainGame.myLangBundle.get("startGame"), MainGame.btnStyleMainMenuFont);
+        TextButton btnHighscore = new TextButton(MainGame.myLangBundle.get("score"), MainGame.btnStyleMainMenuFont);
+        TextButton btnStatistics = new TextButton(MainGame.myLangBundle.get("stats"), MainGame.btnStyleMainMenuFont);
+        TextButton btnSettings = new TextButton(MainGame.myLangBundle.get("settings"), MainGame.btnStyleMainMenuFont);
+        TextButton btnCredits = new TextButton(MainGame.myLangBundle.get("credits"), MainGame.btnStyleMainMenuFont);
+        TextButton btnQuitGame = new TextButton(MainGame.myLangBundle.get("quit"), MainGame.btnStyleMainMenuFont);
 
         // add the action listeners to the Buttons
         btnStartGame.addListener(new ChangeListener() {
@@ -138,8 +121,7 @@ public class MainMenu implements Screen {
         game.batch.begin();
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("headerMM"),
-                100, 800);
+        game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("headerMM"),100, 800);
         game.batch.end();
         stage.draw();
         game.camera.update();

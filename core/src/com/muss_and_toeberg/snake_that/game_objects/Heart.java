@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 /**
  * filled and unfilled hearts to represent the remaining lives
- * @author Jan-Philipp Töberg
  */
 public class Heart {
 	// local Variables
@@ -14,10 +13,8 @@ public class Heart {
 
 	// textures for the hearts
 	// both are selfmade
-	private Texture filledImg =
-			new Texture(Gdx.files.internal("textures/HeartFilled.png"));
-    private Texture unfilledImg =
-			new Texture(Gdx.files.internal("textures/HeartUnfilled.png"));
+	private Texture filledImg =	new Texture(Gdx.files.internal("textures/HeartFilled.png"));
+    private Texture unfilledImg = new Texture(Gdx.files.internal("textures/HeartUnfilled.png"));
 
     /**
      * fills the heart during its creation

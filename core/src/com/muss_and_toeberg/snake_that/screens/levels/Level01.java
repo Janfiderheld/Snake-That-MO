@@ -16,8 +16,7 @@ import com.muss_and_toeberg.snake_that.game_objects.Heart;
 import com.muss_and_toeberg.snake_that.game_objects.Snake;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.ExplodingBarrel;
 import com.muss_and_toeberg.snake_that.game_objects.obstacles.Portal;
-import com.muss_and_toeberg.snake_that.game_objects.
-        obstacles.QuadraticBlockHitBox;
+import com.muss_and_toeberg.snake_that.game_objects.obstacles.QuadraticBlockHitBox;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
 import com.muss_and_toeberg.snake_that.screens.NewHighscore;
 import com.muss_and_toeberg.snake_that.screens.Settings;
@@ -102,8 +101,7 @@ public class Level01 implements Screen {
 
         /* sources for the textures:
          * brick: Made by Eric Matyas (https://soundimage.org/txr-brick-cartoon)
-         * background: Based on https://www.toptal.com/designers/subtlepatterns/pipes-pattern/
-         *             by Victoria Pontie
+         * background: Based on https://www.toptal.com/designers/subtlepatterns/pipes-pattern/ by Victoria Pontie
          * santa hat: selfmade
          */
         blockTexture = new Texture("textures/Brick.png");
@@ -131,10 +129,8 @@ public class Level01 implements Screen {
         drawBackground();
 
         if(gameHasStarted) {
-            startTouchVector.x = snake.getMovementInX() +
-                    (Snake.BODY_PART_SIZE / 2);
-            startTouchVector.y = snake.getMovementInY() +
-                    (Snake.BODY_PART_SIZE / 2);
+            startTouchVector.x = snake.getMovementInX() + (Snake.BODY_PART_SIZE / 2);
+            startTouchVector.y = snake.getMovementInY() + (Snake.BODY_PART_SIZE / 2);
 
             snake.moveSnakeBody();
             checkAllCollisions();
@@ -143,22 +139,13 @@ public class Level01 implements Screen {
             // checks if the screen is currently touched
             // --> can the snake be directed?
             if (Gdx.input.isTouched() && hasHitWall) {
-                endTouchVector.x = MainGame.CAMERA_WIDTH * Gdx.input.getX()
-                        / Gdx.graphics.getWidth();
-                endTouchVector.y = MainGame.CAMERA_HEIGHT *
-                        (Gdx.graphics.getHeight() - Gdx.input.getY())
-                        / Gdx.graphics.getHeight();
+                endTouchVector.x = MainGame.CAMERA_WIDTH * Gdx.input.getX() / Gdx.graphics.getWidth();
+                endTouchVector.y = MainGame.CAMERA_HEIGHT * (Gdx.graphics.getHeight() - Gdx.input.getY()) / Gdx.graphics.getHeight();
 
                 if (startTouchVector.dst(endTouchVector) > MAX_VECTOR_LENGTH) {
-                    Vector2 connectionVector = new Vector2(endTouchVector.x
-                            - startTouchVector.x,
-                            endTouchVector.y - startTouchVector.y);
-                    lineTouchVector.x = connectionVector.x *
-                            (MAX_VECTOR_LENGTH / connectionVector.len())
-                            + startTouchVector.x;
-                    lineTouchVector.y = connectionVector.y *
-                            (MAX_VECTOR_LENGTH / connectionVector.len())
-                            + startTouchVector.y;
+                    Vector2 connectionVector = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
+                    lineTouchVector.x = connectionVector.x * (MAX_VECTOR_LENGTH / connectionVector.len()) + startTouchVector.x;
+                    lineTouchVector.y = connectionVector.y * (MAX_VECTOR_LENGTH / connectionVector.len()) + startTouchVector.y;
                 } else {
                     lineTouchVector = endTouchVector;
                 }
@@ -203,12 +190,10 @@ public class Level01 implements Screen {
     private void renderTheSnake() {
         snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         snakeRenderer.setColor(Snake.getColor());
-        snakeRenderer.rect(snake.getXValueHead(), snake.getYValueHead(),
-                Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
+        snakeRenderer.rect(snake.getXValueHead(), snake.getYValueHead(), Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
         for (int count = 0; count < snake.getBody().size; count++) {
             Rectangle body = snake.getBody().get(count);
-            snakeRenderer.rect(body.x, body.y, Snake.BODY_PART_SIZE,
-                    Snake.BODY_PART_SIZE);
+            snakeRenderer.rect(body.x, body.y, Snake.BODY_PART_SIZE, Snake.BODY_PART_SIZE);
         }
         snakeRenderer.end();
     }
@@ -218,9 +203,7 @@ public class Level01 implements Screen {
      */
     private void renderTheHUD() {
         snakeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        snakeRenderer.rect(0, MainGame.CAMERA_HEIGHT - SIZE_OF_HUD,
-                MainGame.CAMERA_WIDTH, SIZE_OF_HUD, Color.DARK_GRAY,
-                Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY);
+        snakeRenderer.rect(0, MainGame.CAMERA_HEIGHT - SIZE_OF_HUD, MainGame.CAMERA_WIDTH, SIZE_OF_HUD, Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY, Color.DARK_GRAY);
         snakeRenderer.end();
     }
 
@@ -254,54 +237,39 @@ public class Level01 implements Screen {
         game.batch.begin();
 
         game.batch.draw(blockTexture, BLOCK_X, BLOCK_Y);
-        game.batch.draw(portalUpperLeft.getTexture(),
-                portalUpperLeft.getXPosition(), portalUpperLeft.getYPosition());
-        game.batch.draw(portalBottomRight.getTexture(),
-                portalBottomRight.getXPosition(),
-                portalBottomRight.getYPosition());
-        game.batch.draw(coin.getTexture(), coin.getXPosition(),
-                coin.getYPosition());
+        game.batch.draw(portalUpperLeft.getTexture(), portalUpperLeft.getXPosition(), portalUpperLeft.getYPosition());
+        game.batch.draw(portalBottomRight.getTexture(), portalBottomRight.getXPosition(), portalBottomRight.getYPosition());
+        game.batch.draw(coin.getTexture(), coin.getXPosition(), coin.getYPosition());
 
         if(!barrel.checkExploded()) {
-            game.batch.draw(barrel.getTexture(), barrel.getXPosition(),
-                    barrel.getYPosition());
+            game.batch.draw(barrel.getTexture(), barrel.getXPosition(), barrel.getYPosition());
         }
 
         if(Settings.checkForChristmas()) {
-            game.batch.draw(hat, snake.getXValueHead(),
-                    snake.getYValueHead() + Snake.BODY_PART_SIZE);
+            game.batch.draw(hat, snake.getXValueHead(), snake.getYValueHead() + Snake.BODY_PART_SIZE);
         }
 
 
         int beginTextInY = MainGame.CAMERA_HEIGHT - 15;
         if(gameHasStarted) {
             // fill the HUD with everything needed for playing
-            game.fontHUD.draw(game.batch,
-                    MainGame.myLangBundle.format("points", score),
-                    5, beginTextInY);
-            game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("lives"),
-                    MainGame.CAMERA_WIDTH - 700, beginTextInY);
+            game.fontHUD.draw(game.batch, MainGame.myLangBundle.format("points", score), 5, beginTextInY);
+            game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("lives"), MainGame.CAMERA_WIDTH - 700, beginTextInY);
             int beginHeartInX = MainGame.CAMERA_WIDTH - 250;
             for (int count = 0; count < HEART_AMOUNT; count++) {
-                game.batch.draw(hearts[count].getImage(),
-                        beginHeartInX + (count * 80),
-                        MainGame.CAMERA_HEIGHT - 100);
+                game.batch.draw(hearts[count].getImage(),beginHeartInX + (count * 80),MainGame.CAMERA_HEIGHT - 100);
             }
         } else {
             // fill the HUD with the messages when the game is lost
-            game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("gameOver"),
-                    5, beginTextInY);
-            game.fontDescription.draw(game.batch,
-                    MainGame.myLangBundle.get("touch"),
-                    (MainGame.CAMERA_WIDTH / 2) + 250, beginTextInY - 50);
+            game.fontHUD.draw(game.batch, MainGame.myLangBundle.get("gameOver"),5, beginTextInY);
+            game.fontDescription.draw(game.batch, MainGame.myLangBundle.get("touch"),(MainGame.CAMERA_WIDTH / 2) + 250, beginTextInY - 50);
         }
 
         game.batch.end();
     }
 
     /**
-     * changes the speed of the snake to reduced speed
-     * as soon as the screen is touched
+     * changes the speed of the snake to reduced speed as soon as the screen is touched
      */
     public static void setDirectionVectorDown(){
         if (!hasHitWall) {
@@ -313,8 +281,7 @@ public class Level01 implements Screen {
     }
 
     /**
-     * changes the speed of the snake to normal speed
-     * as soon as the touch is lifted
+     * changes the speed of the snake to normal speed as soon as the touch is lifted
      */
     public static void setDirectionVectorUp(){
         if (!hasHitWall) {
@@ -322,8 +289,7 @@ public class Level01 implements Screen {
         }
 
         speed = NORMAL_SPEED;
-        Vector2 connectionVector = new Vector2(endTouchVector.x -
-                startTouchVector.x, endTouchVector.y - startTouchVector.y);
+        Vector2 connectionVector = new Vector2(endTouchVector.x - startTouchVector.x, endTouchVector.y - startTouchVector.y);
         snake.setDirectionToScaledVector(speed, connectionVector);
         hasHitWall = false;
     }
@@ -372,15 +338,12 @@ public class Level01 implements Screen {
      * checks if the snake collides with the outer walls
      */
     private void checkCollisionWithWall() {
-        if (snake.getMovementInX() + Snake.BODY_PART_SIZE >=
-                MainGame.CAMERA_WIDTH || snake.getMovementInX() <= 0) {
+        if (snake.getMovementInX() + Snake.BODY_PART_SIZE >= MainGame.CAMERA_WIDTH || snake.getMovementInX() <= 0) {
             snake.invertXDirection();
             hasHitWall = true;
         }
 
-        if (snake.getMovementInY() + Snake.BODY_PART_SIZE >=
-                MainGame.CAMERA_HEIGHT - SIZE_OF_HUD
-                || snake.getMovementInY() <= 0) {
+        if (snake.getMovementInY() + Snake.BODY_PART_SIZE >= MainGame.CAMERA_HEIGHT - SIZE_OF_HUD || snake.getMovementInY() <= 0) {
             snake.invertYDirection();
             hasHitWall = true;
         }
@@ -404,8 +367,7 @@ public class Level01 implements Screen {
     }
 
     /**
-     * checks if the snake collides with itself by counting frames
-     * / amount of renders
+     * checks if the snake collides with itself by counting frames / amount of renders
      */
     private void checkCollisionWithSnakeBody() {
         countInvincibilityFrames++;
@@ -447,8 +409,7 @@ public class Level01 implements Screen {
             return;
         }
 
-        if(barrel.checkExploded() && score - barrel.getPointsLastExplosion()
-                >= barrel.POINTS_NEW_BARREL) {
+        if(barrel.checkExploded() && score - barrel.getPointsLastExplosion() >= barrel.POINTS_NEW_BARREL) {
             randomizeCircleObject(false);
         }
     }
@@ -519,17 +480,14 @@ public class Level01 implements Screen {
      */
     private int[] createRandomValues(int sizeOfCircle) {
         int radius = sizeOfCircle / 2;
-        int newX = rndGenerator.nextInt(MainGame.CAMERA_WIDTH -
-                (sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
+        int newX = rndGenerator.nextInt(MainGame.CAMERA_WIDTH - (sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
         if(newX > BLOCK_X - radius - 1) {
             newX += QuadraticBlockHitBox.HIT_BOX_SIZE + sizeOfCircle + 1;
         } else if (newX < radius) {
             newX += radius;
         }
 
-        int newY = rndGenerator.nextInt(MainGame.CAMERA_HEIGHT -
-                (SIZE_OF_HUD + sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE
-                        + radius));
+        int newY = rndGenerator.nextInt(MainGame.CAMERA_HEIGHT - (SIZE_OF_HUD + sizeOfCircle + QuadraticBlockHitBox.HIT_BOX_SIZE + radius));
         if(newY > BLOCK_Y - radius - 1) {
             newY += QuadraticBlockHitBox.HIT_BOX_SIZE + sizeOfCircle + 1;
         } else if (newY < radius) {
@@ -540,8 +498,7 @@ public class Level01 implements Screen {
     }
 
     /**
-     * randomizes a circle object (barrel or coin) until it is not
-     * inside one of the portals
+     * randomizes a circle object (barrel or coin) until it is not inside one of the portals
      * @param isCoin true if the object to randomized is a coin
      */
     private void randomizeCircleObject(boolean isCoin) {
@@ -558,8 +515,7 @@ public class Level01 implements Screen {
         while(!isFinished) {
             rndValues = createRandomValues(Math.round(tempHitBox.radius * 2));
             tempHitBox.setPosition(rndValues[0], rndValues[1]);
-            if(!tempHitBox.overlaps(portalBottomRight.getHitBox()) &&
-                    !tempHitBox.overlaps(portalUpperLeft.getHitBox())) {
+            if(!tempHitBox.overlaps(portalBottomRight.getHitBox()) && !tempHitBox.overlaps(portalUpperLeft.getHitBox())) {
                 isFinished = true;
             }
         }

@@ -5,7 +5,6 @@ import com.muss_and_toeberg.snake_that.technical.HitDirection;
 
 /**
  * describes the hitBox for the block as four small hitBoxes as his outlines
- * @author Jan-Philipp Töberg
  */
 public class QuadraticBlockHitBox {
 	// constant values
@@ -28,11 +27,9 @@ public class QuadraticBlockHitBox {
 	 * @param y y position of the bottom left point of the whole rectangle
 	 */
 	public QuadraticBlockHitBox(int x, int y) {
-		fourSides[INDEX_RIGHT] = createRectangle(
-				x + HIT_BOX_SIZE - HIT_BOX_THICKNESS, y, false);
+		fourSides[INDEX_RIGHT] = createRectangle(x + HIT_BOX_SIZE - HIT_BOX_THICKNESS, y, false);
 		fourSides[INDEX_LEFT] = createRectangle(x, y, false);
-		fourSides[INDEX_UP] = createRectangle(x,
-				y + HIT_BOX_SIZE - HIT_BOX_THICKNESS, true);
+		fourSides[INDEX_UP] = createRectangle(x, y + HIT_BOX_SIZE - HIT_BOX_THICKNESS, true);
 		fourSides[INDEX_DOWN] = createRectangle(x, y, true);
 	}
 

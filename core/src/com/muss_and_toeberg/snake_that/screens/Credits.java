@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -19,9 +21,14 @@ import com.muss_and_toeberg.snake_that.technical.Menu;
  * <a href="https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)">Apache 2.0-License</a>
  */
 public class Credits implements Screen {
+    // Constants
+    private final float LINK_BUTTON_HEIGHT = 60;
+    private final float LINK_BUTTON_WIDTH = 100;
+
     // objects & graphical elements
     private MainGame game;
     private Stage stage;
+    private TextButton.TextButtonStyle btnStyleLinks;
 
     // variables
     private float headerStartX;
@@ -56,17 +63,60 @@ public class Credits implements Screen {
 
         // creates the Labels
         Label lblDescription = new Label(MainGame.myLangBundle.get("desc"), lblStyleDescription);
-        Label lblLibGDX = new Label(MainGame.myLangBundle.format("libGDX", "(apache.org/licenses/LICENSE-2.0)"), lblStyleDescription);
+        Label lblLicense = new Label(MainGame.myLangBundle.get("libGDX"), lblStyleDescription);
         Label lblSupport = new Label(MainGame.myLangBundle.format("support","M.Sc. Andreas Schmelter", "Prof. Dr. rer. nat. Stefan Heiss"), lblStyleCredits);
         Label lblIdea = new Label(MainGame.myLangBundle.format("idea","Jan-Philipp Töberg"), lblStyleCredits);
         Label lblProgramming = new Label(MainGame.myLangBundle.format("programming","Niclas Muss", "Jan-Philipp Töberg"), lblStyleCredits);
-        Label lblSoundAndMusic = new Label(MainGame.myLangBundle.format("sound&Music", "Eric Matyas (soundimage.org)"), lblStyleCredits);
+        Label lblSoundAndMusic = new Label(MainGame.myLangBundle.format("sound&Music", "Eric Matyas"), lblStyleCredits);
         Label lblBackground = new Label(MainGame.myLangBundle.format("background", "Victoria Pontie"), lblStyleCredits);
-        Label lblFlags = new Label(MainGame.myLangBundle.format("flags", "Gang of the Coconuts (free-country-flags.com)"), lblStyleCredits);
+        Label lblFlags = new Label(MainGame.myLangBundle.format("flags", "Gang of the Coconuts"), lblStyleCredits);
         Label lblRestTextures = new Label(MainGame.myLangBundle.format("restTextures", "Niclas Muss", "Jan-Philipp Töberg"), lblStyleCredits);
         Label lblVersion = new Label(MainGame.myLangBundle.get("version"), lblStyleCredits);
 
-        // creates the button
+        // creates the Link buttons
+        createButtonStyleLinks();
+        TextButton btnLinkToLicense = new TextButton(MainGame.myLangBundle.get("link"), btnStyleLinks);
+        TextButton btnLinkToEric = new TextButton(MainGame.myLangBundle.get("link"), btnStyleLinks);
+        TextButton btnLinkToPipes = new TextButton(MainGame.myLangBundle.get("link"), btnStyleLinks);
+        TextButton btnLinkToFlags = new TextButton(MainGame.myLangBundle.get("link"), btnStyleLinks);
+        TextButton btnLinkToJoke = new TextButton(MainGame.myLangBundle.get("link"), btnStyleLinks);
+
+        btnLinkToLicense.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.androidFunctions.openUrlViaIntent("https://www.apache.org/licenses/LICENSE-2.0");
+            }
+        });
+
+        btnLinkToEric.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.androidFunctions.openUrlViaIntent("https://www.soundimage.org");
+            }
+        });
+
+        btnLinkToPipes.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.androidFunctions.openUrlViaIntent("https://www.toptal.com/designers/subtlepatterns/pipes-pattern/");
+            }
+        });
+
+        btnLinkToFlags.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.androidFunctions.openUrlViaIntent("https://www.free-country-flags.com");
+            }
+        });
+
+        btnLinkToJoke.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                game.androidFunctions.openUrlViaIntent("https://cdn.morphsuits.co.uk/media/catalog/product/z/e/zelda-link-classic-adult-costume-1.1500039397.jpg");
+            }
+        });
+
+        // creates the back button
         TextButton btnBackMainMenu = new TextButton(MainGame.myLangBundle.get("backToMM"), MainGame.btnStyleMainMenuFont);
         btnBackMainMenu.addListener(new ChangeListener() {
             @Override
@@ -79,14 +129,19 @@ public class Credits implements Screen {
         Table menuTable = new Table();
         menuTable.bottom().left();
         menuTable.add(lblDescription).space(10,10,10,10).align(Align.left).row();
-        menuTable.add(lblLibGDX).space(10,10,50,10).align(Align.left).row();
+        menuTable.add(lblLicense).space(0,10,50,10).align(Align.left);
+        menuTable.add(btnLinkToLicense).spaceLeft(25).width(LINK_BUTTON_WIDTH).height(LINK_BUTTON_HEIGHT).row();
         menuTable.add(lblSupport).space(10,10,10,10).align(Align.left).row();
         menuTable.add(lblIdea).space(10,10,10,10).align(Align.left).row();
         menuTable.add(lblProgramming).space(10,10,10,10).align(Align.left).row();
-        menuTable.add(lblSoundAndMusic).space(10,10,10,10).align(Align.left).row();
-        menuTable.add(lblBackground).space(10,10,10,10).align(Align.left).row();
-        menuTable.add(lblFlags).space(10, 10, 10, 10).align(Align.left).row();
-        menuTable.add(lblRestTextures).space(10,10,10,10).align(Align.left).row();
+        menuTable.add(lblSoundAndMusic).space(10,10,10,10).align(Align.left);
+        menuTable.add(btnLinkToEric).spaceLeft(25).width(LINK_BUTTON_WIDTH).height(LINK_BUTTON_HEIGHT).row();
+        menuTable.add(lblBackground).space(10,10,10,10).align(Align.left);
+        menuTable.add(btnLinkToPipes).spaceLeft(25).width(LINK_BUTTON_WIDTH).height(LINK_BUTTON_HEIGHT).row();
+        menuTable.add(lblFlags).space(10, 10, 10, 10).align(Align.left);
+        menuTable.add(btnLinkToFlags).spaceLeft(25).width(LINK_BUTTON_WIDTH).height(LINK_BUTTON_HEIGHT).row();
+        menuTable.add(lblRestTextures).space(10,10,10,10).align(Align.left);
+        menuTable.add(btnLinkToJoke).spaceLeft(25).width(LINK_BUTTON_WIDTH).height(LINK_BUTTON_HEIGHT).row();
         menuTable.add(btnBackMainMenu).width(MainMenu.BACK_MM_BUTTON_WIDTH).align(Align.bottomLeft);
         menuTable.add(lblVersion).align(Align.bottomRight);
 
@@ -109,6 +164,21 @@ public class Credits implements Screen {
         stage.draw();
         game.camera.update();
         game.checkBackAndCloseScreen(this);
+    }
+
+    /**
+     * creates the style for the Link-Buttons
+     */
+    private void createButtonStyleLinks() {
+        Skin skin = new Skin();
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttonsControl.pack"));
+        skin.addRegions(buttonAtlas);
+
+        btnStyleLinks = new TextButton.TextButtonStyle();
+        btnStyleLinks.font = game.fontCredits;
+        btnStyleLinks.up = skin.getDrawable("up-button");
+        btnStyleLinks.checked = skin.getDrawable("up-button");
+        btnStyleLinks.checkedFontColor = Color.BLUE;
     }
 
     /**

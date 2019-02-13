@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.muss_and_toeberg.snake_that.screens.Settings;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
-
 import static com.muss_and_toeberg.snake_that.screens.Settings.NUMBER_SETTINGS;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -114,7 +113,7 @@ public class PermanentMemoryController implements IMemoryController {
             createEmptySettings();
         }
 
-        String[] settingsAsString = portFileToCurrentState(settingsFile.readString().split(DELIMITER), NUMBER_SETTINGS, "false");
+        String[] settingsAsString = portFileToCurrentState(settingsFile.readString().split(DELIMITER), NUMBER_SETTINGS, "0");
         int[] tempToReturn = new int[NUMBER_SETTINGS];
         for(int count = 0; count < NUMBER_SETTINGS; count++) {
 			tempToReturn[count] = Integer.parseInt(settingsAsString[count]);
@@ -296,7 +295,7 @@ public class PermanentMemoryController implements IMemoryController {
      */
     private void createEmptySettings() {
         for(int count = 0; count < NUMBER_SETTINGS; count++) {
-            Settings.getSettings()[count] = 0;
+            Settings.getSettings()[count] = 1;
         }
         writeStringIntoFile(createStringToSave(false), 2);
     }

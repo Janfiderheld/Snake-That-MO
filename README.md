@@ -13,13 +13,16 @@ Abgabe: 08.01.2019
 
 Präsentation: 08.01.2019
 
-Der offizielle Teil der Projektarbeit ist damit abgeschlossen! Alles weitere (wie die Veröffentlichung im PlayStore) liegt jetzt an uns
+Release: 14.02.2019
+
+Der offizielle Teil der Projektarbeit ist damit abgeschlossen!
+Außerdem ist das Spiel jetzt offiziell im Google Play Store hochgeladen! Finden tut man es [hier](https://play.google.com/store/apps/details?id=com.muss_and_toeberg.snake_that)
 
 ## Projektbeschreibung:
 
-Bei Snake That! handelt es sich um ein innovatives Android-Spiel, welches den Klassiker Snake neu auflegt und mit einer interessanten Steuerung per Touch kombiniert!
-Der Spieler muss Punkte in Form von NFC-Tags & Bitcoins einsammeln um mit seiner Schlange zu wachsen und den Highscore zu knacken. Dabei muss unterschiedlichen Hindernissen ausgewichen werden.
-Dabei wird die Schlange über eine "Schleuder"-Mechanik intuitiv bedient & gesteuert!
+Bei Snake That! handelt es sich um ein innovatives Android-Spiel, welches den Klassiker Snake neu auflegt und mit einer interessanten Schleuder-Steuerung per Touch kombiniert!
+Der Spieler muss Punkte einsammeln um mit seiner Schlange zu wachsen und den Highscore zu knacken. Dabei muss unterschiedlichen Hindernissen ausgewichen werden.
+Sollte man jedoch trotzdem Leben verlieren, so kann man sich diese selbstverständlich zurückholen. Außerdem kann per Portal abgekürzt werden.
 
 ## Hilfreiche / wichtige Links & Quellen
 

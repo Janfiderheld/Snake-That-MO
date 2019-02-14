@@ -12,38 +12,28 @@ import java.io.OutputStream;
  * controls everything related to saving and loading when writing was permitted
  */
 public class PermanentMemoryController implements IMemoryController {
-    // constant values
-    public final int NUMBER_PLAYERS = 5;
-    public final int NUMBER_STATS = 4;
-
+	// file handling
     private final String SAVE_LOCATION_HIGHSCORE = "Android/data/com.muss_and_toeberg.snake_that/files/highscore.dat";
     private final String SAVE_LOCATION_STATS = "Android/data/com.muss_and_toeberg.snake_that/files/stats.dat";
     private final String SAVE_LOCATION_SETTINGS = "Android/data/com.muss_and_toeberg.snake_that/files/settings.dat";
 
-    private final static String DELIMITER = ",";
-
-    // constant indexes for usage of stats
-    public final int INDEX_LENGTH = 0;
-    public final int INDEX_BARRELS = 1;
-    public final int INDEX_GAMES_NO = 2;
-    public final int INDEX_LONG_RUN = 3;
-
-    // File Handler objects
     private FileHandle highscoreFile = Gdx.files.external(SAVE_LOCATION_HIGHSCORE);
     private FileHandle statsFile = Gdx.files.external(SAVE_LOCATION_STATS);
     private FileHandle settingsFile = Gdx.files.external(SAVE_LOCATION_SETTINGS);
 
     // other objects and variables
     private String[] currentHighscore;
-    private int[] stats;
+    private int[] currentStats;
     private long timeAtStart;
+    private final String[] DEFAULT_SETTINGS = {"1", "1", "0", "1", "5"};
 
     /**
      * Constructor which gets called at the beginning
      */
     public PermanentMemoryController() {
         currentHighscore = readHighscoresFromFile();
-        stats = readStatsFromFile();
+        currentStats = readStatsFromFile();
+        Settings.setSettings(readSettingsFromFile());
     }
 
     /**
@@ -108,12 +98,13 @@ public class PermanentMemoryController implements IMemoryController {
      * reads the settings from the file
      * @return array containing the settings
      */
-    public int[] readSettingsFromFile() {
+    private int[] readSettingsFromFile() {
         if(!settingsFile.exists()) {
             createEmptySettings();
         }
 
         String[] settingsAsString = portFileToCurrentState(settingsFile.readString().split(DELIMITER), NUMBER_SETTINGS, "0");
+        settingsAsString = checkIfSettingFileIsWeird(settingsAsString);
         int[] tempToReturn = new int[NUMBER_SETTINGS];
         for(int count = 0; count < NUMBER_SETTINGS; count++) {
 			tempToReturn[count] = Integer.parseInt(settingsAsString[count]);
@@ -122,10 +113,25 @@ public class PermanentMemoryController implements IMemoryController {
     }
 
     /**
+     * checks if the file is weird and still unported to the newest version
+     * @param settingsAsString settings String to check
+     * @return the (definitly) ported version
+     */
+    private String[] checkIfSettingFileIsWeird(String[] settingsAsString) {
+        try {
+            Integer.parseInt(settingsAsString[0]);
+        } catch (NumberFormatException nfEx) {
+            return DEFAULT_SETTINGS;
+        }
+        return settingsAsString;
+    }
+
+    /**
      * returns the Names or the scores of the Highscore
      * @param getPoints 0 for names - 1 for points
      * @return String Array with the names or points
      */
+	@Override
     public String[] getHighscoreNamesOrPoints(int getPoints) {
         String[] tempToReturn = new String[NUMBER_PLAYERS];
         for(int count = 0; count < NUMBER_PLAYERS; count++) {
@@ -140,6 +146,7 @@ public class PermanentMemoryController implements IMemoryController {
      * @param playerScore score to be added
      * @param placement position at which it should be added
      */
+	@Override
     public void addScoreToHighscore(String playerName, int playerScore, int placement) {
         // restructures the older placements
         for (int count = NUMBER_PLAYERS - 1; count > placement; count--){
@@ -155,6 +162,7 @@ public class PermanentMemoryController implements IMemoryController {
      * @return placement of the new Score
      * @param score score of the run
      */
+	@Override
     public int checkHighscorePlacement(int score) {
         for(int count = 0; count < NUMBER_PLAYERS; count++) {
             int points = Integer.parseInt(currentHighscore[count].split(DELIMITER)[1]);
@@ -168,6 +176,7 @@ public class PermanentMemoryController implements IMemoryController {
     /**
      * saves the settings in the file
      */
+	@Override
     public void saveSettings() {
         writeStringIntoFile(createStringToSave(false), 2);
     }
@@ -175,6 +184,7 @@ public class PermanentMemoryController implements IMemoryController {
     /**
      * creates an empty highscore at the beginning of the game
      */
+    @Override
     public void createEmptyHighscore() {
         String playerName = MainGame.myLangBundle.get("playName");
         currentHighscore = new String[NUMBER_PLAYERS];
@@ -193,27 +203,31 @@ public class PermanentMemoryController implements IMemoryController {
      *              3 for longest run in seconds
      * @return the choosen stat
      */
+	@Override
     public int getStat(int index){
-        return stats[index];
+        return currentStats[index];
     }
 
     /**
      * increase barrel-hit counter
      */
+	@Override
     public void addBarrel() {
-        stats[INDEX_BARRELS]++;
+        currentStats[INDEX_BARRELS]++;
     }
 
     /**
      * increases the games counter
      */
+	@Override
     public void addPlayedGame() {
-        stats[INDEX_GAMES_NO]++;
+        currentStats[INDEX_GAMES_NO]++;
     }
 
     /**
      * @return current char used for delimiting
      */
+	@Override
     public String getDelimiter() {
         return DELIMITER;
     }
@@ -221,13 +235,15 @@ public class PermanentMemoryController implements IMemoryController {
     /**
      * increase total length counter
      */
+	@Override
     public void addLength(int lengthToAdd) {
-        stats[INDEX_LENGTH] += lengthToAdd;
+        currentStats[INDEX_LENGTH] += lengthToAdd;
     }
 
     /**
      * starts the timer
      */
+	@Override
     public void startTimer() {
         timeAtStart = System.currentTimeMillis();
     }
@@ -235,16 +251,18 @@ public class PermanentMemoryController implements IMemoryController {
     /**
      * stops the timer and saves the time when its more than before
      */
+	@Override
     public void stopTimer() {
         int timeForGame = (int) (System.currentTimeMillis() - timeAtStart) / 1000;
-        if(timeForGame > stats[INDEX_LONG_RUN]) {
-            stats[INDEX_LONG_RUN] = timeForGame;
+        if(timeForGame > currentStats[INDEX_LONG_RUN]) {
+            currentStats[INDEX_LONG_RUN] = timeForGame;
         }
     }
 
     /**
      * saves all the Stats to the File
      */
+	@Override
     public void saveStats(){
         writeStringIntoFile(createStringToSave(true), 1);
     }
@@ -265,9 +283,9 @@ public class PermanentMemoryController implements IMemoryController {
      * create an Empty Stat File
      */
     private void createEmptyStats(){
-        stats = new int[NUMBER_STATS];
+        currentStats = new int[NUMBER_STATS];
         for(int count = 0; count < NUMBER_STATS; count++) {
-            stats[count] = 0;
+            currentStats[count] = 0;
         }
         writeStringIntoFile(createStringToSave(true), 1);
     }
@@ -282,7 +300,7 @@ public class PermanentMemoryController implements IMemoryController {
         int maxAmount = shouldCreateStats ? NUMBER_STATS : NUMBER_SETTINGS;
         for(int count = 0; count < maxAmount; count++) {
             if(shouldCreateStats) {
-                tempToReturn += stats[count] + DELIMITER;
+                tempToReturn += currentStats[count] + DELIMITER;
             } else {
                 tempToReturn += Settings.getSettings()[count] + DELIMITER;
             }

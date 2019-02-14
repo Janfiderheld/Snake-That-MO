@@ -16,12 +16,6 @@ public interface IMemoryController {
     int INDEX_LONG_RUN = 3;
 
     /**
-     * reads the settings from the file
-     * @return array containing the settings
-     */
-    int[] readSettingsFromFile();
-
-    /**
      * returns the Names or the scores of the Highscore
      * @param getPoints 0 for names - 1 for points
      * @return String Array with the names or points

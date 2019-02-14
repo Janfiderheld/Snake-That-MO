@@ -1,5 +1,6 @@
 package com.muss_and_toeberg.snake_that.technical.controller;
 
+import com.muss_and_toeberg.snake_that.screens.Settings;
 import com.muss_and_toeberg.snake_that.technical.MainGame;
 
 /**
@@ -10,7 +11,7 @@ public class TemporaryMemoryController implements IMemoryController {
     private String[] currentHighscore;
     private int[] currentStats;
     private long timeAtStart;
-    private int[] defaultSettings = {1, 1, 0, 1, 5};
+    private final int[] DEFAULT_SETTINGS = {1, 1, 0, 1, 5};
 
     /**
      * Constructor which gets called at the beginning
@@ -18,14 +19,7 @@ public class TemporaryMemoryController implements IMemoryController {
     public TemporaryMemoryController() {
         createEmptyHighscore();
 		createEmptyStats();
-    }
-
-    /**
-     * reads the settings from the file
-     * @return array containing the settings
-     */
-    public int[] readSettingsFromFile() {
-        return defaultSettings;
+        Settings.setSettings(DEFAULT_SETTINGS);
     }
 
     /**
@@ -33,6 +27,7 @@ public class TemporaryMemoryController implements IMemoryController {
      * @param getPoints 0 for names - 1 for points
      * @return String Array with the names or points
      */
+	@Override
     public String[] getHighscoreNamesOrPoints(int getPoints) {
         String[] tempToReturn = new String[NUMBER_PLAYERS];
         for(int count = 0; count < NUMBER_PLAYERS; count++) {
@@ -47,6 +42,7 @@ public class TemporaryMemoryController implements IMemoryController {
      * @param playerScore score to be added
      * @param placement position at which it should be added
      */
+	@Override
     public void addScoreToHighscore(String playerName, int playerScore, int placement) {
         // restructures the older placements
         for (int count = NUMBER_PLAYERS - 1; count > placement; count--){
@@ -61,6 +57,7 @@ public class TemporaryMemoryController implements IMemoryController {
      * @return placement of the new Score
      * @param score score of the run
      */
+	@Override
     public int checkHighscorePlacement(int score) {
         for(int count = 0; count < NUMBER_PLAYERS; count++) {
             int points = Integer.parseInt(currentHighscore[count].split(DELIMITER)[1]);
@@ -74,19 +71,9 @@ public class TemporaryMemoryController implements IMemoryController {
     /**
      * saves the settings in the file
      */
+	@Override
     public void saveSettings() {
         return;
-    }
-
-    /**
-     * creates an empty highscore at the beginning of the game
-     */
-    public void createEmptyHighscore() {
-        String playerName = MainGame.myLangBundle.get("playName");
-        currentHighscore = new String[NUMBER_PLAYERS];
-        for(int count = 0; count < NUMBER_PLAYERS; count++) {
-            currentHighscore[count] = playerName + DELIMITER + 0;
-        }
     }
 
     /**
@@ -98,6 +85,7 @@ public class TemporaryMemoryController implements IMemoryController {
      *              3 for longest run in seconds
      * @return the choosen stat
      */
+	@Override
     public int getStat(int index){
         return currentStats[index];
     }
@@ -105,6 +93,7 @@ public class TemporaryMemoryController implements IMemoryController {
     /**
      * increase barrel-hit counter
      */
+	@Override
     public void addBarrel() {
 		currentStats[INDEX_BARRELS]++;
     }
@@ -112,6 +101,7 @@ public class TemporaryMemoryController implements IMemoryController {
     /**
      * increases the games counter
      */
+	@Override
     public void addPlayedGame() {
 		currentStats[INDEX_GAMES_NO]++;
     }
@@ -119,6 +109,7 @@ public class TemporaryMemoryController implements IMemoryController {
     /**
      * @return current char used for delimiting
      */
+	@Override
     public String getDelimiter() {
         return DELIMITER;
     }
@@ -126,6 +117,7 @@ public class TemporaryMemoryController implements IMemoryController {
     /**
      * increase total length counter
      */
+	@Override
     public void addLength(int lengthToAdd) {
 		currentStats[INDEX_LENGTH] += lengthToAdd;
     }
@@ -133,6 +125,7 @@ public class TemporaryMemoryController implements IMemoryController {
     /**
      * starts the timer
      */
+	@Override
     public void startTimer() {
         timeAtStart = System.currentTimeMillis();
     }
@@ -140,6 +133,7 @@ public class TemporaryMemoryController implements IMemoryController {
     /**
      * stops the timer and saves the time when its more than before
      */
+	@Override
     public void stopTimer() {
         int timeForGame = (int) (System.currentTimeMillis() - timeAtStart) / 1000;
         if(timeForGame > currentStats[INDEX_LONG_RUN]) {
@@ -150,12 +144,25 @@ public class TemporaryMemoryController implements IMemoryController {
     /**
      * saves all the Stats to the File
      */
+	@Override
     public void saveStats(){
         return;
     }
 
     /**
-     * create an Empty Stat File
+     * creates an empty highscore at the beginning of the game
+     */
+    @Override
+    public void createEmptyHighscore() {
+        String playerName = MainGame.myLangBundle.get("playName");
+        currentHighscore = new String[NUMBER_PLAYERS];
+        for(int count = 0; count < NUMBER_PLAYERS; count++) {
+            currentHighscore[count] = playerName + DELIMITER + 0;
+        }
+    }
+
+    /**
+     * create empty stats at the beginning of the game
      */
     private void createEmptyStats(){
 		currentStats = new int[NUMBER_STATS];

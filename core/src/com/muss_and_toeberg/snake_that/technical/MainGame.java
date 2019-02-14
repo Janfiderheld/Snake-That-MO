@@ -95,7 +95,6 @@ public class MainGame extends Game {
         soundControl = new AudioController();
         changeMemoryController(androidFunctions.checkWritePermission());
 
-        Settings.setSettings(memController.readSettingsFromFile());
         changeLocale(Settings.checkForGermanLanguage());
 
         Gdx.input.setCatchBackKey(true);

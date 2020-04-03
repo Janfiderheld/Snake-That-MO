@@ -125,3 +125,49 @@ Thumbs.db
 /ios-moe/xcode/native/
 *.apk
 android/release/release/android.aab
+
+# =============== #
+# Unity generated #
+# =============== #
+Unity/Snake That!/[Tt]emp/
+Unity/Snake That!/[Oo]bj/
+Unity/Snake That!/[Bb]uild
+Unity/Snake That!/[Bb]uilds/
+Unity/Snake That!/[Ll]ibrary/
+sysinfo.txt
+*.stackdump
+Unity/Snake That!/Assets/AssetStoreTools*
+*.apk
+*.unitypackage
+ 
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+Unity/Snake That!/[Ee]xported[Oo]bj/
+Unity/Snake That!/.vs/
+Unity/Snake That!/*.userprefs
+Unity/Snake That!/*.csproj
+Unity/Snake That!/*.pidb
+*.pidb.meta
+Unity/Snake That!/*.suo
+Unity/Snake That!/*.sln*
+Unity/Snake That!/*.user
+Unity/Snake That!/*.unityproj
+Unity/Snake That!/*.booproj
+.consulo/
+Unity/Snake That!/*.tmp
+Unity/Snake That!/*.svd
+ 
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+[Tt]humbs.db
+[Dd]esktop.ini
+Unity/Snake That!/Corridor/Library/ShaderCache/
+Unity/Snake That!/Corridor/Library/metadata/

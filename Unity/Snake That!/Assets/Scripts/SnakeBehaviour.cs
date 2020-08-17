@@ -4,12 +4,17 @@ namespace com.MussundToeberg.SnakeThat
 {
 	public class SnakeBehaviour : MonoBehaviour
 	{
+        private const float FAST_VEL = 5.0f;
+        private const float SLOW_VEL = 2.0f;
+
         public Vector2 StartingDirection = new Vector2(1, 0);
-        public float velocity = 5f; 
+        public float velocity = FAST_VEL; 
 
 		// Update is called once per frame
 		void Update()
 		{
+            velocity = TouchController.Instance.IsCurrentlyTouched() ? SLOW_VEL : FAST_VEL;
+
             Vector3 larpedDirection = StartingDirection * velocity * Time.deltaTime;
             Vector3 newPos = transform.position + new Vector3(larpedDirection.x, larpedDirection.y);
 
